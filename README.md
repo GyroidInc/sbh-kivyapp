@@ -1,2 +1,2 @@
-# sbh-kivyapp
-Smart BioHealth Kivy desktop application
+# sbh-qtapp
+Smart BioHealth Qt desktop application
