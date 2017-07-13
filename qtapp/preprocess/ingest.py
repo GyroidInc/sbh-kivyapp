@@ -54,18 +54,11 @@ class DataIngest(object):
         self.learning_task = learning_task
         self.freqz = None
         
-        # Load all files into memory and check frequency ranges across files
+        # Load all files into memory
         overall_min_freq, overall_max_freq = 1e10, 1e-10
         self.data = {}
         for f in files:
             self.data[f] = {'features': self.load(f)}
-            current_freq = self.data[f]['features']['Freq']
-            current_min_freq, current_max_freq = current_freq.min(), current_freq.max()
-            if current_min_freq < overall_min_freq:
-                overall_min_freq = current_min_freq
-            if current_max_freq > overall_max_freq:
-                overall_max_freq = current_max_freq
-        self.min_freq, self.max_freq = overall_min_freq, overall_max_freq
 
         # Add ground truth labels for files
         if self.load_labels_from == "filename":
@@ -94,7 +87,7 @@ class DataIngest(object):
         -------
         None
         """
-        for f in self.data.iterkeys():
+        for f in self.data.keys():
             try:
                 label = f.split("_")[-1].split(self.file_ext)[0]
             except:
@@ -156,16 +149,28 @@ class DataIngest(object):
         pass
 
 
-    def _create_feature_names(self, freqz_range = None, cols = None):
-        """ADD
+    def _create_feature_names(self, freqz = None, cols = None):
+        """Creates feature names with naming convention: f2.0_S11 to indicate frequency '2.0' (e.g., MHz) and 
+        column 'S11'
 
         Parameters
         ----------
+        freqz : list or numpy array
+            Numerical frequencies 
+
+        cols : list or numpy array
+            Column names
 
         Returns
         -------
+        features : list
+            Feature names
         """
-        pass
+        features = []
+        for f in freqz:
+            for c in cols:
+                features.append("f" + str(f) + "_" + c)
+        return features
 
 
     def _create_config(self):
@@ -192,7 +197,7 @@ class DataIngest(object):
         pass
 
 
-    def _select_freqz(self, freqz = None):
+    def _find_unique_freqz(self):
         """ADD
 
         Parameters
@@ -203,6 +208,42 @@ class DataIngest(object):
         """
         pass
 
+
+    def _find_unique_cols(self):
+        """Find intersection of column names across all data files
+
+        Parameters
+        ----------
+        None 
+
+        Returns
+        -------
+        unique_names : list
+            Unique names across data files
+        """
+        data_columns = []
+        for data in self.data.values():
+            data_columns.append(set(data.columns))
+        return list(set.intersection(*data_columns))
+
+
+
+    def _index_for_freq(self, freqz = None, freq_to_find = None):
+        """Returns index of closest frequency
+
+        Parameters
+        ----------
+        freqz : list or numpy array
+            Numerical frequencies 
+
+        freq_to_find : float
+            Numerical frequency to find index in freqz
+
+        Returns
+        -------
+        """
+        return np.argmin(np.abs(freqz - freq_to_find))
+        
 
     def load(self, file = None, data_source = "classic"):
         """ADD
