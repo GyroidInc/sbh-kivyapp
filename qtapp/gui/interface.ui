@@ -17,16 +17,16 @@
    <iconset>
     <normaloff>../../../../../../../Downloads/gyroid.png</normaloff>../../../../../../../Downloads/gyroid.png</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="Widget_Central">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <item>
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="Widget_Main" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="TabWidget">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -64,7 +64,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="iconSize">
           <size>
@@ -87,13 +87,13 @@
          <property name="movable">
           <bool>false</bool>
          </property>
-         <widget class="QWidget" name="tab">
+         <widget class="QWidget" name="T1_LoadData">
           <attribute name="title">
            <string>Load Data</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="1" rowspan="2">
-            <widget class="QGroupBox" name="groupBox_2">
+            <widget class="QGroupBox" name="T1_GroupBox_PlotPreview">
              <property name="font">
               <font>
                <pointsize>14</pointsize>
@@ -109,7 +109,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="T1_Label_PlotTitle">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -124,10 +124,10 @@
                </widget>
               </item>
               <item>
-               <widget class="QGraphicsView" name="graphicsView"/>
+               <widget class="QGraphicsView" name="T1_GraphWidget_Canvas"/>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_4">
+               <widget class="QGroupBox" name="T1_GroupBox_FrequencySelection">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -143,7 +143,7 @@
                 </property>
                 <layout class="QGridLayout" name="gridLayout">
                  <item row="0" column="2">
-                  <widget class="QSpinBox" name="spinBox">
+                  <widget class="QSpinBox" name="T1_SpinBox_MinFrequency">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -152,7 +152,7 @@
                   </widget>
                  </item>
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_2">
+                  <widget class="QLabel" name="T1_Label_MinFrequency">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -164,7 +164,7 @@
                   </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QSpinBox" name="spinBox_2">
+                  <widget class="QSpinBox" name="T1_SpinBox_MaxFrequency">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -179,7 +179,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_3">
+                  <widget class="QLabel" name="T1_Label_MaxFrequency">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -191,7 +191,7 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QSlider" name="horizontalSlider_2">
+                  <widget class="QSlider" name="T1_HorizontalSlider_MaxFrequency">
                    <property name="value">
                     <number>99</number>
                    </property>
@@ -213,7 +213,7 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSlider" name="horizontalSlider">
+                  <widget class="QSlider" name="T1_HorizontalSlider_MinFrequency">
                    <property name="singleStep">
                     <number>1</number>
                    </property>
@@ -232,7 +232,7 @@
             </widget>
            </item>
            <item row="0" column="0" rowspan="2">
-            <widget class="QGroupBox" name="groupBox_3">
+            <widget class="QGroupBox" name="T1_GroupBox_Files">
              <property name="font">
               <font>
                <pointsize>14</pointsize>
@@ -251,7 +251,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
-               <layout class="QFormLayout" name="formLayout">
+               <layout class="QFormLayout" name="T1_FormLayout_Files">
                 <property name="leftMargin">
                  <number>12</number>
                 </property>
@@ -265,7 +265,7 @@
                  <number>12</number>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QPushButton" name="pushButton">
+                 <widget class="QPushButton" name="T1_Button_LoadDirectory">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -279,7 +279,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLabel" name="label_4">
+                 <widget class="QLabel" name="T1_Label_DirectoryName">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -291,7 +291,7 @@
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_5">
+                 <widget class="QLabel" name="T1_Label_LabelFilesBy">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -303,7 +303,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QComboBox" name="comboBox">
+                 <widget class="QComboBox" name="T1_ComboBox_LabelFilesBy">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -324,7 +324,7 @@
                </layout>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit">
+               <widget class="QLineEdit" name="T1_Label_ExperimentName">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -336,7 +336,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget">
+               <widget class="QTableWidget" name="T1_TableWidget_Files">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -355,7 +355,7 @@
                  <bool>false</bool>
                 </attribute>
                 <attribute name="horizontalHeaderCascadingSectionResizes">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </attribute>
                 <attribute name="horizontalHeaderHighlightSections">
                  <bool>true</bool>
@@ -364,6 +364,15 @@
                  <bool>true</bool>
                 </attribute>
                 <attribute name="verticalHeaderCascadingSectionResizes">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderStretchLastSection">
                  <bool>false</bool>
                 </attribute>
                 <row>
@@ -375,6 +384,9 @@
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
+                 </property>
                 </row>
                 <row>
                  <property name="text">
@@ -384,6 +396,9 @@
                   <font>
                    <pointsize>14</pointsize>
                   </font>
+                 </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
                  </property>
                 </row>
                 <row>
@@ -395,6 +410,9 @@
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
+                 </property>
                 </row>
                 <row>
                  <property name="text">
@@ -404,6 +422,9 @@
                   <font>
                    <pointsize>14</pointsize>
                   </font>
+                 </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
                  </property>
                 </row>
                 <row>
@@ -415,7 +436,23 @@
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
+                 </property>
                 </row>
+                <column>
+                 <property name="text">
+                  <string>Include</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
+                 </property>
+                </column>
                 <column>
                  <property name="text">
                   <string>Label</string>
@@ -444,15 +481,36 @@
                 </column>
                 <item row="0" column="0">
                  <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="0" column="1">
+                 <property name="text">
                   <string>1</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="textAlignment">
                   <set>AlignCenter</set>
                  </property>
                 </item>
-                <item row="0" column="1">
+                <item row="0" column="2">
                  <property name="text">
                   <string>exp1_1.xlsx</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="flags">
                   <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -460,15 +518,36 @@
                 </item>
                 <item row="1" column="0">
                  <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="1" column="1">
+                 <property name="text">
                   <string>1</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="textAlignment">
                   <set>AlignCenter</set>
                  </property>
                 </item>
-                <item row="1" column="1">
+                <item row="1" column="2">
                  <property name="text">
                   <string>exp2_1.xlsx</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="flags">
                   <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -476,15 +555,36 @@
                 </item>
                 <item row="2" column="0">
                  <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="2" column="1">
+                 <property name="text">
                   <string>1</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="textAlignment">
                   <set>AlignCenter</set>
                  </property>
                 </item>
-                <item row="2" column="1">
+                <item row="2" column="2">
                  <property name="text">
                   <string>exp3_1.xlsx</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="flags">
                   <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -492,15 +592,36 @@
                 </item>
                 <item row="3" column="0">
                  <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Unchecked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="3" column="1">
+                 <property name="text">
                   <string>2</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="textAlignment">
                   <set>AlignCenter</set>
                  </property>
                 </item>
-                <item row="3" column="1">
+                <item row="3" column="2">
                  <property name="text">
                   <string>exp4_2.xlsx</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="flags">
                   <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -508,15 +629,36 @@
                 </item>
                 <item row="4" column="0">
                  <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="4" column="1">
+                 <property name="text">
                   <string>2</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="textAlignment">
                   <set>AlignCenter</set>
                  </property>
                 </item>
-                <item row="4" column="1">
+                <item row="4" column="2">
                  <property name="text">
                   <string>exp5_2.xlsx</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                  </font>
                  </property>
                  <property name="flags">
                   <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -525,7 +667,7 @@
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_2">
+               <layout class="QFormLayout" name="T1_FormLayout_Labels">
                 <property name="leftMargin">
                  <number>12</number>
                 </property>
@@ -538,8 +680,20 @@
                 <property name="bottomMargin">
                  <number>12</number>
                 </property>
+                <item row="0" column="1">
+                 <widget class="QRadioButton" name="T1_RadioButton_CategoricalLabels">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Categorical Labels</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0">
-                 <widget class="QRadioButton" name="radioButton">
+                 <widget class="QRadioButton" name="T1_RadioButton_ContinuousLabels">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -553,22 +707,10 @@
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QRadioButton" name="radioButton_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Categorical Labels</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </item>
               <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="pushButton_2">
+               <widget class="QPushButton" name="T1_Button_UpdateLabels">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -580,7 +722,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="verticalSpacer">
+               <spacer name="T1_VerticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -596,7 +738,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_5">
+               <widget class="QGroupBox" name="T1_GroupBox_FeaturesColumns">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -615,7 +757,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
                  <item>
-                  <widget class="QListWidget" name="listWidget">
+                  <widget class="QListWidget" name="T1_ListWidget_Features">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -652,7 +794,7 @@
             </widget>
            </item>
            <item row="2" column="0" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="T1_Button_SaveConfigurationFile">
              <property name="font">
               <font>
                <pointsize>14</pointsize>
@@ -665,28 +807,33 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_2">
+         <widget class="QWidget" name="T2_TrainModel">
           <attribute name="title">
            <string>Train Model</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="0" column="0" alignment="Qt::AlignHCenter">
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="T2_Label_ExperimentName">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
               <string>ADD EXPERIMENT NAME HERE</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QWidget" name="widget_2" native="true">
+            <widget class="QWidget" name="T2_Widget_MainWindow" native="true">
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="1" column="1">
-               <widget class="QGroupBox" name="groupBox_6">
+               <widget class="QGroupBox" name="T2_GroupBox_PipelineSpecifications">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -707,27 +854,8 @@
                  <set>Qt::AlignCenter</set>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_5">
-                 <item row="6" column="1">
-                  <widget class="QComboBox" name="comboBox_3">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>Yes</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>No</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
                  <item row="6" column="0">
-                  <widget class="QLabel" name="label_10">
+                  <widget class="QLabel" name="T2_Label_AutomaticallyTune">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -741,80 +869,8 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_2">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="currentText">
-                    <string>None</string>
-                   </property>
-                   <property name="frame">
-                    <bool>true</bool>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>None</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>PCA</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>ICA</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QComboBox" name="comboBox_4">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="currentText">
-                    <string>Yes</string>
-                   </property>
-                   <property name="frame">
-                    <bool>true</bool>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>Yes</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>No</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_8">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Training Method</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_9">
+                  <widget class="QLabel" name="T2_Label_StandardizeFeatures">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -829,7 +885,7 @@
                   </widget>
                  </item>
                  <item row="8" column="0" colspan="2" alignment="Qt::AlignHCenter">
-                  <widget class="QPushButton" name="pushButton_5">
+                  <widget class="QPushButton" name="T2_Button_BeginTraining">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -840,42 +896,8 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="1">
-                  <widget class="QComboBox" name="comboBox_5">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>Holdout</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>CV</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_7">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Feature Reduction</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="7" column="0">
-                  <widget class="QLabel" name="label_11">
+                  <widget class="QLabel" name="T2_Label_SaveModel">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -889,12 +911,151 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="7" column="1">
-                  <widget class="QComboBox" name="comboBox_6">
+                 <item row="5" column="1">
+                  <widget class="QComboBox" name="T2_ComboBox_TrainingMethod">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
                     </font>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Holdout</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CV</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QComboBox" name="T2_ComboBox_SaveModels">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Yes</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>No</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="T2_ComboBox_FeatureReductions">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="currentText">
+                    <string>None</string>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Tree-based</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PCA</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ICA</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="T2_Labels_FeatureReduction">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Feature Reduction</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="T2_Label_TrainingMethod">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Training Method</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QComboBox" name="T2_ComboBox_AutomaticallyTune">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Yes</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>No</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="T2_ComboBox_StandardizeFeatures">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="currentText">
+                    <string>Yes</string>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
                    </property>
                    <item>
                     <property name="text">
@@ -912,7 +1073,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QGroupBox" name="groupBox">
+               <widget class="QGroupBox" name="T2_GroupBox_MachineLearningModels">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -934,7 +1095,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item alignment="Qt::AlignHCenter">
-                  <widget class="QListWidget" name="listWidget_2">
+                  <widget class="QListWidget" name="T2_ListWidget_Models">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -946,8 +1107,14 @@
                    <property name="frameShadow">
                     <enum>QFrame::Sunken</enum>
                    </property>
+                   <property name="showDropIndicator" stdset="0">
+                    <bool>false</bool>
+                   </property>
                    <property name="alternatingRowColors">
                     <bool>false</bool>
+                   </property>
+                   <property name="movement">
+                    <enum>QListView::Static</enum>
                    </property>
                    <property name="resizeMode">
                     <enum>QListView::Fixed</enum>
@@ -962,6 +1129,9 @@
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
                    </item>
                    <item>
                     <property name="text">
@@ -969,6 +1139,9 @@
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -978,6 +1151,9 @@
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
                    </item>
                    <item>
                     <property name="text">
@@ -985,6 +1161,9 @@
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -994,6 +1173,9 @@
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
                    </item>
                    <item>
                     <property name="text">
@@ -1001,6 +1183,9 @@
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1010,6 +1195,9 @@
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
                    </item>
                    <item>
                     <property name="text">
@@ -1018,11 +1206,14 @@
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
                    </item>
                   </widget>
                  </item>
                  <item alignment="Qt::AlignHCenter">
-                  <widget class="QPushButton" name="pushButton_4">
+                  <widget class="QPushButton" name="T2_Button_SetParameters">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -1037,7 +1228,7 @@
                </widget>
               </item>
               <item row="0" column="3" rowspan="2">
-               <widget class="QGroupBox" name="groupBox_7">
+               <widget class="QGroupBox" name="T2_GroupBox_AnalysisLog">
                 <property name="font">
                  <font>
                   <pointsize>14</pointsize>
@@ -1053,7 +1244,7 @@
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <item>
-                  <widget class="QTextBrowser" name="textBrowser">
+                  <widget class="QTextBrowser" name="T2_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -1080,12 +1271,595 @@ p, li { white-space: pre-wrap; }
              </layout>
             </widget>
            </item>
+           <item row="2" column="0" alignment="Qt::AlignHCenter">
+            <widget class="QPushButton" name="T2_Button_SaveConfigurationFile">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Save Configuration File</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_3">
+         <widget class="QWidget" name="T3_DeployModel">
           <attribute name="title">
            <string>Deploy Model</string>
           </attribute>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="2" column="0" alignment="Qt::AlignHCenter">
+            <widget class="QPushButton" name="T3_Button_GenerateReport">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Generate Report</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QWidget" name="T3_Widget_MainWindow" native="true">
+             <layout class="QGridLayout" name="gridLayout_7">
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="T3_GroupBox_TrainedModels">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>Trained Models</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_9">
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QTableWidget" name="T3_TableWidget_Models">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sortingEnabled">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>true</bool>
+                   </attribute>
+                   <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                    <bool>true</bool>
+                   </attribute>
+                   <attribute name="horizontalHeaderStretchLastSection">
+                    <bool>true</bool>
+                   </attribute>
+                   <row>
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>2</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>3</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <column>
+                    <property name="text">
+                     <string>Model Name</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </column>
+                   <item row="0" column="0">
+                    <property name="text">
+                     <string>Random Forest</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item row="1" column="0">
+                    <property name="text">
+                     <string>Support Vector Machine</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item row="2" column="0">
+                    <property name="text">
+                     <string>Neural Network</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="0" column="0" colspan="2">
+                  <layout class="QFormLayout" name="T3_FormLayout_TrainedModels">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>12</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QPushButton" name="T3_Button_ModelsLoadDirectory">
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Load Directory</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="T3_Label_ModelsDirectoryName">
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Directory Name Here</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="1" rowspan="2">
+               <widget class="QGroupBox" name="T3_GroupBox_AnalysisLog">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>Analysis Log</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_10">
+                 <item row="0" column="0">
+                  <widget class="QTextBrowser" name="T3_TextBrowser_AnalysisLog">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="html">
+                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Analysis summary...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="T3_GroupBox_TestFiles">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>Test Files</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="1" column="0">
+                  <widget class="QTableWidget" name="T3_TableWidget_TestFiles">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sortingEnabled">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>true</bool>
+                   </attribute>
+                   <attribute name="horizontalHeaderStretchLastSection">
+                    <bool>true</bool>
+                   </attribute>
+                   <row>
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>2</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>3</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>4</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </row>
+                   <column>
+                    <property name="text">
+                     <string>Include</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Label</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Filename</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </column>
+                   <item row="0" column="0">
+                    <property name="checkState">
+                     <enum>Unchecked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="0" column="1">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsSelectable|ItemIsEditable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="0" column="2">
+                    <property name="text">
+                     <string>test1.csv</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item row="1" column="0">
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="1" column="1">
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="1" column="2">
+                    <property name="text">
+                     <string>test2_1.csv</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item row="2" column="0">
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="2" column="1">
+                    <property name="text">
+                     <string>2</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="2" column="2">
+                    <property name="text">
+                     <string>test3_2.csv</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item row="3" column="0">
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="3" column="1">
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                    </property>
+                   </item>
+                   <item row="3" column="2">
+                    <property name="text">
+                     <string>test4_1.csv</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <layout class="QFormLayout" name="T3_FormLayout_TestFiles">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>12</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QPushButton" name="T3_Button_FilesLoadDirectory">
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Load Directory</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="T3_Label_FilesDirectoryName">
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Directory Name Here</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="2" column="0" alignment="Qt::AlignHCenter">
+                  <widget class="QPushButton" name="T3_Button_BeginTesting">
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Begin Testing</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="T3_Label_ExperimentName">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>ADD EXPERIMENT NAME HERE</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -1094,7 +1868,7 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar">
+  <widget class="QStatusBar" name="StatusBar">
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
@@ -1102,7 +1876,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="MenuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1114,29 +1888,29 @@ p, li { white-space: pre-wrap; }
    <property name="nativeMenuBar">
     <bool>false</bool>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="MenuFile">
     <property name="tearOffEnabled">
      <bool>false</bool>
     </property>
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLoad_Config_File"/>
-    <addaction name="actionSave_Config_File"/>
+    <addaction name="FileItem_LoadConfigurationFIle"/>
+    <addaction name="FileItem_SaveConfigurationFile"/>
     <addaction name="separator"/>
-    <addaction name="actionExit_2"/>
+    <addaction name="FileItem_Exit"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="MenuHelp">
     <property name="tearOffEnabled">
      <bool>false</bool>
     </property>
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionDocumentation"/>
+    <addaction name="HelpItem_Documentation"/>
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuHelp"/>
+   <addaction name="MenuFile"/>
+   <addaction name="MenuHelp"/>
   </widget>
   <action name="actionLoad_Configuration_File">
    <property name="text">
@@ -1148,7 +1922,7 @@ p, li { white-space: pre-wrap; }
     <string>Save Configuration File</string>
    </property>
   </action>
-  <action name="actionDocumentation">
+  <action name="HelpItem_Documentation">
    <property name="text">
     <string>Documentation</string>
    </property>
@@ -1176,7 +1950,7 @@ p, li { white-space: pre-wrap; }
     <string>Test</string>
    </property>
   </action>
-  <action name="actionLoad_Config_File">
+  <action name="FileItem_LoadConfigurationFIle">
    <property name="text">
     <string>Load Configuration</string>
    </property>
@@ -1186,12 +1960,12 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="actionSave_Config_File">
+  <action name="FileItem_SaveConfigurationFile">
    <property name="text">
     <string>Save Configuration</string>
    </property>
   </action>
-  <action name="actionExit_2">
+  <action name="FileItem_Exit">
    <property name="text">
     <string>Exit</string>
    </property>
@@ -1200,9 +1974,9 @@ p, li { white-space: pre-wrap; }
  <resources/>
  <connections>
   <connection>
-   <sender>spinBox</sender>
+   <sender>T1_SpinBox_MinFrequency</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>horizontalSlider</receiver>
+   <receiver>T1_HorizontalSlider_MinFrequency</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1216,9 +1990,9 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider</sender>
+   <sender>T1_HorizontalSlider_MinFrequency</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox</receiver>
+   <receiver>T1_SpinBox_MinFrequency</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1232,9 +2006,9 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider_2</sender>
+   <sender>T1_HorizontalSlider_MaxFrequency</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox_2</receiver>
+   <receiver>T1_SpinBox_MaxFrequency</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1248,9 +2022,9 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_2</sender>
+   <sender>T1_SpinBox_MaxFrequency</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>horizontalSlider_2</receiver>
+   <receiver>T1_HorizontalSlider_MaxFrequency</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
