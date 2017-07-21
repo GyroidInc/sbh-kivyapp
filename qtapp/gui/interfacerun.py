@@ -52,10 +52,10 @@ class Ui(QtWidgets.QMainWindow):
     def T1_checkMinSlider(self):
         if (self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value()):
             toSet = self.T1_HorizontalSlider_MinFrequency.value() + 1
-            #TODO fix this so that it doesn't crash
-            #if toSet >= self.T1_SpinBox_MaxFrequency.maximum:
-            #    toSet = self.T1_SpinBox_MaxFrequency.maximum
-            #    self.T1_HorizontalSlider_MinFrequency.setValue(toSet - 1)
+
+            if toSet >= self.T1_SpinBox_MaxFrequency.maximum():
+                toSet = self.T1_SpinBox_MaxFrequency.maximum()
+                self.T1_HorizontalSlider_MinFrequency.setValue(toSet - 1)
 
             self.T1_HorizontalSlider_MaxFrequency.setValue(toSet)
 
