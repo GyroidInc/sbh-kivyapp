@@ -30,9 +30,9 @@ class DynamicMplCanvas(MplCanvas):
         MplCanvas.__init__(self, *args, **kwargs)
         self.compute_initial_figure()
         self.update_figure()
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.update_figure)
-        timer.start(1000)
+        #timer = QtCore.QTimer(self)
+        #timer.timeout.connect(self.update_figure)
+        #timer.start(1000)
 
     def compute_initial_figure(self):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')

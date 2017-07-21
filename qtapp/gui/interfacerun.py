@@ -20,12 +20,13 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('interface2.ui', self)
 
-        #self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.T1_checkMaxSlider)
-        #self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.T1_checkMinSlider)
+
         self.hbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
         self.hbox.addWidget(self.MplCanvas)
         self.T1_GraphWindow.setLayout(self.hbox)
+        self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
+        self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
 
         self.T1_SpinBox_MinFrequency.valueChanged.connect(self.T1_checkMinSlider)
         self.T1_SpinBox_MaxFrequency.valueChanged.connect(self.T1_checkMaxSlider)
