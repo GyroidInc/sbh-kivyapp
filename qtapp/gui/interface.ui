@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>775</height>
+    <height>853</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,7 +64,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -109,22 +109,21 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QLabel" name="T1_Label_PlotTitle">
-                <property name="font">
-                 <font>
-                  <pointsize>14</pointsize>
-                 </font>
+               <widget class="QFrame" name="T1_Frame_CanvasFrame">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="text">
-                 <string>Plot Title Here</string>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
                 </property>
+                <zorder>T1_GroupBox_Files</zorder>
                </widget>
-              </item>
-              <item>
-               <widget class="QGraphicsView" name="T1_GraphWidget_Canvas"/>
               </item>
               <item>
                <widget class="QGroupBox" name="T1_GroupBox_FrequencySelection">
@@ -231,6 +230,18 @@
              </layout>
             </widget>
            </item>
+           <item row="2" column="0" colspan="2" alignment="Qt::AlignHCenter">
+            <widget class="QPushButton" name="T1_Button_SaveConfigurationFile">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Save Configuration File</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0" rowspan="2">
             <widget class="QGroupBox" name="T1_GroupBox_Files">
              <property name="font">
@@ -251,6 +262,18 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
+               <widget class="QLineEdit" name="T1_Label_ExperimentName">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="placeholderText">
+                 <string>Enter experiment name...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QFormLayout" name="T1_FormLayout_Files">
                 <property name="leftMargin">
                  <number>12</number>
@@ -265,7 +288,7 @@
                  <number>12</number>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QPushButton" name="T1_Button_LoadDirectory">
+                 <widget class="QPushButton" name="T1_Button_LoadFiles">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -274,66 +297,23 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Load Directory</string>
+                   <string>Load Files...</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLabel" name="T1_Label_DirectoryName">
+                 <widget class="QPushButton" name="T1_Button_LoadDirectory_2">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Directory Name Here</string>
+                   <string>Load Directory...</string>
                   </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="T1_Label_LabelFilesBy">
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Label Files By</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QComboBox" name="T1_ComboBox_LabelFilesBy">
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>Filename</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>CSV File</string>
-                   </property>
-                  </item>
                  </widget>
                 </item>
                </layout>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="T1_Label_ExperimentName">
-                <property name="font">
-                 <font>
-                  <pointsize>14</pointsize>
-                 </font>
-                </property>
-                <property name="placeholderText">
-                 <string>Enter experiment name...</string>
-                </property>
-               </widget>
               </item>
               <item>
                <widget class="QTableWidget" name="T1_TableWidget_Files">
@@ -352,7 +332,7 @@
                  <bool>true</bool>
                 </property>
                 <attribute name="horizontalHeaderVisible">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </attribute>
                 <attribute name="horizontalHeaderCascadingSectionResizes">
                  <bool>true</bool>
@@ -709,17 +689,67 @@
                 </item>
                </layout>
               </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="T1_Button_UpdateLabels">
-                <property name="font">
-                 <font>
-                  <pointsize>14</pointsize>
-                 </font>
+              <item>
+               <layout class="QGridLayout" name="gridLayout_11">
+                <property name="leftMargin">
+                 <number>12</number>
                 </property>
-                <property name="text">
-                 <string>Update Labels</string>
+                <property name="topMargin">
+                 <number>12</number>
                 </property>
-               </widget>
+                <property name="rightMargin">
+                 <number>12</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>12</number>
+                </property>
+                <item row="0" column="1">
+                 <widget class="QComboBox" name="T1_ComboBox_LabelFilesBy">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Filename</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>CSV File</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="T1_Label_LabelFilesBy">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Label Files By</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2" alignment="Qt::AlignHCenter">
+                 <widget class="QPushButton" name="T1_Button_LoadLabelFiles">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Load Labels File...</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <spacer name="T1_VerticalSpacer">
@@ -791,18 +821,6 @@
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2" alignment="Qt::AlignHCenter">
-            <widget class="QPushButton" name="T1_Button_SaveConfigurationFile">
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Save Configuration File</string>
-             </property>
             </widget>
            </item>
           </layout>
@@ -1130,7 +1148,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1141,7 +1159,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1152,7 +1170,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1163,7 +1181,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1458,7 +1476,7 @@ p, li { white-space: pre-wrap; }
                       </font>
                      </property>
                      <property name="text">
-                      <string>Load Directory</string>
+                      <string>Load Directory...</string>
                      </property>
                     </widget>
                    </item>
@@ -1806,7 +1824,7 @@ p, li { white-space: pre-wrap; }
                       </font>
                      </property>
                      <property name="text">
-                      <string>Load Directory</string>
+                      <string>Load Directory...</string>
                      </property>
                     </widget>
                    </item>

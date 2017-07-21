@@ -5,7 +5,7 @@
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, QFileDialog
 import matplotlib
-from qtapp.gui.dynamicmplcanvas import DynamicMplCanvas
+from dynamicmplcanvas import DynamicMplCanvas
 matplotlib.use("Qt5Agg")
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
