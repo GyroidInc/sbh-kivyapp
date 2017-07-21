@@ -29,10 +29,10 @@ class DynamicMplCanvas(MplCanvas):
     def __init__(self, *args, **kwargs):
         MplCanvas.__init__(self, *args, **kwargs)
         self.compute_initial_figure()
-        self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.update_figure)
-        #TODO Starting the timer causes this to crash. Why?
-        #timer.start(1000)
+        self.update_figure()
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(1000)
 
     def compute_initial_figure(self):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
@@ -40,6 +40,6 @@ class DynamicMplCanvas(MplCanvas):
     def update_figure(self):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
         l = np.random.uniform(0, 10, size=4)
-        self.clf()
+        self.axes.clear()
         self.axes.plot([0, 1, 2, 3], l, 'r')
         self.draw()
