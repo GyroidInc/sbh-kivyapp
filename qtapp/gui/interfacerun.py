@@ -22,12 +22,10 @@ class Ui(QtWidgets.QMainWindow):
 
         #self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.T1_checkMaxSlider)
         #self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.T1_checkMinSlider)
-        #TODO: NOTE: THIS PART IS CAUSING IT TO CRASH
         self.hbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
         self.hbox.addWidget(self.MplCanvas)
         self.T1_GraphWindow.setLayout(self.hbox)
-        #THIS PART
 
         self.T1_SpinBox_MinFrequency.valueChanged.connect(self.T1_checkMinSlider)
         self.T1_SpinBox_MaxFrequency.valueChanged.connect(self.T1_checkMaxSlider)

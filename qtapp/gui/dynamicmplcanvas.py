@@ -28,9 +28,11 @@ class DynamicMplCanvas(MplCanvas):
     """A canvas that updates itself every second with a new plot."""
     def __init__(self, *args, **kwargs):
         MplCanvas.__init__(self, *args, **kwargs)
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.update_figure)
-        timer.start(1000)
+        self.compute_initial_figure()
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update_figure)
+        #TODO Starting the timer causes this to crash. Why?
+        #timer.start(1000)
 
     def compute_initial_figure(self):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
