@@ -14,7 +14,7 @@ import sys
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
-from utils import helper
+from qtapp.utils import helper
 
 
 class Ui(QtWidgets.QMainWindow):
@@ -46,7 +46,12 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_ListWidget_Features.clear()
 
         # Disable 'Load Labels File...' button until user selects Label Files By CSV File
+        self.T1_Button_loadLabelFiles.clicked.connect()
         self.T1_Button_LoadLabelFiles.setDisabled(True)
+        self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(
+            lambda: self.T1_Button_LoadLabelFiles.setEnabled(
+                self.T1_ComboBox_LabelFilesBy.currentText() == "CSV File"))
+
 
         # TODO graph doesnt update on slider button press/change
         # connecting graph refresh upon slider release
@@ -60,9 +65,6 @@ class Ui(QtWidgets.QMainWindow):
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
-
-        # set load file by behavior
-        #self.T1_ComboBox_LabelFilesBy.currentIndexChanged.clicked.connect(self.selectLoadFileType)
 
 
     def T1_checkMaxSlider(self):
@@ -102,21 +104,6 @@ class Ui(QtWidgets.QMainWindow):
             self.T1_HorizontalSlider_MaxFrequency.setValue(toSet)
 
 
-    def T1_selectLoadFileType(self):
-        """ADD DESCRIPTION
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
-        if self.T1_ComboBox_LabelFilesBy.currentText() == "CSV File":
-            self.T1_Button_LoadFiles.clicked.connect(self.openFileNamesDialog)
-        else:
-            self.T1_Button_LoadFiles.clicked.connect(self.openFolderNamesDialog)
-
-
     def T1_populateTable(self, labels, filenames):
         """Adds labels and filenames to table
 
@@ -142,6 +129,29 @@ class Ui(QtWidgets.QMainWindow):
             self.T1_TableWidget_Files.setItem(0, 1, QTableWidgetItem(labels[0]))
             self.T1_TableWidget_Files.setItem(0, 2, QTableWidgetItem(f))
 
+    def T1_openLabels(self):
+        """Clicked action for 'Load Files...' button
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+                                                "*.xlsx files (*.xlsx);; *.csv files (*.csv);;"
+                                                " *.xls files (*xls);; All files (*)",
+                                                options=options)
+        if files:
+            # Update total number of files and add new ones with labels (if possible) to table
+            self.n_files += len(files)
+            #TODO do something with selected files
+            print(files)
+
+            for f in files:
+                print(f)
 
     def T1_openFiles(self):
         """Clicked action for 'Load Files...' button
@@ -155,7 +165,9 @@ class Ui(QtWidgets.QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
-                                                "All files (*);; *.xlsx files;; *.csv files", options=options)
+                                                "*.xlsx files (*.xlsx);; *.csv files (*.csv);;"
+                                                " *.xls files (*xls);; All files (*)",
+                                                options=options)
         if files:
             # Update total number of files and add new ones with labels (if possible) to table
             self.n_files += len(files)
@@ -182,7 +194,8 @@ class Ui(QtWidgets.QMainWindow):
         if directory:
             print (directory)
             # Grab files that end with .xlsx, .csv, and .xls
-            files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx') or f.endswith('.csv') or f.endswith('xls')]
+            files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx')
+                     or f.endswith('.csv') or f.endswith('.xls')]
             print(files)
 
             # Update total number of files and add new ones with labels (if possible) to table
