@@ -14,5 +14,4 @@ class importHolder():
     def __init__(self):
         self.isEmpty = true
         self.FileFactory = collections.namedtuple("File", "Filepath Label Data")
-        self.FileList = []
-        self.
+        self.Files = []

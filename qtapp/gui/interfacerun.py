@@ -82,7 +82,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         chkBoxItem = QtWidgets.QTableWidgetItem()
         chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
-        chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
+        chkBoxItem.setCheckState(QtCore.Qt.Checked)
         file = QtWidgets.QTableWidgetItem(file)
         file.setFlags(QtCore.Qt.ItemIsEnabled)
         label = QtWidgets.QTableWidgetItem(label)
