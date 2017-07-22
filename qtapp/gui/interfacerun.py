@@ -46,7 +46,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_ListWidget_Features.clear()
 
         # Disable 'Load Labels File...' button until user selects Label Files By CSV File
-        self.T1_Button_loadLabelFiles.clicked.connect()
+        self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_openLabels)
         self.T1_Button_LoadLabelFiles.setDisabled(True)
         self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(
             lambda: self.T1_Button_LoadLabelFiles.setEnabled(
@@ -66,9 +66,13 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
 
+        #TODO This is a simple test for createrow
+        self.T1_fileTable_createRow(label="Label", file="test.xlsx")
+        self.T1_fileTable_createRow(label="Label", file="test2.xlsx")
+        self.T1_fileTable_createRow(label="Label", file="test3.xlsx")
 
-    def T1_checkMaxSlider(self):
-        """Checks maximum value of slider
+    def T1_fileTable_createRow(self, label="", file="None"):
+        """Adds new row to the file table
 
         Parameters
         ----------
@@ -76,13 +80,35 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
-            toSet= self.T1_HorizontalSlider_MaxFrequency.value() - 1
-            if toSet < 0:
-                toSet = 0
-                self.T1_HorizontalSlider_MaxFrequency.setValue(1)
+        chkBoxItem = QtWidgets.QTableWidgetItem()
+        chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+        chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
+        file = QtWidgets.QTableWidgetItem(file)
+        file.setFlags(QtCore.Qt.ItemIsEnabled)
+        label = QtWidgets.QTableWidgetItem(label)
+        inx = self.T1_TableWidget_Files.rowCount()
+        self.T1_TableWidget_Files.insertRow(inx)
+        self.T1_TableWidget_Files.setItem(inx, 0, chkBoxItem)
+        self.T1_TableWidget_Files.setItem(inx, 1, label)
+        self.T1_TableWidget_Files.setItem(inx, 2, file)
+        #TODO connect signals on table change to do something...
 
-            self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
+    def T1_checkMaxSlider(self):
+            """Checks maximum value of slider
+
+            Parameters
+            ----------
+
+            Returns
+            -------
+            """
+            if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
+                toSet= self.T1_HorizontalSlider_MaxFrequency.value() - 1
+                if toSet < 0:
+                    toSet = 0
+                    self.T1_HorizontalSlider_MaxFrequency.setValue(1)
+
+                self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
 
 
     def T1_checkMinSlider(self):
@@ -122,12 +148,10 @@ class Ui(QtWidgets.QMainWindow):
         # MIGHT NEED TO CHECK THAT len(labels) == len(filenames)??
         # Only use basename for filenames to display in table (we do not need the absolute path!)
         filenames = [helper.get_base_filename(f) for f in filenames]
-        self.T1_TableWidget_Files.setRowCount(1)
         for f in filenames:
             # POPULATES HERE BUT NOT CORRECTLY
             # Add current filename to table with label (if possible)
-            self.T1_TableWidget_Files.setItem(0, 1, QTableWidgetItem(labels[0]))
-            self.T1_TableWidget_Files.setItem(0, 2, QTableWidgetItem(f))
+            self.T1_fileTable_createRow(label="", file=f)
 
     def T1_openLabels(self):
         """Clicked action for 'Load Files...' button
@@ -147,7 +171,7 @@ class Ui(QtWidgets.QMainWindow):
         if files:
             # Update total number of files and add new ones with labels (if possible) to table
             self.n_files += len(files)
-            #TODO do something with selected files
+            #TODO do something with selected labels
             print(files)
 
             for f in files:
@@ -202,7 +226,8 @@ class Ui(QtWidgets.QMainWindow):
             self.n_files += len(files)
             for f in files:
                 print(f)
-                self.T1_populateTable(labels=helper._parse_label(f), filenames=f)
+                #TODO the following line is a test
+                self.T1_fileTable_createRow(label="", file=f)
 
 
 if __name__ == '__main__':
