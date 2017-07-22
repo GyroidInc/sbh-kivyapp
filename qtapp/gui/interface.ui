@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>853</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -122,7 +122,6 @@
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <zorder>T1_GroupBox_Files</zorder>
                </widget>
               </item>
               <item>
@@ -302,7 +301,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QPushButton" name="T1_Button_LoadDirectory_2">
+                 <widget class="QPushButton" name="T1_Button_LoadDirectory">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -1192,7 +1191,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1203,7 +1202,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1214,7 +1213,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                    <item>
@@ -1225,7 +1224,7 @@
                      <enum>Unchecked</enum>
                     </property>
                     <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
+                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
                     </property>
                    </item>
                   </widget>
