@@ -24,6 +24,11 @@
     </property>
     <item>
      <widget class="QWidget" name="Widget_Main" native="true">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QTabWidget" name="TabWidget">
@@ -38,7 +43,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
@@ -64,7 +69,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="iconSize">
           <size>
@@ -96,7 +101,7 @@
             <widget class="QGroupBox" name="T1_GroupBox_PlotPreview">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -116,6 +121,11 @@
                   <verstretch>1</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -128,7 +138,7 @@
                <widget class="QGroupBox" name="T1_GroupBox_FrequencySelection">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -144,7 +154,7 @@
                   <widget class="QSpinBox" name="T1_SpinBox_MinFrequency">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                   </widget>
@@ -153,7 +163,7 @@
                   <widget class="QLabel" name="T1_Label_MinFrequency">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -165,7 +175,7 @@
                   <widget class="QSpinBox" name="T1_SpinBox_MaxFrequency">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="maximum">
@@ -180,7 +190,7 @@
                   <widget class="QLabel" name="T1_Label_MaxFrequency">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -190,6 +200,11 @@
                  </item>
                  <item row="1" column="1">
                   <widget class="QSlider" name="T1_HorizontalSlider_MaxFrequency">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
                    <property name="value">
                     <number>99</number>
                    </property>
@@ -212,6 +227,11 @@
                  </item>
                  <item row="0" column="1">
                   <widget class="QSlider" name="T1_HorizontalSlider_MinFrequency">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
                    <property name="singleStep">
                     <number>1</number>
                    </property>
@@ -233,7 +253,7 @@
             <widget class="QPushButton" name="T1_Button_SaveConfigurationFile">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="text">
@@ -245,7 +265,7 @@
             <widget class="QGroupBox" name="T1_GroupBox_Files">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -264,7 +284,7 @@
                <widget class="QLineEdit" name="T1_Label_ExperimentName">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                 <property name="placeholderText">
@@ -273,15 +293,24 @@
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="T1_FormLayout_Files">
-                <property name="margin">
+               <layout class="QGridLayout" name="gridLayout_13">
+                <property name="leftMargin">
+                 <number>12</number>
+                </property>
+                <property name="topMargin">
+                 <number>12</number>
+                </property>
+                <property name="rightMargin">
+                 <number>12</number>
+                </property>
+                <property name="bottomMargin">
                  <number>12</number>
                 </property>
                 <item row="0" column="0">
                  <widget class="QPushButton" name="T1_Button_LoadFiles">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
@@ -295,7 +324,7 @@
                  <widget class="QPushButton" name="T1_Button_LoadDirectory">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -309,7 +338,7 @@
                <widget class="QTableWidget" name="T1_TableWidget_Files">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                 <property name="autoFillBackground">
@@ -322,7 +351,7 @@
                  <bool>true</bool>
                 </property>
                 <attribute name="horizontalHeaderVisible">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </attribute>
                 <attribute name="horizontalHeaderCascadingSectionResizes">
                  <bool>true</bool>
@@ -345,82 +374,17 @@
                 <attribute name="verticalHeaderStretchLastSection">
                  <bool>false</bool>
                 </attribute>
-                <row>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </row>
-                <row>
-                 <property name="text">
-                  <string>2</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </row>
-                <row>
-                 <property name="text">
-                  <string>3</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </row>
-                <row>
-                 <property name="text">
-                  <string>4</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </row>
-                <row>
-                 <property name="text">
-                  <string>5</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </row>
                 <column>
                  <property name="text">
                   <string>Include</string>
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>14</pointsize>
+                   <pointsize>12</pointsize>
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -429,11 +393,11 @@
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>14</pointsize>
+                   <pointsize>12</pointsize>
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -442,202 +406,17 @@
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>14</pointsize>
+                   <pointsize>12</pointsize>
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
-                <item row="0" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="checkState">
-                  <enum>Checked</enum>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="0" column="1">
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </item>
-                <item row="0" column="2">
-                 <property name="text">
-                  <string>exp1_1.xlsx</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsSelectable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="1" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="checkState">
-                  <enum>Checked</enum>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="1" column="1">
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </item>
-                <item row="1" column="2">
-                 <property name="text">
-                  <string>exp2_1.xlsx</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsSelectable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="2" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="checkState">
-                  <enum>Checked</enum>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="2" column="1">
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </item>
-                <item row="2" column="2">
-                 <property name="text">
-                  <string>exp3_1.xlsx</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsSelectable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="3" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="checkState">
-                  <enum>Unchecked</enum>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="3" column="1">
-                 <property name="text">
-                  <string>2</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </item>
-                <item row="3" column="2">
-                 <property name="text">
-                  <string>exp4_2.xlsx</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsSelectable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="4" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="checkState">
-                  <enum>Checked</enum>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
-                </item>
-                <item row="4" column="1">
-                 <property name="text">
-                  <string>2</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                 </property>
-                </item>
-                <item row="4" column="2">
-                 <property name="text">
-                  <string>exp5_2.xlsx</string>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsSelectable|ItemIsEnabled</set>
-                 </property>
-                </item>
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="T1_FormLayout_Labels">
+               <layout class="QGridLayout" name="gridLayout_12">
                 <property name="leftMargin">
                  <number>12</number>
                 </property>
@@ -650,23 +429,11 @@
                 <property name="bottomMargin">
                  <number>12</number>
                 </property>
-                <item row="0" column="1">
-                 <widget class="QRadioButton" name="T1_RadioButton_CategoricalLabels">
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Categorical Labels</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
+                <item row="0" column="0" alignment="Qt::AlignHCenter">
                  <widget class="QRadioButton" name="T1_RadioButton_ContinuousLabels">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -677,18 +444,39 @@
                   </property>
                  </widget>
                 </item>
+                <item row="0" column="1" alignment="Qt::AlignHCenter">
+                 <widget class="QRadioButton" name="T1_RadioButton_CategoricalLabels">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Categorical Labels</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_11">
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>12</number>
+                </property>
+                <property name="topMargin">
+                 <number>12</number>
+                </property>
+                <property name="rightMargin">
+                 <number>12</number>
+                </property>
+                <property name="bottomMargin">
                  <number>12</number>
                 </property>
                 <item row="0" column="3" alignment="Qt::AlignHCenter">
                  <widget class="QPushButton" name="T1_Button_LoadLabelFiles">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -700,7 +488,7 @@
                  <widget class="QLabel" name="T1_Label_LabelFilesBy">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -715,7 +503,7 @@
                  <widget class="QComboBox" name="T1_ComboBox_LabelFilesBy">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <item>
@@ -734,7 +522,7 @@
                  <widget class="QPushButton" name="T1_Button_Refresh_Labels">
                   <property name="font">
                    <font>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -746,6 +534,11 @@
               </item>
               <item>
                <spacer name="T1_VerticalSpacer">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -764,7 +557,7 @@
                <widget class="QGroupBox" name="T1_GroupBox_FeaturesColumns">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -783,7 +576,7 @@
                   <widget class="QListWidget" name="T1_ListWidget_Features">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="autoFillBackground">
@@ -827,7 +620,7 @@
             <widget class="QLabel" name="T2_Label_ExperimentName">
              <property name="font">
               <font>
-               <pointsize>16</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -842,6 +635,11 @@
            </item>
            <item row="1" column="0">
             <widget class="QWidget" name="T2_Widget_MainWindow" native="true">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="1" column="1">
                <widget class="QGroupBox" name="T2_GroupBox_PipelineSpecifications">
@@ -853,7 +651,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -869,7 +667,7 @@
                   <widget class="QLabel" name="T2_Label_AutomaticallyTune">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -884,7 +682,7 @@
                   <widget class="QLabel" name="T2_Label_StandardizeFeatures">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -899,7 +697,7 @@
                   <widget class="QPushButton" name="T2_Button_BeginTraining">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -911,7 +709,7 @@
                   <widget class="QLabel" name="T2_Label_SaveModel">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -926,7 +724,7 @@
                   <widget class="QComboBox" name="T2_ComboBox_TrainingMethod">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="frame">
@@ -948,7 +746,7 @@
                   <widget class="QComboBox" name="T2_ComboBox_SaveModels">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="frame">
@@ -970,12 +768,12 @@
                   <widget class="QComboBox" name="T2_ComboBox_FeatureReductions">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                      <weight>50</weight>
                      <bold>false</bold>
                     </font>
                    </property>
-                   <property name="currentText" stdset="0">
+                   <property name="currentText">
                     <string>None</string>
                    </property>
                    <property name="frame">
@@ -1007,7 +805,7 @@
                   <widget class="QLabel" name="T2_Labels_FeatureReduction">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1022,7 +820,7 @@
                   <widget class="QLabel" name="T2_Label_TrainingMethod">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1037,7 +835,7 @@
                   <widget class="QComboBox" name="T2_ComboBox_AutomaticallyTune">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="frame">
@@ -1059,10 +857,10 @@
                   <widget class="QComboBox" name="T2_ComboBox_StandardizeFeatures">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
-                   <property name="currentText" stdset="0">
+                   <property name="currentText">
                     <string>Yes</string>
                    </property>
                    <property name="frame">
@@ -1093,7 +891,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -1107,9 +905,15 @@
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item alignment="Qt::AlignHCenter">
                   <widget class="QListWidget" name="T2_ListWidget_Models">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>1</horstretch>
+                     <verstretch>1</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="autoFillBackground">
@@ -1133,9 +937,17 @@
                    <property name="viewMode">
                     <enum>QListView::ListMode</enum>
                    </property>
+                   <property name="uniformItemSizes">
+                    <bool>false</bool>
+                   </property>
                    <item>
                     <property name="text">
                      <string>Extra Trees</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
@@ -1148,6 +960,11 @@
                     <property name="text">
                      <string>Gaussian Process</string>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
@@ -1158,6 +975,11 @@
                    <item>
                     <property name="text">
                      <string>Gradient Boosted Trees</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
@@ -1170,6 +992,11 @@
                     <property name="text">
                      <string>K-Nearest Neighbors</string>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
@@ -1180,6 +1007,11 @@
                    <item>
                     <property name="text">
                      <string>Linear Model</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
@@ -1192,6 +1024,11 @@
                     <property name="text">
                      <string>Neural Network</string>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
@@ -1203,6 +1040,11 @@
                     <property name="text">
                      <string>Random Forest</string>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
                     </property>
@@ -1213,6 +1055,11 @@
                    <item>
                     <property name="text">
                      <string>Support Vector Machine</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
                     </property>
                     <property name="checkState">
                      <enum>Unchecked</enum>
@@ -1227,7 +1074,7 @@
                   <widget class="QPushButton" name="T2_Button_SetParameters">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1242,7 +1089,7 @@
                <widget class="QGroupBox" name="T2_GroupBox_AnalysisLog">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -1258,20 +1105,20 @@
                   <widget class="QTextBrowser" name="T2_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="html">
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="textInteractionFlags">
                     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
                    </property>
-                   <property name="placeholderText" stdset="0">
+                   <property name="placeholderText">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1286,7 +1133,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="T2_Button_SaveConfigurationFile">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="text">
@@ -1305,7 +1152,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="T3_Button_GenerateReport">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="text">
@@ -1315,12 +1162,17 @@ p, li { white-space: pre-wrap; }
            </item>
            <item row="1" column="0">
             <widget class="QWidget" name="T3_Widget_MainWindow" native="true">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <layout class="QGridLayout" name="gridLayout_7">
               <item row="0" column="0">
                <widget class="QGroupBox" name="T3_GroupBox_TrainedModels">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -1336,7 +1188,7 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTableWidget" name="T3_TableWidget_Models">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="alternatingRowColors">
@@ -1354,109 +1206,40 @@ p, li { white-space: pre-wrap; }
                    <attribute name="horizontalHeaderStretchLastSection">
                     <bool>true</bool>
                    </attribute>
-                   <row>
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>3</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
                    <column>
                     <property name="text">
                      <string>Model Name</string>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>14</pointsize>
+                      <pointsize>12</pointsize>
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
-                   <item row="0" column="0">
-                    <property name="text">
-                     <string>Random Forest</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                   </item>
-                   <item row="1" column="0">
-                    <property name="text">
-                     <string>Support Vector Machine</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                   </item>
-                   <item row="2" column="0">
-                    <property name="text">
-                     <string>Neural Network</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                  <item row="0" column="0" colspan="2">
                   <layout class="QFormLayout" name="T3_FormLayout_TrainedModels">
-                   <property name="margin">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
                     <widget class="QPushButton" name="T3_Button_ModelsLoadDirectory">
                      <property name="font">
                       <font>
-                       <pointsize>14</pointsize>
+                       <pointsize>12</pointsize>
                       </font>
                      </property>
                      <property name="text">
@@ -1468,7 +1251,7 @@ p, li { white-space: pre-wrap; }
                     <widget class="QLabel" name="T3_Label_ModelsDirectoryName">
                      <property name="font">
                       <font>
-                       <pointsize>14</pointsize>
+                       <pointsize>12</pointsize>
                       </font>
                      </property>
                      <property name="text">
@@ -1485,7 +1268,7 @@ p, li { white-space: pre-wrap; }
                <widget class="QGroupBox" name="T3_GroupBox_AnalysisLog">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -1501,17 +1284,17 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTextBrowser" name="T3_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="html">
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
-                   <property name="placeholderText" stdset="0">
+                   <property name="placeholderText">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1523,7 +1306,7 @@ p, li { white-space: pre-wrap; }
                <widget class="QGroupBox" name="T3_GroupBox_TestFiles">
                 <property name="font">
                  <font>
-                  <pointsize>14</pointsize>
+                  <pointsize>12</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -1539,7 +1322,7 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTableWidget" name="T3_TableWidget_TestFiles">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="alternatingRowColors">
@@ -1554,69 +1337,17 @@ p, li { white-space: pre-wrap; }
                    <attribute name="horizontalHeaderStretchLastSection">
                     <bool>true</bool>
                    </attribute>
-                   <row>
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>3</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>4</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                   </row>
                    <column>
                     <property name="text">
                      <string>Include</string>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>14</pointsize>
+                      <pointsize>12</pointsize>
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1625,11 +1356,11 @@ p, li { white-space: pre-wrap; }
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>14</pointsize>
+                      <pointsize>12</pointsize>
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1638,164 +1369,34 @@ p, li { white-space: pre-wrap; }
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>14</pointsize>
+                      <pointsize>12</pointsize>
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
-                   <item row="0" column="0">
-                    <property name="checkState">
-                     <enum>Unchecked</enum>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="0" column="1">
-                    <property name="text">
-                     <string>-</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsSelectable|ItemIsEditable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="0" column="2">
-                    <property name="text">
-                     <string>test1.csv</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item row="1" column="0">
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="1" column="1">
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="1" column="2">
-                    <property name="text">
-                     <string>test2_1.csv</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item row="2" column="0">
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="2" column="1">
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="2" column="2">
-                    <property name="text">
-                     <string>test3_2.csv</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item row="3" column="0">
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="3" column="1">
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item row="3" column="2">
-                    <property name="text">
-                     <string>test4_1.csv</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                  <item row="0" column="0">
                   <layout class="QFormLayout" name="T3_FormLayout_TestFiles">
-                   <property name="margin">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
                     <widget class="QPushButton" name="T3_Button_FilesLoadDirectory">
                      <property name="font">
                       <font>
-                       <pointsize>14</pointsize>
+                       <pointsize>12</pointsize>
                       </font>
                      </property>
                      <property name="text">
@@ -1807,7 +1408,7 @@ p, li { white-space: pre-wrap; }
                     <widget class="QLabel" name="T3_Label_FilesDirectoryName">
                      <property name="font">
                       <font>
-                       <pointsize>14</pointsize>
+                       <pointsize>12</pointsize>
                       </font>
                      </property>
                      <property name="text">
@@ -1821,7 +1422,7 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T3_Button_BeginTesting">
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1839,7 +1440,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QLabel" name="T3_Label_ExperimentName">
              <property name="font">
               <font>
-               <pointsize>16</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -1921,7 +1522,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
   </action>
@@ -1949,7 +1550,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
   </action>
@@ -1957,10 +1558,20 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Save Configuration</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
   </action>
   <action name="FileItem_Exit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
  </widget>
