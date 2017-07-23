@@ -4,18 +4,60 @@
 from __future__ import division
 import matplotlib
 matplotlib.use("Qt5Agg")
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 import numpy as np
 import os
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, QTableWidgetItem, QFileDialog
-import sys
+from PyQt5.QtWidgets import QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, QTableWidgetItem,\
+    QFileDialog
+from io import StringIO
+import time
+import sys, traceback
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
 from qtapp.utils import helper
 
+
+
+
+def excepthook(excType, excValue, tracebackobj):
+    """
+    Global function to catch unhandled exceptions.
+
+    @param excType exception type
+    @param excValue exception value
+    @param tracebackobj traceback object
+    """
+    separator = '-' * 80
+    logFile = "_errmsg_" + ".log"
+    notice = \
+        """An unhandled exception occurred. Please report the problem\n""" \
+        """using the error reporting dialog or via email to <%s>.\n""" \
+        """A log has been written to "%s".\n\nError information:\n""" % \
+        ("contact@gyriod.io", "_errmsg_.log")
+    versionInfo = "0.0.1"
+    timeString = time.strftime("%Y-%m-%d, %H:%M:%S")
+
+    tbinfofile = StringIO()
+    traceback.print_tb(tracebackobj, None, tbinfofile)
+    tbinfofile.seek(0)
+    tbinfo = tbinfofile.read()
+    errmsg = '%s: \n%s' % (str(excType), str(excValue))
+    sections = [separator, timeString, separator, errmsg, separator, tbinfo]
+    msg = '\n'.join(sections)
+    try:
+        f = open(logFile, "w")
+        f.write(msg)
+        f.write(versionInfo)
+        f.close()
+    except IOError:
+        pass
+    errorbox = QtWidgets.QMessageBox()
+    errorbox.setText(str(notice) + str(msg) + str(versionInfo))
+    errorbox.exec_()
+
+
+sys.excepthook = excepthook
 
 class Ui(QtWidgets.QMainWindow):
     """ADD DESCRIPTION
@@ -111,6 +153,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
 
 
+
     def T1_checkMinSlider(self):
         """Checks minimum value of slider
 
@@ -169,6 +212,7 @@ class Ui(QtWidgets.QMainWindow):
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
         if files:
+
             # Update total number of files and add new ones with labels (if possible) to table
             self.n_files += len(files)
             #TODO do something with selected labels
