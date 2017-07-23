@@ -69,7 +69,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="iconSize">
           <size>
@@ -582,25 +582,6 @@
                    <property name="autoFillBackground">
                     <bool>false</bool>
                    </property>
-                   <item>
-                    <property name="text">
-                     <string>S11</string>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>S22</string>
-                    </property>
-                    <property name="checkState">
-                     <enum>Checked</enum>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -792,11 +773,6 @@
                    <item>
                     <property name="text">
                      <string>PCA</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>ICA</string>
                     </property>
                    </item>
                   </widget>
