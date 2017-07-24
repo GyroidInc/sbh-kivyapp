@@ -59,6 +59,9 @@ def excepthook(excType, excValue, tracebackobj):
 
 sys.excepthook = excepthook
 
+
+
+
 class Ui(QtWidgets.QMainWindow):
     """ADD DESCRIPTION
 
@@ -99,7 +102,6 @@ class Ui(QtWidgets.QMainWindow):
         # connecting graph refresh upon slider release
         self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
         self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
-
         # Connect frequency sliders
         self.T1_SpinBox_MinFrequency.valueChanged.connect(self.T1_checkMinSlider)
         self.T1_SpinBox_MaxFrequency.valueChanged.connect(self.T1_checkMaxSlider)
