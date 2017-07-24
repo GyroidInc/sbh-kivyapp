@@ -3,10 +3,6 @@ import numpy as np
 import collections
 import os.path, glob
 
-#cd "C:\Users\Sherri\Desktop\Pulse"
-#tt = importHolder()
-#tt.load_dir("C:\\Users\\Sherri\\Desktop\\Pulse")
-
 class importHolder(object):
     """
 
