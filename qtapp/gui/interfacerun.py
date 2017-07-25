@@ -2,22 +2,22 @@
 
 # Standard imports
 from __future__ import division
+from io import StringIO
+
 import matplotlib
 matplotlib.use("Qt5Agg")
 import numpy as np
 import os
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, QTableWidgetItem,\
-    QFileDialog
-from io import StringIO
+from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
+                             QWidget, QTableWidgetItem, QFileDialog)
+import sys
 import time
-import sys, traceback
+import traceback
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
-from qtapp.utils import helper
-
-
+from utils import constants, helper
 
 
 def excepthook(excType, excValue, tracebackobj):
@@ -61,7 +61,6 @@ sys.excepthook = excepthook
 
 
 
-
 class Ui(QtWidgets.QMainWindow):
     """ADD DESCRIPTION
 
@@ -77,6 +76,9 @@ class Ui(QtWidgets.QMainWindow):
         # Dynamically load .ui file
         uic.loadUi('interface.ui', self)
 
+        # Create data structure to hold information about files
+        self.data = {}
+
         # Create matplotlib widget
         self.hbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
@@ -86,6 +88,10 @@ class Ui(QtWidgets.QMainWindow):
         # Clear table for files and labels (add rows to table dynamically)
         self.n_files = 0
         self.T1_TableWidget_Files.setRowCount(self.n_files)
+
+        # Ensure each item in the ListWidget has an unchecked box next to it
+        for index in range(self.T2_ListWidget_Models.count()):
+            self.T2_ListWidget_Models.item(index).setCheckState(QtCore.Qt.Unchecked)
 
         # Clear table for features/columns (add features/columns to list dynamically)
         self.T1_ListWidget_Features.clear()
@@ -110,12 +116,11 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
 
-        #TODO This is a simple test for createrow
-        self.T1_fileTable_createRow(label="Label", file="test.xlsx")
-        self.T1_fileTable_createRow(label="Label", file="test2.xlsx")
-        self.T1_fileTable_createRow(label="Label", file="test3.xlsx")
+        # Connect 'Ingest Files' button
+        self.T1_Button_IngestFiles.clicked.connect(self.T1_ingestFiles)
 
-    def T1_fileTable_createRow(self, label="", file="None"):
+
+    def T1_fileTable_createRow(self, label, file):
         """Adds new row to the file table
 
         Parameters
@@ -135,7 +140,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_TableWidget_Files.setItem(inx, 0, chkBoxItem)
         self.T1_TableWidget_Files.setItem(inx, 1, label)
         self.T1_TableWidget_Files.setItem(inx, 2, file)
-        #TODO connect signals on table change to do something...
+
 
     def T1_checkMaxSlider(self):
             """Checks maximum value of slider
@@ -175,31 +180,8 @@ class Ui(QtWidgets.QMainWindow):
             self.T1_HorizontalSlider_MaxFrequency.setValue(toSet)
 
 
-    def T1_populateTable(self, labels, filenames):
-        """Adds labels and filenames to table
-
-        Parameters
-        ----------
-        labels : list
-            A label for each item in filenames
-
-        filenames : list
-            A filename that corresponds to each item in labels
-
-        Returns
-        -------
-        None
-        """
-        # MIGHT NEED TO CHECK THAT len(labels) == len(filenames)??
-        # Only use basename for filenames to display in table (we do not need the absolute path!)
-        filenames = [helper.get_base_filename(f) for f in filenames]
-        for f in filenames:
-            # POPULATES HERE BUT NOT CORRECTLY
-            # Add current filename to table with label (if possible)
-            self.T1_fileTable_createRow(label="", file=f)
-
     def T1_openLabels(self):
-        """Clicked action for 'Load Files...' button
+        """Clicked action for 'Load LABELS...' button
 
         Parameters
         ----------
@@ -209,19 +191,14 @@ class Ui(QtWidgets.QMainWindow):
         """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+        file, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
                                                 "*.xlsx files (*.xlsx);; *.csv files (*.csv);;"
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
-        if files:
+        if file:
+            print(file)
 
-            # Update total number of files and add new ones with labels (if possible) to table
-            self.n_files += len(files)
-            #TODO do something with selected labels
-            print(files)
 
-            for f in files:
-                print(f)
 
     def T1_openFiles(self):
         """Clicked action for 'Load Files...' button
@@ -239,13 +216,12 @@ class Ui(QtWidgets.QMainWindow):
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
         if files:
-            # Update total number of files and add new ones with labels (if possible) to table
-            self.n_files += len(files)
-            #TODO do something with selected files
-            print(files)
-
+            # Add labels and files to table
             for f in files:
-                print(f)
+                basename = helper.get_base_filename(f)
+                self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
+                self.data[basename] = {'absolute_path': f, 'features': None, 'label': None}
+
 
     def T1_openDirectory(self):
         """Clicked action for 'Load Directory...' button
@@ -262,18 +238,87 @@ class Ui(QtWidgets.QMainWindow):
                     "Load : SansEC directory with experiment files", os.path.expanduser("~"), options=options)
 
         if directory:
-            print (directory)
             # Grab files that end with .xlsx, .csv, and .xls
             files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx')
                      or f.endswith('.csv') or f.endswith('.xls')]
-            print(files)
 
-            # Update total number of files and add new ones with labels (if possible) to table
-            self.n_files += len(files)
-            for f in files:
-                print(f)
-                #TODO the following line is a test
-                self.T1_fileTable_createRow(label="", file=f)
+            if files:
+                # Add labels and files to table
+                for f in files:
+                    basename = helper.get_base_filename(f)
+                    self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
+                    self.data[basename] = {'absolute_path': f, 'features': None, 'label': None}
+
+
+    def T1_ingestFiles(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        n_files_selected = 0  # Keep track of this for warning message
+        for i in range(self.T1_TableWidget_Files.rowCount()):
+
+            # If checked, load file into memory
+            if self.T1_TableWidget_Files.item(i, 0).checkState() == QtCore.Qt.Checked:
+
+                n_files_selected += 1
+                # Grab label and basename from table
+                label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
+
+                # Load data set and label
+                self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
+                self.data[basename]['label'] = label
+
+            else:
+                continue
+
+        # Check for intersection of columns and frequencies
+        columns = helper.find_unique_cols(self.data)
+        freqs = helper.find_unique_freqs(self.data)
+
+        # Remove columns that are usually constant
+        for c in constants.COLUMNS_TO_DROP:
+            columns.pop(columns.index(c))
+
+        # Sanity check (delete if working correctly)
+        print(columns)
+        print(freqs)
+
+        if len(freqs) > 0:
+            min_freq, max_freq = np.ceil(min(freqs)), np.floor(max(freq))
+        else:
+            self.warningPopupMessage(message="No common frequencies found across %d selected files" % n_files_selected,
+                                     informativeText="Check selected files and try again",
+                                     windowTitle="Frequency Warning")
+
+        #TODO: HERE
+        # Add columns to T1_ListWidget_Features --> each item should be checkable with checkbox
+        # EXAMPLE: QListWidget.addItems() --> add multiple items at once or .addItem()
+
+        #TODO: HERE
+        # Set slider bars based on min/max frequencies
+
+    # TODO: CHECK FUNCTIONALITY OF WINDOW TITLE
+    def warningPopupMessage(self, message, informativeText, windowTitle):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText(message)
+        msg.setInformativeText(informativeText)
+        msg.setWindowTitle(windowTitle)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
 
 if __name__ == '__main__':
