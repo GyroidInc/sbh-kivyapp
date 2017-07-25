@@ -85,9 +85,12 @@ class Ui(QtWidgets.QMainWindow):
         self.hbox.addWidget(self.MplCanvas)
         self.T1_Frame_CanvasFrame.setLayout(self.hbox)
 
+
+
         # Clear table for files and labels (add rows to table dynamically)
         self.n_files = 0
         self.T1_TableWidget_Files.setRowCount(self.n_files)
+        #self.T1_TableWidget_Files.setFocusPolicy(QtCore.Qt.NoFocus)
 
         # Ensure each item in the ListWidget has an unchecked box next to it
         for index in range(self.T2_ListWidget_Models.count()):
@@ -129,15 +132,28 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        chkBoxItem = QtWidgets.QTableWidgetItem()
-        chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
-        chkBoxItem.setCheckState(QtCore.Qt.Checked)
+        #chkBoxItem = QtWidgets.QTableWidgetItem()
+        #chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+        #chkBoxItem.setCheckState(QtCore.Qt.Checked)
+        #chkBoxItem.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
+        cell_widget = QWidget()
+        chk_bx = QtWidgets.QCheckBox()
+        chk_bx.setCheckState(QtCore.Qt.Checked)
+        lay_out = QtWidgets.QHBoxLayout(cell_widget)
+        lay_out.addWidget(chk_bx)
+        lay_out.setAlignment(QtCore.Qt.AlignCenter)
+        lay_out.setContentsMargins(0, 0, 0, 0)
+        cell_widget.setLayout(lay_out)
+
         file = QtWidgets.QTableWidgetItem(file)
         file.setFlags(QtCore.Qt.ItemIsEnabled)
+        file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         label = QtWidgets.QTableWidgetItem(label)
+        label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         inx = self.T1_TableWidget_Files.rowCount()
         self.T1_TableWidget_Files.insertRow(inx)
-        self.T1_TableWidget_Files.setItem(inx, 0, chkBoxItem)
+        self.T1_TableWidget_Files.setCellWidget(inx, 0, cell_widget)
         self.T1_TableWidget_Files.setItem(inx, 1, label)
         self.T1_TableWidget_Files.setItem(inx, 2, file)
 
