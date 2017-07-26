@@ -8,9 +8,10 @@ import matplotlib
 matplotlib.use("Qt5Agg")
 import numpy as np
 import os
-from PyQt5 import QtCore, QtGui,  uic, QtWidgets
+from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
                              QWidget, QTableWidgetItem, QFileDialog)
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import sys
 import time
 import traceback
@@ -80,12 +81,18 @@ class Ui(QtWidgets.QMainWindow):
         self.data = {}
 
         # Create matplotlib widget
+
         self.hbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
+        self.navi_toolbar = NavigationToolbar(self.MplCanvas, self)
+        self.hbox.addWidget(self.navi_toolbar)
         self.hbox.addWidget(self.MplCanvas)
+        #self.hbox.setAlignment(Qt.)
         self.T1_Frame_CanvasFrame.setLayout(self.hbox)
 
-
+        self.columns = []
+        self.freqs = []
+        self.min_freq, self.max_freq = 0, 100
 
         # Clear table for files and labels (add rows to table dynamically)
         self.n_files = 0
@@ -100,28 +107,68 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_ListWidget_Features.clear()
 
         # Disable 'Load Labels File...' button until user selects Label Files By CSV File
-        self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_openLabels)
-        self.T1_Button_LoadLabelFiles.setDisabled(True)
-        self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(
-            lambda: self.T1_Button_LoadLabelFiles.setEnabled(
-                self.T1_ComboBox_LabelFilesBy.currentText() == "CSV File"))
+        self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
+
+        self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(self.T1_selectLabelLoadMode)
 
 
         # TODO graph doesnt update on slider button press/change
         # connecting graph refresh upon slider release
-        self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
-        self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
+        self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.T1_UpdateFigureTest)
+        self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.T1_UpdateFigureTest)
         # Connect frequency sliders
         self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_checkMinSlider)
         self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
 
         # Connect 'Load Files...' and 'Load Directory...' buttons
-        self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
+        self.T1_Button_LoadFiles.clicked.connect(self.T1_set)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
 
         # Connect 'Ingest Files' button
         self.T1_Button_IngestFiles.clicked.connect(self.T1_ingestFiles)
 
+    def T1_selectLabelLoadMode(self):
+        """switches between two label calling methodologies
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        if self.T1_ComboBox_LabelFilesBy.currentText() == "CSV File":
+            self.T1_Button_LoadLabelFiles.setText("Load Labels")
+            self.T1_Button_LoadLabelFiles.disconnect()
+            self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_openLabels)
+        else:
+            self.T1_Button_LoadLabelFiles.setText("Label Data")
+            self.T1_Button_LoadLabelFiles.disconnect()
+            self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
+
+
+
+    def T1_setLabelsByName(self):
+        """attempts to label each row by a the file name
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        pass
+
+    def T1_UpdateFigureTest(self):
+        """Just a test
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        self.MplCanvas.update_figure([0, 1, 2, 3], [{"values": [0, 1, 2, 3], "label": "Test.xlsx"},
+                                          {"values": [4, 0, 2, 3], "label": "Test2.xlsx"}])
 
     def T1_fileTable_createRow(self, label, file):
         """Adds new row to the file table
@@ -140,12 +187,13 @@ class Ui(QtWidgets.QMainWindow):
         cell_widget = QWidget()
         chk_bx = QtWidgets.QCheckBox()
         chk_bx.setCheckState(QtCore.Qt.Checked)
+        chk_bx.setObjectName("checkbox")
         lay_out = QtWidgets.QHBoxLayout(cell_widget)
         lay_out.addWidget(chk_bx)
         lay_out.setAlignment(QtCore.Qt.AlignCenter)
         lay_out.setContentsMargins(0, 0, 0, 0)
         cell_widget.setLayout(lay_out)
-
+        #cell_widget.findChild(QtWidgets.QCheckBox, "checkbox")
         file = QtWidgets.QTableWidgetItem(file)
         file.setFlags(QtCore.Qt.ItemIsEnabled)
         file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
@@ -228,7 +276,7 @@ class Ui(QtWidgets.QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
-                                                "*.xlsx files (*.xlsx);; *.csv files (*.csv);;"
+                                                "*.xlsx files (*.xlsx);;"
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
         if files:
@@ -279,7 +327,8 @@ class Ui(QtWidgets.QMainWindow):
         for i in range(self.T1_TableWidget_Files.rowCount()):
 
             # If checked, load file into memory
-            if self.T1_TableWidget_Files.item(i, 0).checkState() == QtCore.Qt.Checked:
+            if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
+                    == QtCore.Qt.Checked:
 
                 n_files_selected += 1
                 # Grab label and basename from table
@@ -293,30 +342,29 @@ class Ui(QtWidgets.QMainWindow):
                 continue
 
         # Check for intersection of columns and frequencies
-        columns = helper.find_unique_cols(self.data)
-        freqs = helper.find_unique_freqs(self.data)
+        if n_files_selected > 0:
+            self.columns = helper.find_unique_cols(self.data)
+            self.freqs = helper.find_unique_freqs(self.data)
 
-        # Remove columns that are usually constant
-        for c in constants.COLUMNS_TO_DROP:
-            columns.pop(columns.index(c))
+            # Remove columns that are usually constant
+            for c in constants.COLUMNS_TO_DROP:
+                self.columns.pop(self.columns.index(c))
 
-        # Sanity check (delete if working correctly)
-        print(columns)
-        print(freqs)
+            # Sanity check (delete if working correctly)
+            print(self.columns)
+            print(self.freqs)
 
-        if len(freqs) > 0:
-            min_freq, max_freq = np.ceil(min(freqs)), np.floor(max(freq))
-        else:
-            self.warningPopupMessage(message="No common frequencies found across %d selected files" % n_files_selected,
-                                     informativeText="Check selected files and try again",
-                                     windowTitle="Frequency Warning")
+            if len(self.freqs) > 0:
+                self.min_freq, self.max_freq = min(self.freqs), max(self.freqs)
+            else:
+                self.warningPopupMessage(message="No common frequencies found across %d selected files" % n_files_selected,
+                                         informativeText="Check selected files and try again",
+                                         windowTitle="Frequency Warning")
 
-        #TODO: HERE
-        # Add columns to T1_ListWidget_Features --> each item should be checkable with checkbox
-        # EXAMPLE: QListWidget.addItems() --> add multiple items at once or .addItem()
 
-        #TODO: HERE
-        # Set slider bars based on min/max frequencies
+
+            #TODO: HERE
+            # Set slider bars based on min/max frequencies
 
     # TODO: CHECK FUNCTIONALITY OF WINDOW TITLE
     def warningPopupMessage(self, message, informativeText, windowTitle):
