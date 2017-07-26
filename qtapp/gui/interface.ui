@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>796</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -142,7 +142,16 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_13">
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>12</number>
+                </property>
+                <property name="topMargin">
+                 <number>12</number>
+                </property>
+                <property name="rightMargin">
+                 <number>12</number>
+                </property>
+                <property name="bottomMargin">
                  <number>12</number>
                 </property>
                 <item row="0" column="1">
@@ -223,7 +232,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -236,7 +245,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -249,7 +258,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                  <set>AlignCenter</set>
                  </property>
                 </column>
                </widget>
@@ -306,7 +315,16 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_11">
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>12</number>
+                </property>
+                <property name="topMargin">
+                 <number>12</number>
+                </property>
+                <property name="rightMargin">
+                 <number>12</number>
+                </property>
+                <property name="bottomMargin">
                  <number>12</number>
                 </property>
                 <item row="0" column="1">
@@ -476,24 +494,6 @@
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QToolButton" name="T1_Button_RefreshPlot">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Refresh Plot</string>
-                </property>
-               </widget>
-              </item>
               <item>
                <widget class="QGroupBox" name="T1_GroupBox_FrequencySelection">
                 <property name="font">
@@ -586,6 +586,18 @@
                   </widget>
                  </item>
                 </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="T1_Button_RefreshPlot">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Refresh Plot</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -759,7 +771,7 @@
                      <bold>false</bold>
                     </font>
                    </property>
-                   <property name="currentText" stdset="0">
+                   <property name="currentText">
                     <string>None</string>
                    </property>
                    <property name="frame">
@@ -845,7 +857,7 @@
                      <bold>false</bold>
                     </font>
                    </property>
-                   <property name="currentText" stdset="0">
+                   <property name="currentText">
                     <string>Yes</string>
                    </property>
                    <property name="frame">
@@ -1103,13 +1115,13 @@
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="textInteractionFlags">
                     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
                    </property>
-                   <property name="placeholderText" stdset="0">
+                   <property name="placeholderText">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1207,14 +1219,23 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                   </widget>
                  </item>
                  <item row="0" column="0" colspan="2">
                   <layout class="QFormLayout" name="T3_FormLayout_TrainedModels">
-                   <property name="margin">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
@@ -1273,10 +1294,10 @@ p, li { white-space: pre-wrap; }
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
-                   <property name="placeholderText" stdset="0">
+                   <property name="placeholderText">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1329,7 +1350,7 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1342,7 +1363,7 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1355,14 +1376,23 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                     <set>AlignCenter</set>
                     </property>
                    </column>
                   </widget>
                  </item>
                  <item row="0" column="0">
                   <layout class="QFormLayout" name="T3_FormLayout_TestFiles">
-                   <property name="margin">
+                   <property name="leftMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>12</number>
+                   </property>
+                   <property name="bottomMargin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
@@ -1449,7 +1479,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1440</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="nativeMenuBar">

@@ -17,8 +17,8 @@ import traceback
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
-from qtapp.utils import constants, helper
-from qtapp.utils.errorhandling import errorDialogOnException
+from utils import constants, helper
+from utils.errorhandling import errorDialogOnException
 
 def excepthook(excType, excValue, tracebackobj):
     """
