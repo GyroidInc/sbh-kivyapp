@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>775</height>
+    <height>796</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -132,6 +132,7 @@
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
+                <zorder>T1_GroupBox_Files</zorder>
                </widget>
               </item>
               <item>
@@ -306,7 +307,19 @@
                 <property name="bottomMargin">
                  <number>12</number>
                 </property>
-                <item row="0" column="0" alignment="Qt::AlignHCenter">
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="T1_Button_LoadDirectory">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Load SansEC Directory...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QPushButton" name="T1_Button_LoadFiles">
                   <property name="font">
                    <font>
@@ -316,19 +329,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Load Files...</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1" alignment="Qt::AlignHCenter">
-                 <widget class="QPushButton" name="T1_Button_LoadDirectory">
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Load Directory...</string>
+                   <string>Load SansEC Files...</string>
                   </property>
                  </widget>
                 </item>
@@ -429,7 +430,7 @@
                 <property name="bottomMargin">
                  <number>12</number>
                 </property>
-                <item row="0" column="0" alignment="Qt::AlignHCenter">
+                <item row="0" column="1">
                  <widget class="QRadioButton" name="T1_RadioButton_ContinuousLabels">
                   <property name="font">
                    <font>
@@ -439,12 +440,9 @@
                   <property name="text">
                    <string>Continuous Labels</string>
                   </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
                  </widget>
                 </item>
-                <item row="0" column="1" alignment="Qt::AlignHCenter">
+                <item row="0" column="0" alignment="Qt::AlignRight">
                  <widget class="QRadioButton" name="T1_RadioButton_CategoricalLabels">
                   <property name="font">
                    <font>
@@ -454,9 +452,19 @@
                   <property name="text">
                    <string>Categorical Labels</string>
                   </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
                  </widget>
                 </item>
                </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_11">
@@ -472,18 +480,6 @@
                 <property name="bottomMargin">
                  <number>12</number>
                 </property>
-                <item row="0" column="3" alignment="Qt::AlignHCenter">
-                 <widget class="QPushButton" name="T1_Button_LoadLabelFiles">
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Load Labels File...</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="1">
                  <widget class="QLabel" name="T1_Label_LabelFilesBy">
                   <property name="font">
@@ -496,6 +492,18 @@
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QPushButton" name="T1_Button_LoadLabelFiles">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Label Data</string>
                   </property>
                  </widget>
                 </item>
@@ -584,19 +592,19 @@
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QPushButton" name="T1_Button_CreateDataset">
-                   <property name="font">
-                    <font>
-                     <pointsize>12</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Create Dataset</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="T1_Button_CreateDataset">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Create Dataset</string>
+                </property>
                </widget>
               </item>
              </layout>
