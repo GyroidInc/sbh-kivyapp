@@ -17,8 +17,8 @@ import traceback
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
-from utils import constants, helper
-
+from qtapp.utils import constants, helper
+from qtapp.utils.errorhandling import errorDialogOnException
 
 def excepthook(excType, excValue, tracebackobj):
     """
@@ -112,8 +112,8 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_HorizontalSlider_MaxFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
         self.T1_HorizontalSlider_MinFrequency.sliderReleased.connect(self.MplCanvas.update_figure)
         # Connect frequency sliders
-        self.T1_SpinBox_MinFrequency.valueChanged.connect(self.T1_checkMinSlider)
-        self.T1_SpinBox_MaxFrequency.valueChanged.connect(self.T1_checkMaxSlider)
+        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_checkMinSlider)
+        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
 
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
@@ -189,8 +189,8 @@ class Ui(QtWidgets.QMainWindow):
         if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
             toSet = self.T1_HorizontalSlider_MinFrequency.value() + 1
 
-            if toSet >= self.T1_SpinBox_MaxFrequency.maximum():
-                toSet = self.T1_SpinBox_MaxFrequency.maximum()
+            if toSet >= self.T1_HorizontalSlider_MaxFrequency.maximum():
+                toSet = self.T1_HorizontalSlider_MaxFrequency.maximum()
                 self.T1_HorizontalSlider_MinFrequency.setValue(toSet - 1)
 
             self.T1_HorizontalSlider_MaxFrequency.setValue(toSet)
@@ -265,7 +265,7 @@ class Ui(QtWidgets.QMainWindow):
                     self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
                     self.data[basename] = {'absolute_path': f, 'features': None, 'label': None}
 
-
+    #@errorDialogOnException(exceptions=Exception)
     def T1_ingestFiles(self):
         """ADD
 

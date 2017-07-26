@@ -29,9 +29,9 @@ class importHolder(object):
 
     def __init__(self):
 
-        #TODO convert shared indicies and columns to dict with bools as values to represent selection.
-        self.sharedInd=[]
-        self.sharedCol=[]
+        #TODO convert shared indices and columns to dict with bools as values to represent selection.
+        self.sharedInd={}
+        self.sharedCol={}
         self.files = {}
         self.overall_min_freq, self.overall_max_freq = 1e10, 1e-10
 
