@@ -19,6 +19,8 @@ class HyperparametersUI(object):
         self.dialog.setObjectName("Dialog")
         self.dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         self.dialog.setModal(True)
+        self.model = model
+        self.type = type
 
         # Define grid for layout
         self.gridLayout = QGridLayout(self.dialog)
@@ -109,6 +111,7 @@ class HyperparametersUI(object):
             # Add spacer and save button
             self.gridLayout.addItem(self.spacer, 3, 1, 1, 1)
             self.gridLayout.addWidget(self.saveButton, 4, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
 
 
         elif model == "GaussianProcess":
@@ -138,6 +141,8 @@ class HyperparametersUI(object):
             # Add spacer and save button
             self.gridLayout.addItem(self.spacer, 2, 1, 1, 1)
             self.gridLayout.addWidget(self.saveButton, 3, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
+
 
         elif model == "GradientBoostedTrees":
             # 1. n_estimators
@@ -218,22 +223,23 @@ class HyperparametersUI(object):
             self.gridLayout.addWidget(self.label_loss, 4, 0, 1, 1)
 
             ## input
-            self.label_loss = QComboBox()
-            self.label_loss.setObjectName("label_loss")
+            self.input_loss = QComboBox()
+            self.input_loss.setObjectName("input_loss")
             if type == "Regressor":
-                self.label_loss.addItems(["Least Squares",
+                self.input_loss.addItems(["Least Squares",
                                           "Huber"])
             else:
-                self.label_loss.addItems(["Deviance",
+                self.input_loss.addItems(["Deviance",
                                           "Exponential"])
-            self.label_loss.setEditable(True)
-            self.label_loss.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
-            self.label_loss.lineEdit().setReadOnly(True)
-            self.gridLayout.addWidget(self.label_loss, 4, 1, 1, 1)
+            self.input_loss.setEditable(True)
+            self.input_loss.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
+            self.input_loss.lineEdit().setReadOnly(True)
+            self.gridLayout.addWidget(self.input_loss, 4, 1, 1, 1)
 
             # Add spacer and save button
             self.gridLayout.addItem(self.spacer, 5, 1, 1, 1)
             self.gridLayout.addWidget(self.saveButton, 6, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
 
 
         elif model == "KNearestNeighbors":
@@ -274,6 +280,7 @@ class HyperparametersUI(object):
             # Add spacer and save button
             self.gridLayout.addItem(self.spacer, 2, 1, 1, 1)
             self.gridLayout.addWidget(self.saveButton, 3, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
 
 
         elif model == "NeuralNetwork":
@@ -337,6 +344,7 @@ class HyperparametersUI(object):
             # Add spacer and save button
             self.gridLayout.addItem(self.spacer, 3, 1, 1, 1)
             self.gridLayout.addWidget(self.saveButton, 4, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
 
 
         elif model == "SupportVectorMachine":
@@ -393,9 +401,27 @@ class HyperparametersUI(object):
             self.input_C.setText('1')
             self.gridLayout.addWidget(self.input_C, 2, 1, 1, 1)
 
+            # 4. gamma
+
+            ## label
+            self.label_gamma = QLabel(self.dialog)
+            self.label_gamma.setAlignment(QtCore.Qt.AlignRight)
+            self.label_gamma.setObjectName("label_gamma")
+            self.label_gamma.setText("Gamma:")
+            self.gridLayout.addWidget(self.label_gamma, 3, 0, 1, 1)
+
+            ## input
+            self.input_gamma = QLineEdit(self.dialog)
+            self.input_gamma.setValidator(self.DoubleValidator)
+            self.input_gamma.setAlignment(QtCore.Qt.AlignCenter)
+            self.input_gamma.setObjectName("input_gamma")
+            self.input_gamma.setText('.001')
+            self.gridLayout.addWidget(self.input_gamma, 3, 1, 1, 1)
+
             # Add spacer and save button
-            self.gridLayout.addItem(self.spacer, 3, 1, 1, 1)
-            self.gridLayout.addWidget(self.saveButton, 4, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.gridLayout.addItem(self.spacer, 4, 1, 1, 1)
+            self.gridLayout.addWidget(self.saveButton, 5, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.saveButton.clicked.connect(self.action)
 
 
         elif model == "LinearModel":
@@ -408,6 +434,7 @@ class HyperparametersUI(object):
             # Add spacer and close button
             self.gridLayout.addItem(self.spacer, 1, 1, 1, 1)
             self.gridLayout.addWidget(self.closeButton, 2, 0, 1, 3, QtCore.Qt.AlignHCenter)
+            self.closeButton.clicked.connect(self.action)
 
 
         else:
@@ -417,15 +444,46 @@ class HyperparametersUI(object):
         self.dialog.exec_()
 
 
-    def saveButton(self):
-        pass
+    def action(self):
+        """ADD
 
+        Parameters
+        ----------
 
-    def closeButton(self):
-        pass
+        Returns
+        -------
+        """
+        #TODO add parser to convert text input sklearn calls --> example: Mean Squared Error becomes mse
+        if self.model == "ExtraTrees" or self.model == "RandomForest":
+            return {
+                "n_estimators": float(self.input_n_estimators.text()),
+                "max_depth": int(self.input_max_depth.text()),
+                "criterion": self.input_criterion.currentText()
+            }
+
+        elif self.model == "GradientBoostedTrees":
+            return {
+                "n_estimators": float(self.input_n_estimators.text()),
+                "learning_rate": float(self.input_learning_rate.text()),
+                "subsample": float(self.input_subsample.text()),
+                "max_depth": int(self.input_max_depth.text()),
+                "loss": self.input_loss.currentText()
+            }
+
+        elif self.model == "SupportVectorMachine":
+            print( {
+                "kernel": self.input_kernel.currentText().lower(),
+                "C": float(self.input_C.text()),
+                "gamma": float(self.input_gamma.text()),
+                "degree": int(self.input_degree.text())
+            })
+
+        # TODO: ADD REMAINDER OF MODELS HERE
+        else:
+            pass
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = HyperparametersUI(model="GradientBoostedTrees", type="Regressor")
+    window = HyperparametersUI(model="SupportVectorMachine", type="Regressor")
     sys.exit(app.exec_())
