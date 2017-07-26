@@ -2,12 +2,15 @@
 
 from __future__ import division
 
+import numpy as np
 from sklearn.decomposition import FastICA, PCA
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.feature_selection import SelectFromModel
 from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct, ExpSineSquared, Matern, RationalQuadratic, RBF
-from sklearn.model_selection import KFold, ShuffleSplit, train_test_split
+from sklearn.model_selection import KFold, ShuffleSplit, StratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
+
+from utils import helper
 
 __description__ = """Functions to handle pipeline specifications on Tab 2: Train Model"""
 
@@ -69,8 +72,8 @@ def feature_reduction(X, type, method, y=None, transformer=None):
 
         # Use mean feature importance from a random forest (i.e., features with importance < mean importance are dropped)
         else:
-            if not y: raise ValueError("Labels array not provided")
-            clf = RandomForestRegressor(n_estimators=200) if type == "Regressor" else RandomForestClassifier(n_estimators=200).fit(X, y)
+            if y is None: raise ValueError("Labels array not provided")
+            clf = RandomForestRegressor(n_estimators=200).fit(X, y) if type == "Regressor" else RandomForestClassifier(n_estimators=200).fit(X, y)
             transformer = SelectFromModel(estimator=clf, threshold="mean", prefit=True)
             return transformer.transform(X), transformer
 
@@ -104,6 +107,8 @@ def cross_validation(X, y, type, model, standardize=True, feature_reduction_meth
         if standardize:
             X_train, scaler = standardize_features(X=X_train)
             X_test = standardize_features(X=X_test, scaler=scaler)
+        else:
+            scaler = None
 
         # Reduce features if specified
         if feature_reduction_method:
@@ -111,23 +116,26 @@ def cross_validation(X, y, type, model, standardize=True, feature_reduction_meth
                                                      y=y_train, transformer=None)
             X_test = feature_reduction(X=X_test, type=type, method=feature_reduction_method,
                                        y=None, transformer=transformer)
+        else:
+            transformer = None
 
         # Train model
         model.fit(X_train, y_train)
 
         # Get predictions and metric on test fold
-        y_hat = model.predict(X_test)
-        scores[fold] = model.score(y_test, y_hat)
+        scores[fold] = score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), type=type)
         fold += 1
 
-    # Refit on all data now
-    # TODO: ADD THIS FUNCTIONALITY
+    # Refit on all data now and return parameters
+    if standardize: scaler = standardize_features(X=X)
+    if feature_reduction_method: transformer = feature_reduction(X=X, type=type, method=feature_reduction_method,
+                                                                 y=y, transformer=None)
 
-    # Calculate mean and std of metric
-    return scores, model
+    model.fit(X, y)
+    return scores.mean(), model, scaler, transformer
 
 
-def holdout(X, y, type, test_size=.33):
+def holdout(X, y, type, model, standardize=True, feature_reduction_method=None, test_size=.33):
     """ADD
 
     Parameters
@@ -145,14 +153,16 @@ def holdout(X, y, type, test_size=.33):
 
     # Split into train/test and features/labels (account for stratification if classification task)
     if type == "Regressor":
-        X_train, X_test, y_train, y_test = train_test_split(test_size=test_size)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     else:
-        X_train, X_test, y_train, y_test = train_test_split(test_size=test_size, stratify=y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, stratify=y)
 
     # Standardize features if specified
     if standardize:
         X_train, scaler = standardize_features(X=X_train)
         X_test = standardize_features(X=X_test, scaler=scaler)
+    else:
+        scaler = None
 
     # Reduce features if specified
     if feature_reduction_method:
@@ -160,18 +170,21 @@ def holdout(X, y, type, test_size=.33):
                                                  y=y_train, transformer=None)
         X_test = feature_reduction(X=X_test, type=type, method=feature_reduction_method,
                                    y=None, transformer=transformer)
+    else:
+        transformer = None
 
     # Train model
     model.fit(X_train, y_train)
 
     # Get predictions and metric on test fold
-    y_hat = model.predict(X_test)
-    score = model.score(y_test, y_hat)
+    score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), type=type)
 
-    # Refit on all data now
-    # TODO: ADD THIS FUNCTIONALITY
-
-    return score, model
+    # Refit on all data now and return parameters
+    if standardize: scaler = standardize_features(X=X)
+    if feature_reduction_method: transformer = feature_reduction(X=X, type=type, method=feature_reduction_method,
+                                                                 y=y, transformer=None)
+    model.fit(X, y)
+    return score, model, scaler, transformer
 
 
 def automatically_tune(X, y, type, models, standardize=True, feature_reduction_method=None, training_method="holdout"):
@@ -183,92 +196,108 @@ def automatically_tune(X, y, type, models, standardize=True, feature_reduction_m
     Returns
     -------
     """
-    def get_hyperparameter_grid(model, type):
-        """Closure to generate hyperparameter grid for specific models and learning tasks
+    # Data structure for best models
+    best_models = {}
 
-        Parameters
-        ----------
-        model : str
-            Name of machine learning model. Valid arguments are: ExtraTrees, RandomForest, GradientBoostedTrees,
-            NeuralNetwork, KNearestNeighbor, GaussianProcess, LinearModel, SupportVectorMachine
+    # Set training method for all models
+    trainer = holdout if training_method == "holdout" else cross_validation
 
-        type : str
-            Type of learning task. Valid arguments are: Regressor or Classifier
+    # Iterate over models
+    for model_name, clf in models.items():
 
-        Returns
-        -------
-        grid : dict
-            Hyperparameter grid for specified model and learning task
-        """
-        # Define hyperparameter grids
+        # Generate hyperparameter grid
+        hp_grid = helper.generate_hyperparameter_grid(model=model_name, type=type)
+        hp_names, hp_combos = helper.hyperparameter_combinations(hp_grid)
 
-        ### EXTRA TREES AND RANDOM FORESTS ###
-        if model == "ExtraTrees" or model == "RandomForest":
-            """ NOTE: Both ExtraTrees and RandomForest have similar hyperparameters
-                3 hyperparameters: (1) n_estimators: Number of trees
-                                   (2) max_features: Number of features to examine per split
-                                   (3) criterion: Objective function to optimize during training """
-            grid = {"n_estimators": [10, 100, 200, 500],
-                    "max_features": [None, "log2", "auto"]}
-            grid['criterion'] = ["mse", "mae"] if type == "Regressor" else ["gini", "entropy"]
+        # Parameters for current model
+        n_combos, best_model, best_params, best_scaler, best_transformer = len(hp_combos), None, None, None, None
 
-        ### GRADIENT BOOSTED TREES ###
-        elif model == "GradientBoostedTrees":
-            """ ADD """
-            grid = {"n_estimators": [100, 500, 1000],
-                    "learning_rate": [.1, .01, .001],
-                    "subsample": [1, .8],
-                    "max_depth": [1, 3, 5]}
-            grid['loss'] = ["ls", "huber"] if type == "Regressor" else ["deviance", "exponential"]
+        # Set initial metric based on learning task
+        # (MSE for regression -> lower is better, AUC for classifier -> higher is better)
+        best_metric = 0. if type == "Classifier" else 1e10
 
-        ### GAUSSIAN PROCESSES ###
-        elif model == "GaussianProcess":
-            """ 1 hyperparameter: (1) kernel: Covariance function that determines shape of prior and posterior 
-                                              distribution of the Gaussian process """
-            grid = {"kernel": [RBF(), DotProduct(), RationalQuadratic(), ConstantKernel(), Matern(), ExpSineSquared()]}
+        # Iterate over all hyperparameter combos
+        for n in range(n_combos):
 
-        ### K-NEAREST NEIGHBORS ###
-        elif model == "KNearestNeighbors":
-            """ 2 hyperparameters: (1) n_neighbors: Number of nearest neighbors to use for prediction
-                                   (2) p: Power parameter for Minkowski metric """
-            grid = {"n_neighbors": [1, 3, 5],
-                    "p": [1, 2]}
+            # Grab current hyperparameter combination
+            current_params = {}
+            for i, hp_name in enumerate(hp_names):
+                current_params[hp_name] = hp_combos[n][i]
 
-        ### LINEAR MODELS ###
-        elif model == "LinearModel":
-            """ 0 hyperparameters """
-            grid = {}
+            # Grab metric based on training method
+            current_metric, current_model, current_scaler, current_transformer \
+                = trainer(X=X, y=y, type=type, model=clf(**current_params),
+                          standardize=standardize, feature_reduction_method=feature_reduction_method)
 
-        ### NEURAL NETWORKS ###
-        elif model == "NeuralNetwork":
-            """ 3 hyperparameters : (1) hidden_layer_sizes: Number of hidden neurons
-                                    (2) learning_rate: Learning rate schedule for weight updates
-                                    (3) solver: The solver for weight optimization """
-            grid = {"hidden_layer_sizes": [(32,), (64,), (100,), (500,), (1000,)],
-                    "learning_rate": ["constant", "adaptive"],
-                    "solver": ["adam", "lbfgs", "sgd"]}
+            # Compare current_metric to best_metric based on learning task
+            if type == "Regressor":
+                if current_metric < best_metric:
+                    best_metric, best_model, best_params, best_scaler, best_transformer = \
+                        current_metric, current_model, current_params, current_scaler, current_transformer
+                    print("Next Best Model (%s):" % model_name)
+                    print("\tValidation Metric: %.4f" % best_metric)
+                    print("\tHyperparameters: %s\n" % best_params)
+            else:
+                if current_metric > best_metric:
+                    best_metric, best_model, best_params, best_scaler, best_transformer = \
+                        current_metric, current_model, current_params, current_scaler, current_transformer
+                    print("Next Best Model (%s):" % model_name)
+                    print("\tValidation Metric: %.4f" % best_metric)
+                    print("\tHyperparameters: %s\n" % best_params)
 
-        ### SUPPORT VECTOR MACHINES ###
-        elif model == "SupportVectorMachine":
-            """ ADD """
-            grid = {"kernel": ["rbf", "poly"],
-                    "degree": [1, 2, 3],
-                    "C": [.001, .01, .1, 1, 10, 100, 1000]}
+        # Save 'best' model
+        best_models[model_name] = {'trained_model': best_model,
+                                   'validation_metric': best_metric,
+                                   'hyperparameters': best_params,
+                                   'scaler': best_scaler,
+                                   'transformer': best_transformer}
 
-        else:
-            raise ValueError("Model (%s) is not a valid argument" % model)
-
-        return grid
-
-def calculate_metrics(y_true, y_hat, type):
-    """ADD
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-    """
-    pass
+    return best_models
 
 
+if __name__ == "__main__":
+
+    # Simple tests
+    from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, RandomForestRegressor, ExtraTreesRegressor
+
+    ### Classifier ###
+
+    # Generate data
+    X, y = np.random.normal(0, 1, (100, 30)), np.random.binomial(1, .5, 100)
+
+    # Create two simple models
+    models = {"ExtraTrees": ExtraTreesClassifier, 'RandomForest': RandomForestClassifier}
+
+    # Iterate over standardization, feature reduction, and training method
+    for std in [True, False]:
+        for fr in ["PCA", "FR", None]:
+            for tr in ["holdout", "cv"]:
+                automatically_tune(X=X,
+                                   y=y,
+                                   type="Classifier",
+                                   models=models,
+                                   standardize=std,
+                                   feature_reduction_method=fr,
+                                   training_method=tr)
+
+    ### Regressor ###
+
+    # Generate data
+    X, y = np.random.normal(0, 1, (100, 30)), np.random.normal(0, 1, 100)
+
+    # Create two simple models
+    models = {"ExtraTrees": ExtraTreesRegressor, 'RandomForest': RandomForestRegressor}
+
+    # Iterate over standardization, feature reduction, and training method
+    for std in [True, False]:
+        for fr in ["PCA", "FR", None]:
+            for tr in ["holdout", "cv"]:
+                automatically_tune(X=X,
+                                   y=y,
+                                   type="Regressor",
+                                   models=models,
+                                   standardize=std,
+                                   feature_reduction_method=fr,
+                                   training_method=tr)
+
+    print("Pseudo-Tests passed")
