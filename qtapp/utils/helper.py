@@ -18,7 +18,7 @@ def get_base_filename(file):
     try:
         return os.path.basename(file)
     except:
-        return '-'
+        return ''
 
 
 def parse_label(file):

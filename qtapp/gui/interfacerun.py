@@ -7,7 +7,6 @@ import csv
 
 import matplotlib
 matplotlib.use("Qt5Agg")
-import numpy as np
 import os
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
@@ -114,12 +113,13 @@ class Ui(QtWidgets.QMainWindow):
 
 
         # TODO graph doesnt update on slider button press/change
-        # connecting graph refresh upon slider release
-        self.T1_Button_RefreshPlot.clicked.connect(self.T1_UpdateFigureTest)
+        # connecting graph refresh
+        self.T1_Button_RefreshPlot.clicked.connect(self.T1_Regraph)
         # Connect frequency sliders
         self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_checkMinSlider)
         self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
-
+        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_updateCounter)
+        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_updateCounter)
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
@@ -144,6 +144,33 @@ class Ui(QtWidgets.QMainWindow):
             self.T1_Button_LoadLabelFiles.setText("Label Data")
             self.T1_Button_LoadLabelFiles.disconnect()
             self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
+
+    def T1_Regraph(self):
+        """attempts to regraph the selected range after selection
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        if self.T1_ListWidget_Features.currentItem() != None:
+            feat = self.T1_ListWidget_Features.currentItem().text()
+            if len(self.freqs) > 1 and len(self.columns) > 0:
+                #begin constructing list of dicts for graphing
+                graphlist=[]
+                freqlist = sorted(i for i in self.freqs if i >= self.min_freq and i <= self.max_freq)
+
+                for baseName in self.data.keys():
+                    df = self.data[baseName]["features"]
+                    vals = df.loc[df["Freq"].isin(freqlist), feat].tolist()
+                    graphlist.append({"label": baseName, "values" : vals})
+
+                self.MplCanvas.update_figure(xindex=freqlist, plotlist=graphlist, ylabel=feat)
+
+
+
+
 
 
 
@@ -176,7 +203,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         toDict = dict(zip(self.data.keys(), helper.get_labels_from_filenames(self.data.keys())))
         for Basename in self.data:
-            self.data[Basename]["Label"] = toDict[Basename]
+            self.data[Basename]["label"] = toDict[Basename]
         self.T1_UpdateFileList(toDict)
 
     def T1_UpdateFileList(self, labelDict):
@@ -244,23 +271,41 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_TableWidget_Files.setItem(inx, 1, label)
         self.T1_TableWidget_Files.setItem(inx, 2, file)
 
+    def T1_updateCounter(self):
+        """sets the lcd to the value of the slider freq
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        if len(self.freqs) > 1:
+            toSet = self.T1_LCD_MinFrequency
+            toSet.display(self.freqs[self.T1_HorizontalSlider_MinFrequency.value()])
+            self.min_freq = self.freqs[self.T1_HorizontalSlider_MinFrequency.value()]
+
+            toSet = self.T1_LCD_MaxFrequency
+            toSet.display(self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()])
+            self.max_freq = self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()]
+
 
     def T1_checkMaxSlider(self):
-            """Checks maximum value of slider
+        """Checks maximum value of slider
 
-            Parameters
-            ----------
+        Parameters
+        ----------
 
-            Returns
-            -------
-            """
-            if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
-                toSet= self.T1_HorizontalSlider_MaxFrequency.value() - 1
-                if toSet < 0:
-                    toSet = 0
-                    self.T1_HorizontalSlider_MaxFrequency.setValue(1)
+        Returns
+        -------
+        """
+        if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
+            toSet= self.T1_HorizontalSlider_MaxFrequency.value() - 1
+            if toSet < 0:
+                toSet = 0
+                self.T1_HorizontalSlider_MaxFrequency.setValue(1)
 
-                self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
+            self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
 
 
 
@@ -418,16 +463,19 @@ class Ui(QtWidgets.QMainWindow):
 
 
                     #set the increments to the frequency range selection
-                    self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs))
-                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs))
+                    self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) -1)
+                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) -1)
 
-                    # set the increments to the frequency range selection
+                    # set list to columns selection
                     self.T1_ListWidget_Features.addItems(self.columns)
                     #Make all elements checkable
                     for i in range(self.T1_ListWidget_Features.count()):
                         item = self.T1_ListWidget_Features.item(i)
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
+
+                    self.freqs.sort()
+
 
                 else:
                     self.warningPopupMessage(message="Only one common frequency found across %d selected files" % n_files_selected,
