@@ -38,30 +38,7 @@ class DynamicMplCanvas(MplCanvas):
         self.compute_initial_figure()
 
     def compute_initial_figure(self):
-        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4])
-        self.test1()
-        #self.update_figure([0, 1, 2, 3], [{"values": [0, 1, 2, 3], "label": "Test.xlsx"},{"values" : [4,0,2,3], "label" : "Test2.xlsx" }])
-
-    def test1(self):
-        # Build a list of 4 random integers between 0 and 10 (both inclusive)
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.clear()
-        self.axes.plot([0, 1, 2, 3], l, label="test1.xlsx")
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.plot([0, 1, 2, 3], l, label="test2.xlsx")
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.plot([0, 1, 2, 3], l, label="test3.xlsx")
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.plot([0, 1, 2, 3], l, label="test4.xlsx")
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.plot([0, 1, 2, 3], l, label="test5.xlsx")
-        l = np.random.uniform(0, 10, size=4)
-        self.axes.plot([0, 1, 2, 3], l, label="test6.xlsx")
-        self.axes.set_xlabel("Freq (Hz)")
-        self.axes.set_ylabel("Time taken (seconds)")
-        self.axes.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=2, mode="expand", borderaxespad=0.)
-       #self.draw()
+        self.axes.plot([0, 1, 2, 3], [1, 1, 1, 1])
 
     def update_figure(self, xindex, plotlist, ylabel=""):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
