@@ -12,14 +12,21 @@ from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
                              QWidget, QTableWidgetItem, QFileDialog)
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import numpy as np
 import sys
 import time
 import traceback
 
 # Imports from qtapp
 from dynamicmplcanvas import DynamicMplCanvas
-from qtapp.utils import constants, helper
-from qtapp.utils.errorhandling import errorDialogOnException
+
+try:
+    from qtapp.utils import constants, helper
+    from qtapp.utils.errorhandling import errorDialogOnException
+except:
+    from utils import constants, helper
+    from utils.errorhandling import errorDialogOnException
+
 
 def excepthook(excType, excValue, tracebackobj):
     """
@@ -77,11 +84,12 @@ class Ui(QtWidgets.QMainWindow):
         # Dynamically load .ui file
         uic.loadUi('interface.ui', self)
 
-        # Create data structure to hold information about files
+        # Create data structure to hold information about files and configuration file
         self.data = {}
+        self.config = helper.create_blank_config()
+        self.statusBar().showMessage('Load Files or Configuration File to Begin...')
 
         # Create matplotlib widget
-
         self.vbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
         self.navi_toolbar = NavigationToolbar(self.MplCanvas, self)
@@ -94,21 +102,14 @@ class Ui(QtWidgets.QMainWindow):
         self.freqs = []
         self.min_freq, self.max_freq = 0, 100
 
-        # Clear table for files and labels (add rows to table dynamically)
-        self.n_files = 0
-        self.T1_TableWidget_Files.setRowCount(self.n_files)
         #self.T1_TableWidget_Files.setFocusPolicy(QtCore.Qt.NoFocus)
 
         # Ensure each item in the ListWidget has an unchecked box next to it
         for index in range(self.T2_ListWidget_Models.count()):
             self.T2_ListWidget_Models.item(index).setCheckState(QtCore.Qt.Unchecked)
 
-        # Clear table for features/columns (add features/columns to list dynamically)
-        self.T1_ListWidget_Features.clear()
-
         # Disable 'Load Labels File...' button until user selects Label Files By CSV File
         self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
-
         self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(self.T1_selectLabelLoadMode)
 
 
@@ -120,12 +121,20 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
         self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_updateCounter)
         self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_updateCounter)
+
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
 
         # Connect 'Ingest Files' button
         self.T1_Button_IngestFiles.clicked.connect(self.T1_ingestFiles)
+
+        # Connect 'Create Dataset' button
+        self.T1_Button_CreateDataset.clicked.connect(self.T1_createDataset)
+
+        # Connect 'Save Configuration File' button
+        self.T1_Button_SaveConfigurationFile.clicked.connect(self.T1_saveConfigurationFile)
+
 
     def T1_selectLabelLoadMode(self):
         """switches between two label calling methodologies
@@ -144,6 +153,7 @@ class Ui(QtWidgets.QMainWindow):
             self.T1_Button_LoadLabelFiles.setText("Label Data")
             self.T1_Button_LoadLabelFiles.disconnect()
             self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
+
 
     def T1_Regraph(self):
         """attempts to regraph the selected range after selection
@@ -169,11 +179,6 @@ class Ui(QtWidgets.QMainWindow):
                 self.MplCanvas.update_figure(xindex=freqlist, plotlist=graphlist, ylabel=feat)
 
 
-
-
-
-
-
     def T1_setLabelsByFile(self, filename):
         """attempts to label each row by a dict constructed from a csv file
 
@@ -192,6 +197,7 @@ class Ui(QtWidgets.QMainWindow):
             self.data[Basename]["Label"] =  toDict[Basename]
         self.T1_UpdateFileList(toDict)
 
+
     def T1_setLabelsByName(self):
         """attempts to label each row by a the file name
 
@@ -205,6 +211,7 @@ class Ui(QtWidgets.QMainWindow):
         for Basename in self.data:
             self.data[Basename]["label"] = toDict[Basename]
         self.T1_UpdateFileList(toDict)
+
 
     def T1_UpdateFileList(self, labelDict):
         """updates all of the labels by matching them to a dictionary
@@ -223,7 +230,6 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_TableWidget_Files.item(i, 1).setText(str(labelDict[self.T1_TableWidget_Files.item(i, 2).text()]))
 
 
-
     def T1_UpdateFigureTest(self):
         """Just a test
 
@@ -235,6 +241,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         self.MplCanvas.update_figure([0, 1, 2, 3], [{"values": [0, 1, 2, 3], "label": "Test.xlsx"},
                                           {"values": [4, 0, 2, 3], "label": "Test2.xlsx"}])
+
 
     def T1_fileTable_createRow(self, label, file):
         """Adds new row to the file table
@@ -271,6 +278,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_TableWidget_Files.setItem(inx, 1, label)
         self.T1_TableWidget_Files.setItem(inx, 2, file)
 
+
     def T1_updateCounter(self):
         """sets the lcd to the value of the slider freq
 
@@ -281,13 +289,13 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if len(self.freqs) > 1:
-            toSet = self.T1_LCD_MinFrequency
-            toSet.display(self.freqs[self.T1_HorizontalSlider_MinFrequency.value()])
-            self.min_freq = self.freqs[self.T1_HorizontalSlider_MinFrequency.value()]
+            # Update display
+            self.T1_LCD_MinFrequency.display(self.T1_HorizontalSlider_MinFrequency.value())
+            self.T1_LCD_MaxFrequency.display(self.T1_HorizontalSlider_MaxFrequency.value())
 
-            toSet = self.T1_LCD_MaxFrequency
-            toSet.display(self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()])
-            self.max_freq = self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()]
+            # Update min/max values
+            self.min_freq = self.T1_HorizontalSlider_MinFrequency.value()
+            self.max_freq = self.T1_HorizontalSlider_MaxFrequency.value()
 
 
     def T1_checkMaxSlider(self):
@@ -306,7 +314,6 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_HorizontalSlider_MaxFrequency.setValue(1)
 
             self.T1_HorizontalSlider_MinFrequency.setValue(toSet)
-
 
 
     def T1_checkMinSlider(self):
@@ -346,9 +353,10 @@ class Ui(QtWidgets.QMainWindow):
             try:
                 self.setLabelsByFile(file)
             except Exception as e:
-                self.warningPopupMessage(message="Bad File Format", informativeText="The CSV Label file was mangled resulting in"
-                                         "an exception: {}".format(e), windowTitle="Error")
-
+                self.messagePopUp(message="Bad File Format",
+                                  informativeText="The CSV label file was mangled resulting in an exception: {}".format(e),
+                                  windowTitle="Error: Loading Label File",
+                                  type="error")
 
 
     def T1_openFiles(self):
@@ -371,7 +379,7 @@ class Ui(QtWidgets.QMainWindow):
             for f in files:
                 basename = helper.get_base_filename(f)
                 if basename not in self.data:
-                    self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
+                    self.T1_fileTable_createRow(label="", file=basename)
                     self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
 
@@ -399,7 +407,7 @@ class Ui(QtWidgets.QMainWindow):
                 for f in files:
                     basename = helper.get_base_filename(f)
                     if basename not in self.data:
-                        self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
+                        self.T1_fileTable_createRow(label="", file=basename)
                         self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
     #@errorDialogOnException(exceptions=Exception)
@@ -412,6 +420,7 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        self.statusBar().showMessage('Ingesting files...')
         n_files_selected = 0  # Keep track of this for warning message
 
         labelsOk=True
@@ -419,13 +428,12 @@ class Ui(QtWidgets.QMainWindow):
             if not self.T1_TableWidget_Files.item(i, 1).text():
                 if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
                     == QtCore.Qt.Checked:
-                        self.warningPopupMessage(message="Not all Labels filled in for selected files",
-                                         informativeText="Check selected files and try again",
-                                         windowTitle="Label Warning")
+                        self.messagePopUp(message="Not all labels filled in for selected files",
+                                          informativeText="Check selected files and try again",
+                                          windowTitle="Error: Missing Labels",
+                                          type="error")
                         labelsOk=False
                         break
-
-
 
         if(labelsOk):
             for i in range(self.T1_TableWidget_Files.rowCount()):
@@ -458,41 +466,93 @@ class Ui(QtWidgets.QMainWindow):
                 for c in constants.COLUMNS_TO_DROP:
                     self.columns.pop(self.columns.index(c))
 
-                # Sanity check (delete if working correctly)
-                print(self.columns)
-                print(self.freqs)
-
                 if len(self.freqs) > 1:
                     self.min_freq, self.max_freq = min(self.freqs), max(self.freqs)
 
+                    # Set frequency ranges
+                    self.T1_HorizontalSlider_MinFrequency.setMinimum(self.min_freq)
+                    self.T1_HorizontalSlider_MaxFrequency.setMinimum(self.min_freq)
 
-                    #set the increments to the frequency range selection
-                    self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) -1)
-                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) -1)
+                    self.T1_HorizontalSlider_MinFrequency.setMaximum(self.max_freq)
+                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(self.max_freq)
 
-                    # set list to columns selection
+                    # Set frequencies for sliders
+                    self.T1_HorizontalSlider_MinFrequency.setValue(self.min_freq)
+                    self.T1_HorizontalSlider_MaxFrequency.setValue(self.max_freq)
+
+                    # Set slider positions
+                    self.T1_HorizontalSlider_MinFrequency.setSliderPosition(0)
+                    self.T1_HorizontalSlider_MaxFrequency.setSliderPosition(len(self.freqs))
+
+                    # Set display for LCDs
+                    self.T1_LCD_MinFrequency.display(self.min_freq)
+                    self.T1_LCD_MaxFrequency.display(self.max_freq)
+
+                    # Set list to columns selection
                     self.T1_ListWidget_Features.addItems(self.columns)
-                    #Make all elements checkable
+
+                    # Make all elements checkable
                     for i in range(self.T1_ListWidget_Features.count()):
                         item = self.T1_ListWidget_Features.item(i)
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
                     self.freqs.sort()
+                    self.statusBar().showMessage('Successfully ingested %d files' % n_files_selected)
 
 
                 else:
-                    self.warningPopupMessage(message="Only one common frequency found across %d selected files" % n_files_selected,
-                                             informativeText="Check selected files and try again",
-                                             windowTitle="Frequency Warning")
+                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again' % self.T1_TableWidget_Files.rowCount())
+                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % (len(self.freqs), n_files_selected),
+                                      informativeText="Check selected files and try again",
+                                      windowTitle="Error: Not Enough Frequencies",
+                                      type="error")
 
 
+    def T1_createDataset(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        self.statusBar().showMessage("Creating dataset for model training...")
+
+        # Check for columns to use among those that are checked
+        cols_to_use = []
+        for index in range(self.T1_ListWidget_Features.count()):
+            if self.T1_ListWidget_Features.item(index).checkState() == QtCore.Qt.Checked:
+                cols_to_use.append(self.T1_ListWidget_Features.item(index).text())
+
+        # Get indices for closest frequencies
+        min_idx, max_idx = helper.index_for_freq(self.freqs, self.min_freq), helper.index_for_freq(self.freqs, self.max_freq)
+
+        # Create data set
+        self.learner_input = helper.tranpose_and_append_columns(data=self.data,
+                                                                freqs=self.freqs,
+                                                                columns=cols_to_use,
+                                                                idx_freq_ranges=(min_idx, max_idx))
+        self.statusBar().showMessage("Dataset created with %d samples and %d features" % (self.learner_input.shape[0], self.learner_input.shape[1]-1))
 
 
+    def T1_saveConfigurationFile(self):
+        """ADD
 
+        Parameters
+        ----------
 
-    # TODO: CHECK FUNCTIONALITY OF WINDOW TITLE
-    def warningPopupMessage(self, message, informativeText, windowTitle):
+        Returns
+        -------
+        """
+        if len(self.T1_Label_ExperimentName.text()) == 0:
+            self.messagePopUp(message="Experiment name not specified", informativeText="Please enter experiment name to continue", windowTitle="Error: Missing Information", type="error")
+
+        #TODO: CONTINUE HERE
+        exp_name = self.T1_Label_ExperimentName.text().replace(" ", "_")
+
+    def messagePopUp(self, message, informativeText, windowTitle, type):
         """ADD
 
         Parameters
@@ -502,20 +562,18 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
         msg.setText(message)
         msg.setInformativeText(informativeText)
         msg.setWindowTitle(windowTitle)
         msg.setStandardButtons(QMessageBox.Ok)
+        if type == "warning":
+            msg.setIcon(QMessageBox.Warning)
+        elif type == "error":
+            msg.setIcon(QMessageBox.Critical)
         msg.exec_()
-
-
-
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui()
-    window.show()
-    window.resize(1280, 960)
+    window = Ui().showMaximized()
     sys.exit(app.exec_())

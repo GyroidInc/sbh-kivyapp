@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from itertools import product
+import numpy as np
 import os
 import pandas as pd
 from sklearn.metrics import roc_auc_score, mean_squared_error
@@ -74,7 +75,6 @@ def find_unique_cols(data_dict):
     """
     data_columns = []
     for data in data_dict.values():
-        print(data)
         if data['selected']:
             data_columns.append(set(data['features'].columns))
     return list(set.intersection(*data_columns))
@@ -221,3 +221,108 @@ def calculate_metric(y_true, y_hat, type):
     else:
         if len(set(y_true)) > 2: y_true, y_hat = label_binarize(y_true), label_binarize(y_hat)
         return roc_auc_score(y_true=y_true, y_score=y_hat, average="weighted")
+
+
+def index_for_freq(freqs, freq_to_find):
+    """Returns index of closest frequency
+
+    Parameters
+    ----------
+    freqz : list or numpy array
+        Numerical frequencies
+
+    freq_to_find : float
+        Numerical frequency to find index in freqz
+
+    Returns
+    -------
+    """
+    return np.argmin(np.abs(np.asarray(freqs) - freq_to_find))
+
+
+def generate_feature_names(freqs, columns, idx_freq_ranges):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    names, start, stop = [], idx_freq_ranges[0], idx_freq_ranges[1]
+    for c in columns:
+        for f in freqs[start:stop+1]:
+            names.append(c + '_' + str(f))
+    names.append('label')
+    return names
+
+
+def tranpose_and_append_columns(data, freqs, columns, idx_freq_ranges):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    learner_input, labels, start, stop = [], [], idx_freq_ranges[0], idx_freq_ranges[1]
+
+    # Get labels
+    for ds in data.values():
+        labels.append(float(ds['label']))
+    labels = np.array(labels).reshape(-1, 1)
+
+    # Get features
+    for ds in data.values():
+        tmp = []
+        for c in columns:
+            tmp.append(ds['features'][c].values[start:stop+1].reshape(1, -1))
+        learner_input.append(np.hstack(tmp))
+    learner_input, feature_names = np.vstack(learner_input), generate_feature_names(freqs, columns, idx_freq_ranges)
+    return pd.DataFrame(np.hstack((learner_input, labels)), columns=feature_names)
+
+
+def create_blank_config():
+    return {
+        'LoadData':{
+            'ExperimentName': '',
+            'LearningTask': '',
+            'TrainSamples': '',
+            'TrainFeatures': '',
+            'Freqs': '',
+            'Columns': ''
+            },
+        'TrainModel': {
+            'Models':'',
+            'ExtraTreesHP':'',
+            'GaussianProcessHP':'',
+            'KNearestNeigborsHP':'',
+            'LinearModelHP':'',
+            'NeuralNetworkHP':'',
+            'RandomForestHP':'',
+            'SupportVectorMachineHP':'',
+            'StandardizeFeatures':'',
+            'FeatureReduction':'',
+            'TrainingMethod':'',
+            'AutomaticallyTune':'',
+            'SaveModels':'',
+            'ExtraTreesValScore':'',
+            'GaussianProcessValScore':'',
+            'KNearestNeigborsValScore':'',
+            'LinearModelValScore':'',
+            'NeuralNetworkValScore':'',
+            'RandomForestValScore':'',
+            'SupportVectorMachineValScore':''
+        },
+        'DeployModel': {
+            'TestedModels':'',
+            'ExtraTreesTestScore':'',
+            'GaussianProcessTestScore':'',
+            'KNearestNeigborsTestScore':'',
+            'LinearModelTestScore':'',
+            'NeuralNetworkTestScore':'',
+            'RandomForestTestScore':'',
+            'SupportVectorMachineTestScore':''
+        }
+    }
