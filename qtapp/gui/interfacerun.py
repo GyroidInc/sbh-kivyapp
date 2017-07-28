@@ -297,6 +297,7 @@ class Ui(QtWidgets.QMainWindow):
             self.min_freq = self.T1_HorizontalSlider_MinFrequency.value()
             self.max_freq = self.T1_HorizontalSlider_MaxFrequency.value()
 
+            self.statusBar().showMessage("""Click 'Create Dataset' to update frequencies""")
 
     def T1_checkMaxSlider(self):
         """Checks maximum value of slider
