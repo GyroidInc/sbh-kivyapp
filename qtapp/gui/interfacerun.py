@@ -162,9 +162,10 @@ class Ui(QtWidgets.QMainWindow):
                 freqlist = sorted(i for i in self.freqs if i >= self.min_freq and i <= self.max_freq)
 
                 for baseName in self.data.keys():
-                    df = self.data[baseName]["features"]
-                    vals = df.loc[df["Freq"].isin(freqlist), feat].tolist()
-                    graphlist.append({"label": baseName, "values" : vals})
+                    if self.data[baseName]["features"] is not None:
+                        df = self.data[baseName]["features"]
+                        vals = df.loc[df["Freq"].isin(freqlist), feat].tolist()
+                        graphlist.append({"label": baseName, "values" : vals})
 
                 self.MplCanvas.update_figure(xindex=freqlist, plotlist=graphlist, ylabel=feat)
 
@@ -414,29 +415,37 @@ class Ui(QtWidgets.QMainWindow):
         """
         n_files_selected = 0  # Keep track of this for warning message
 
-        labelsOk=True
+        allOk=True
+        checkcnt = 0
         for i in range(self.T1_TableWidget_Files.rowCount()):
-            if not self.T1_TableWidget_Files.item(i, 1).text():
-                if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
+            print(i)
+            if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                     == QtCore.Qt.Checked:
+                checkcnt += 1
+                if not self.T1_TableWidget_Files.item(i, 1).text():
                         self.warningPopupMessage(message="Not all Labels filled in for selected files",
                                          informativeText="Check selected files and try again",
                                          windowTitle="Label Warning")
-                        labelsOk=False
+                        allOk = False
                         break
 
+        if checkcnt < 2:
+            allOk = False
+            self.warningPopupMessage(
+                message="%d file(s) selected" % checkcnt,
+                informativeText="select more files. Must be at least 2.",
+                windowTitle="Warning")
 
-
-        if(labelsOk):
+        if(allOk):
+            n_files_selected = 0
             for i in range(self.T1_TableWidget_Files.rowCount()):
-
+                # Grab label and basename from table
+                label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
                 # If checked, load file into memory
                 if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
                         == QtCore.Qt.Checked:
-
+                    print("checked")
                     n_files_selected += 1
-                    # Grab label and basename from table
-                    label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
 
                     # Load data set and label
                     self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
@@ -444,11 +453,12 @@ class Ui(QtWidgets.QMainWindow):
                     self.data[basename]['selected'] = True
 
                 else:
-                    if 'features' in self.data[basename]:
-                        del self.data[basename]['features']
-
+                    self.data[basename]['features'] = None
                     self.data[basename]['selected'] = False
 
+
+
+            print(n_files_selected)
             # Check for intersection of columns and frequencies
             if n_files_selected > 0:
                 self.columns = helper.find_unique_cols(self.data)
@@ -485,6 +495,11 @@ class Ui(QtWidgets.QMainWindow):
                     self.warningPopupMessage(message="Only one common frequency found across %d selected files" % n_files_selected,
                                              informativeText="Check selected files and try again",
                                              windowTitle="Frequency Warning")
+            else:
+                self.warningPopupMessage(
+                    message="Only %d file selected" % n_files_selected,
+                    informativeText="select more files",
+                    windowTitle="Warning")
 
 
 
