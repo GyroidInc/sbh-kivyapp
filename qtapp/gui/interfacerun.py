@@ -372,7 +372,7 @@ class Ui(QtWidgets.QMainWindow):
                 basename = helper.get_base_filename(f)
                 if basename not in self.data:
                     self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
-                    self.data[basename] = {'absolute_path': f, 'features': None, 'label': None}
+                    self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
 
     def T1_openDirectory(self):
@@ -400,7 +400,7 @@ class Ui(QtWidgets.QMainWindow):
                     basename = helper.get_base_filename(f)
                     if basename not in self.data:
                         self.T1_fileTable_createRow(label=helper.parse_label(f), file=basename)
-                        self.data[basename] = {'absolute_path': f, 'features': None, 'label': None}
+                        self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
     #@errorDialogOnException(exceptions=Exception)
     def T1_ingestFiles(self):
@@ -441,9 +441,13 @@ class Ui(QtWidgets.QMainWindow):
                     # Load data set and label
                     self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
                     self.data[basename]['label'] = label
+                    self.data[basename]['selected'] = True
 
                 else:
-                    continue
+                    if 'features' in self.data[basename]:
+                        del self.data[basename]['features']
+
+                    self.data[basename]['selected'] = False
 
             # Check for intersection of columns and frequencies
             if n_files_selected > 0:

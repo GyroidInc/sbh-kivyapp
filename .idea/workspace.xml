@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py" afterPath="$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/utils/helper.py" afterPath="$PROJECT_DIR$/qtapp/utils/helper.py" />
     </list>
     <ignored path=".idea/" />
     <ignored path=".idea/workspace.xml" />
@@ -17,11 +18,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5491">
-              <caret line="327" column="65" lean-forward="false" selection-start-line="327" selection-start-column="65" selection-end-line="327" selection-end-column="65" />
+            <state relative-caret-position="-578">
+              <caret line="374" column="96" lean-forward="false" selection-start-line="374" selection-start-column="96" selection-end-line="374" selection-end-column="96" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -29,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dynamicmplcanvas.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dynamicmplcanvas.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="334">
-              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -61,16 +62,6 @@
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_errmsg_.log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/gui/_errmsg_.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -110,8 +101,8 @@
       <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1496">
-              <caret line="92" column="54" lean-forward="false" selection-start-line="92" selection-start-column="30" selection-end-line="92" selection-end-column="54" />
+            <state relative-caret-position="442">
+              <caret line="90" column="19" lean-forward="false" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -144,9 +135,9 @@
         <option value="$PROJECT_DIR$/qtapp/preprocess/ingest.py" />
         <option value="$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py" />
         <option value="$PROJECT_DIR$/qtapp/gui/_errmsg_.log" />
+        <option value="$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py" />
         <option value="$PROJECT_DIR$/qtapp/utils/helper.py" />
         <option value="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
-        <option value="$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py" />
       </list>
     </option>
   </component>
@@ -416,16 +407,23 @@
       <option name="project" value="LOCAL" />
       <updated>1501124246561</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Sliders are working, and graphing is working beautifuly">
+      <created>1501191489811</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1501191489811</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10208333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10208333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769555" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3245243" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15750529" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3319239" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -863,14 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="92" column="54" lean-forward="false" selection-start-line="92" selection-start-column="30" selection-end-line="92" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -901,22 +891,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
+    <entry file="file://$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5491">
-          <caret line="327" column="65" lean-forward="false" selection-start-line="327" selection-start-column="65" selection-end-line="327" selection-end-column="65" />
+        <state relative-caret-position="334">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
-            <element signature="e#44#75#0" expanded="true" />
+            <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/gui/dynamicmplcanvas.py">
+    <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="442">
+          <caret line="90" column="19" lean-forward="false" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-578">
+          <caret line="374" column="96" lean-forward="false" selection-start-line="374" selection-start-column="96" selection-end-line="374" selection-end-column="96" />
           <folding>
-            <element signature="e#0#48#0" expanded="true" />
+            <element signature="e#44#75#0" expanded="true" />
           </folding>
         </state>
       </provider>

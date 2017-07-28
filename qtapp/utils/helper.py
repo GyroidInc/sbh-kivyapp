@@ -74,7 +74,9 @@ def find_unique_cols(data_dict):
     """
     data_columns = []
     for data in data_dict.values():
-        data_columns.append(set(data['features'].columns))
+        print(data)
+        if data['selected']:
+            data_columns.append(set(data['features'].columns))
     return list(set.intersection(*data_columns))
 
 def find_unique_freqs(data_dict):
@@ -90,7 +92,8 @@ def find_unique_freqs(data_dict):
     """
     data_freqs = []
     for data in data_dict.values():
-        data_freqs.append(set(data['features']['Freq']))
+        if data['selected']:
+            data_freqs.append(set(data['features']['Freq']))
     return list(set.intersection(*data_freqs))
 
 
