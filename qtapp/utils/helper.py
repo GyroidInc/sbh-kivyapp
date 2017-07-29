@@ -36,7 +36,7 @@ def parse_label(file):
         name, ext = os.path.splitext(file)
         return float(name.split('_')[-1])
     except:
-        return '-'
+        return ''
 
 
 def get_labels_from_filenames(files):
