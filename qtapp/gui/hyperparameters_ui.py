@@ -360,7 +360,7 @@ class HyperparametersUI(object):
             ## input
             self.input_kernel = QComboBox(self.dialog)
             self.input_kernel.setObjectName("input_kernel")
-            self.input_kernel.addItems(["RBF",
+            self.input_kernel.addItems(["Radial Basis Function",
                                         "Polynomial"])
             self.input_kernel.setEditable(True)
             self.input_kernel.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
