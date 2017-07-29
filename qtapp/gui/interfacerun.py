@@ -289,13 +289,13 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if len(self.freqs) > 1:
-            # Update display
-            self.T1_LCD_MinFrequency.display(self.T1_HorizontalSlider_MinFrequency.value())
-            self.T1_LCD_MaxFrequency.display(self.T1_HorizontalSlider_MaxFrequency.value())
+            toSet = self.T1_LCD_MinFrequency
+            toSet.display(self.freqs[self.T1_HorizontalSlider_MinFrequency.value()])
+            self.min_freq = self.freqs[self.T1_HorizontalSlider_MinFrequency.value()]
 
-            # Update min/max values
-            self.min_freq = self.T1_HorizontalSlider_MinFrequency.value()
-            self.max_freq = self.T1_HorizontalSlider_MaxFrequency.value()
+            toSet = self.T1_LCD_MaxFrequency
+            toSet.display(self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()])
+            self.max_freq = self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()]
 
             self.statusBar().showMessage("""Click 'Create Dataset' to update frequencies""")
 
@@ -421,7 +421,6 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        self.statusBar().showMessage('Ingesting files...')
         n_files_selected = 0  # Keep track of this for warning message
 
         labelsOk=True
@@ -442,6 +441,8 @@ class Ui(QtWidgets.QMainWindow):
                 # If checked, load file into memory
                 if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
                         == QtCore.Qt.Checked:
+
+                    self.statusBar().showMessage('Ingesting files...')
 
                     n_files_selected += 1
                     # Grab label and basename from table
@@ -468,14 +469,12 @@ class Ui(QtWidgets.QMainWindow):
                     self.columns.pop(self.columns.index(c))
 
                 if len(self.freqs) > 1:
+
                     self.min_freq, self.max_freq = min(self.freqs), max(self.freqs)
 
-                    # Set frequency ranges
-                    self.T1_HorizontalSlider_MinFrequency.setMinimum(self.min_freq)
-                    self.T1_HorizontalSlider_MaxFrequency.setMinimum(self.min_freq)
-
-                    self.T1_HorizontalSlider_MinFrequency.setMaximum(self.max_freq)
-                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(self.max_freq)
+                    # set the increments to the frequency range selection
+                    self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) - 1)
+                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) - 1)
 
                     # Set frequencies for sliders
                     self.T1_HorizontalSlider_MinFrequency.setValue(self.min_freq)
@@ -548,7 +547,7 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if len(self.T1_Label_ExperimentName.text()) == 0:
-            self.messagePopUp(message="Experiment name not specified", informativeText="Please enter experiment name to continue", windowTitle="Error: Missing Information", type="error")
+            self.messagePopUp(message="Experiment name not specified", informativeText="Please enter experiment name", windowTitle="Error: Missing Information", type="error")
 
         #TODO: CONTINUE HERE
         exp_name = self.T1_Label_ExperimentName.text().replace(" ", "_")
