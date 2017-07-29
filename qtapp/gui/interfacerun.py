@@ -136,6 +136,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_Button_SaveConfigurationFile.clicked.connect(self.T1_saveConfigurationFile)
 
 
+
     def T1_selectLabelLoadMode(self):
         """switches between two label calling methodologies
 
@@ -414,6 +415,7 @@ class Ui(QtWidgets.QMainWindow):
 
     #@errorDialogOnException(exceptions=Exception)
     def T1_ingestFiles(self):
+
         """Does the major data ingestion based on prestaged setting
 
         Parameters
@@ -424,31 +426,29 @@ class Ui(QtWidgets.QMainWindow):
         """
         n_files_selected = 0  # Keep track of this for warning message
 
+
         allOk=True
         checkcnt = 0
         for i in range(self.T1_TableWidget_Files.rowCount()):
             print(i)
             if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                     == QtCore.Qt.Checked:
-                        self.messagePopUp(message="Not all labels filled in for selected files",
-                                          informativeText="Check selected files and try again",
-                                          windowTitle="Error: Missing Labels",
-                                          type="error")
-                        labelsOk=False
                 checkcnt += 1
-                if not self.T1_TableWidget_Files.item(i, 1).text():
-                        self.warningPopupMessage(message="Not all Labels filled in for selected files",
-                                         informativeText="Check selected files and try again",
-                                         windowTitle="Label Warning")
-                        allOk = False
-                        break
+                if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
+
+                    self.messagePopUp(message="Not all labels filled in for selected files",
+                                      informativeText="Check selected files and try again",
+                                      windowTitle="Error: Missing Labels",
+                                      type="error")
+                    allOk = False
 
         if checkcnt < 2:
             allOk = False
-            self.warningPopupMessage(
+            self.messagePopUp(
                 message="%d file(s) selected" % checkcnt,
                 informativeText="select more files. Must be at least 2.",
-                windowTitle="Warning")
+                windowTitle="Error: Missing Labels",
+                type="error")
 
         if(allOk):
             n_files_selected = 0
@@ -489,17 +489,17 @@ class Ui(QtWidgets.QMainWindow):
                     self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) - 1)
                     self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) - 1)
 
-                    # Set frequencies for sliders
-                    self.T1_HorizontalSlider_MinFrequency.setValue(0)
-                    self.T1_HorizontalSlider_MaxFrequency.setValue(len(self.freqs) - 1)
-
                     # Set slider positions
                     self.T1_HorizontalSlider_MinFrequency.setSliderPosition(0)
                     self.T1_HorizontalSlider_MaxFrequency.setSliderPosition(len(self.freqs))
 
 
-                    #TODO:
-                    # Set display for LCDs
+                    # Set display for LCDs - sort freqs first!
+                    self.freqs.sort()
+                    self.T1_updateCounter()
+
+                    #Remove old column selections from list
+                    self.T1_ListWidget_Features.clear()
 
                     # Set list to columns selection
                     self.T1_ListWidget_Features.addItems(self.columns)
@@ -510,12 +510,12 @@ class Ui(QtWidgets.QMainWindow):
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
-                    self.freqs.sort()
+
                     self.statusBar().showMessage('Successfully ingested %d files' % n_files_selected)
 
 
                 else:
-                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again' % self.T1_TableWidget_Files.rowCount())
+                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
                     self.messagePopUp(message="Only %d common frequency found across %d selected files" % (len(self.freqs), n_files_selected),
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Not Enough Frequencies",
