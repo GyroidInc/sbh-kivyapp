@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit, QGridLayout, QSizePolicy, QMessageBox, QWidget, QDialog, QPushButton
+from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct, ExpSineSquared, Matern, RationalQuadratic, RBF
 import sys
 
 
@@ -12,7 +13,7 @@ class HyperparametersUI(object):
     Returns
     -------
     """
-    def __init__(self, model=None, type=None):
+    def __init__(self, model=None, type=None, configuration_file=None):
         # Define QDialog as modal application window
         self.dialog = QDialog()
         self.dialog.setWindowTitle(model + " : " + type)
@@ -21,6 +22,7 @@ class HyperparametersUI(object):
         self.dialog.setModal(True)
         self.model = model
         self.type = type
+        self.configuration_file = configuration_file
 
         # Define grid for layout
         self.gridLayout = QGridLayout(self.dialog)
@@ -334,7 +336,7 @@ class HyperparametersUI(object):
             self.input_solver = QComboBox(self.dialog)
             self.input_solver.setObjectName("input_solver")
             self.input_solver.addItems(["Adam",
-                                        "L-BFGS",
+                                        "LBFGS",
                                         "SGD"])
             self.input_solver.setEditable(True)
             self.input_solver.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
@@ -453,37 +455,96 @@ class HyperparametersUI(object):
         Returns
         -------
         """
-        #TODO add parser to convert text input sklearn calls --> example: Mean Squared Error becomes mse
         if self.model == "ExtraTrees" or self.model == "RandomForest":
-            return {
+            if self.type == "Regressor":
+                if self.input_criterion.currentText() == "Mean Squared Error":
+                    criterion = "mse"
+                else:
+                    criterion = "mae"
+            else:
+                criterion = self.input_criterion.currentText().lower()
+
+            if self.input_max_features.currentText() == "Sqrt(p)":
+                max_features = "sqrt"
+            elif self.input_max_features.currentText() == "Log2(p)":
+                max_features = "log2"
+            else:
+                max_features = None
+
+            params =  {
                 "n_estimators": float(self.input_n_estimators.text()),
-                "max_depth": int(self.input_max_depth.text()),
-                "criterion": self.input_criterion.currentText()
+                "max_features": max_features,
+                "criterion": criterion
             }
 
         elif self.model == "GradientBoostedTrees":
-            return {
+            if self.type == "Regressor":
+                if self.input_loss.currentText() == "Least Squares":
+                    loss = "ls"
+                else:
+                    loss = "huber"
+            else:
+                loss = self.input_loss.currentText().lower()
+
+            params = {
                 "n_estimators": float(self.input_n_estimators.text()),
                 "learning_rate": float(self.input_learning_rate.text()),
                 "subsample": float(self.input_subsample.text()),
                 "max_depth": int(self.input_max_depth.text()),
-                "loss": self.input_loss.currentText()
+                "loss": loss
             }
 
         elif self.model == "SupportVectorMachine":
-            print( {
+            params = {
                 "kernel": self.input_kernel.currentText().lower(),
                 "C": float(self.input_C.text()),
                 "gamma": float(self.input_gamma.text()),
                 "degree": int(self.input_degree.text())
-            })
+            }
 
-        # TODO: ADD REMAINDER OF MODELS HERE
+        elif self.model == "GaussianProcess":
+            if self.input_kernel.currentText() == "Radial Basis Function":
+                kernel = RBF()
+            elif self.input_kernel.currentText() == "Dot Product":
+                kernel = DotProduct()
+            elif self.input_kernel.currentText() == "Matern":
+                kernel = Matern()
+            elif self.input_kernel.currentText() == "Rational Quadratic":
+                kernel = RationalQuadratic()
+            elif self.input_kernel.currentText() == "Constant":
+                kernel = ConstantKernel()
+            else:
+                kernel = ExpSineSquared()
+
+            params = {"kernel": kernel}
+
+        elif self.model == "KNearestNeighbors":
+            params = {
+                "n_neighbors": int(self.input_n_neighbors.text()),
+                "p": int(self.input_p.text())
+            }
+
+        elif self.model == "NeuralNetwork":
+            if self.input_learning_rate.currentText() == "Inverse Scaling":
+                learning_rate = "invscaling"
+            else:
+                learning_rate = self.input_learning_rate.currentText().lower()
+
+            params = {
+                "hidden_layer_sizes": int(self.input_hidden_layer_sizes.text()),
+                "solver": self.input_solver.currentText().lower(),
+                "learning_rate": learning_rate
+            }
+
         else:
-            pass
+            params = {}
+
+        # Close dialog and return params
+        self.dialog.close()
+        self.configuration_file['TrainModel'][self.model + "HP"] = params
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = HyperparametersUI(model="SupportVectorMachine", type="Regressor")
+    window = HyperparametersUI(model="LinearModel", type="Regressor")
     sys.exit(app.exec_())

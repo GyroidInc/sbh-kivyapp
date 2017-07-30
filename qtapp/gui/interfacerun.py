@@ -21,9 +21,11 @@ import traceback
 from dynamicmplcanvas import DynamicMplCanvas
 
 try:
+    from qtapp.gui.hyperparameters_ui import HyperparametersUI
     from qtapp.utils import constants, helper
     from qtapp.utils.errorhandling import errorDialogOnException
 except:
+    from hyperparameters_ui import HyperparametersUI
     from utils import constants, helper
     from utils.errorhandling import errorDialogOnException
 
@@ -101,6 +103,7 @@ class Ui(QtWidgets.QMainWindow):
         self.columns = []
         self.freqs = []
         self.min_freq, self.max_freq = 0, 100
+        self.n_files_selected = 0
 
         #self.T1_TableWidget_Files.setFocusPolicy(QtCore.Qt.NoFocus)
 
@@ -134,6 +137,17 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect 'Save Configuration File' button
         self.T1_Button_SaveConfigurationFile.clicked.connect(self.T1_saveConfigurationFile)
+
+        ## TAB 2 BUTTONS ##
+
+        # Connect 'Set Parameters' button
+        self.T2_Button_SetParameters.clicked.connect(self.T2_setParameters)
+
+        # Connect 'Begin Training' button
+        self.T2_Button_BeginTraining.clicked.connect(self.T2_beginTraining)
+
+        # Connect the 'Save Configuration File' button
+        self.T2_Button_SaveConfigurationFile.clicked.connect(self.T2_analysisLog)
 
 
     def T1_selectLabelLoadMode(self):
@@ -411,6 +425,7 @@ class Ui(QtWidgets.QMainWindow):
                         self.T1_fileTable_createRow(label="", file=basename)
                         self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
+
     #@errorDialogOnException(exceptions=Exception)
     def T1_ingestFiles(self):
         """Does the major data ingestion based on prestaged setting
@@ -421,8 +436,7 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        n_files_selected = 0  # Keep track of this for warning message
-
+        self.n_files_selected = 0
         labelsOk=True
         for i in range(self.T1_TableWidget_Files.rowCount()):
             if not self.T1_TableWidget_Files.item(i, 1).text():
@@ -439,12 +453,12 @@ class Ui(QtWidgets.QMainWindow):
             for i in range(self.T1_TableWidget_Files.rowCount()):
 
                 # If checked, load file into memory
-                if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
+                if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                         == QtCore.Qt.Checked:
 
                     self.statusBar().showMessage('Ingesting files...')
+                    self.n_files_selected += 1
 
-                    n_files_selected += 1
                     # Grab label and basename from table
                     label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
 
@@ -460,7 +474,7 @@ class Ui(QtWidgets.QMainWindow):
                     self.data[basename]['selected'] = False
 
             # Check for intersection of columns and frequencies
-            if n_files_selected > 0:
+            if self.n_files_selected > 0:
                 self.columns = helper.find_unique_cols(self.data)
                 self.freqs = helper.find_unique_freqs(self.data)
 
@@ -498,15 +512,23 @@ class Ui(QtWidgets.QMainWindow):
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
                     self.freqs.sort()
-                    self.statusBar().showMessage('Successfully ingested %d files' % n_files_selected)
+                    self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
 
 
                 else:
-                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again' % self.T1_TableWidget_Files.rowCount())
-                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % (len(self.freqs), n_files_selected),
+                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
+                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % \
+                                              (len(self.freqs), self.n_files_selected),
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Not Enough Frequencies",
                                       type="error")
+            else:
+                self.statusBar().showMessage('')
+                self.messagePopUp(message="No files to ingest",
+                                  informativeText="Add files and try again",
+                                  windowTitle="Error: No Files Selected",
+                                  type="error")
+                return
 
 
     def T1_createDataset(self):
@@ -518,6 +540,13 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        if self.n_files_selected == 0:
+            self.messagePopUp(message="No files ingested to create data set",
+                              informativeText="Ingest files and try again",
+                              windowTitle="Error: No Files Ingested",
+                              type="error")
+            return
+
         self.statusBar().showMessage("Creating dataset for model training...")
 
         # Check for columns to use among those that are checked
@@ -534,7 +563,8 @@ class Ui(QtWidgets.QMainWindow):
                                                                 freqs=self.freqs,
                                                                 columns=cols_to_use,
                                                                 idx_freq_ranges=(min_idx, max_idx))
-        self.statusBar().showMessage("Dataset created with %d samples and %d features" % (self.learner_input.shape[0], self.learner_input.shape[1]-1))
+        self.statusBar().showMessage("Dataset created with %d samples and %d features" % \
+                                     (self.learner_input.shape[0], self.learner_input.shape[1]-1))
 
 
     def T1_saveConfigurationFile(self):
@@ -547,10 +577,96 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if len(self.T1_Label_ExperimentName.text()) == 0:
-            self.messagePopUp(message="Experiment name not specified", informativeText="Please enter experiment name", windowTitle="Error: Missing Information", type="error")
+            self.messagePopUp(message="Experiment name not specified",
+                              informativeText="Please enter experiment name",
+                              windowTitle="Error: Missing Information",
+                              type="error")
 
         #TODO: CONTINUE HERE
         exp_name = self.T1_Label_ExperimentName.text().replace(" ", "_")
+
+
+    def T2_setParameters(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        #TODO: Extra Trees is ALWAYS selected by default --> fix this so error is thrown if no model selected!!!
+        try:
+            selectedModel = self.T2_ListWidget_Models.currentItem().text()
+            if selectedModel == "K-Nearest Neighbors":
+                model = "KNearestNeighbors"
+            else:
+                model = selectedModel.replace(" ", "")
+
+            HyperparametersUI(model=model, type="Regressor", configuration_file=self.config)
+            try:
+                if self.config['TrainModel'][model + "HP"]:
+                    self.statusBar().showMessage('Hyperparameters set for %s' % selectedModel)
+                    print(self.config['TrainModel'][model + "HP"])
+            except Exception as e:
+                self.messagePopUp(message="Error setting hyperparameters for %s because" % model,
+                                  informativeText=e,
+                                  windowTitle="Error: Setting Hyperparameters for %s" % model,
+                                  type="error")
+
+            # TODO: Continue from here
+
+        except:
+            self.messagePopUp(message="No model selected",
+                              informativeText="Select model and try again",
+                              windowTitle="Error: No Model Selected",
+                              type="error")
+            return
+
+
+    def T2_beginTraining(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        self.n_models_selected = 0
+        # See if any models selected
+        for i in range(self.T2_ListWidget_Models.count()):
+            if self.T2_ListWidget_Models.item(i).checkState() == QtCore.Qt.Checked:
+                self.n_models_selected += 1
+                print(self.T2_ListWidget_Models.item(i).text())
+
+        if self.n_models_selected == 0:
+            self.messagePopUp(message="No models selected for training",
+                              informativeText="Select models and try again",
+                              windowTitle="Error: No Model Selected",
+                              type="error")
+            return
+        else:
+            self.T2_TextBrowser_AnalysisLog.append("Preparing to train %d models" % self.n_models_selected)
+            if self.n_models_selected == 1:
+                self.statusBar().showMessage("Training %d machine learning model..." % self.n_models_selected)
+            else:
+                self.statusBar().showMessage("Training %d machine learning models..." % self.n_models_selected)
+
+            #TODO: Continue from here
+
+
+    def T2_analysisLog(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        return self.T2_TextBrowser_AnalysisLog.append("Appending text test...")
+
 
     def messagePopUp(self, message, informativeText, windowTitle, type):
         """ADD

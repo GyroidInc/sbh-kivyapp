@@ -297,6 +297,7 @@ def create_blank_config():
             'Models':'',
             'ExtraTreesHP':'',
             'GaussianProcessHP':'',
+            "GradientBoostedTreesHP": '',
             'KNearestNeigborsHP':'',
             'LinearModelHP':'',
             'NeuralNetworkHP':'',
@@ -309,6 +310,7 @@ def create_blank_config():
             'SaveModels':'',
             'ExtraTreesValScore':'',
             'GaussianProcessValScore':'',
+            "GradientBoostedTreesValScore": '',
             'KNearestNeigborsValScore':'',
             'LinearModelValScore':'',
             'NeuralNetworkValScore':'',
@@ -318,6 +320,7 @@ def create_blank_config():
         'DeployModel': {
             'TestedModels':'',
             'ExtraTreesTestScore':'',
+            "GradientBoostedTreesTestScore": '',
             'GaussianProcessTestScore':'',
             'KNearestNeigborsTestScore':'',
             'LinearModelTestScore':'',
