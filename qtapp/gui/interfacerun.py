@@ -150,6 +150,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T2_Button_SaveConfigurationFile.clicked.connect(self.T2_analysisLog)
 
 
+
     def T1_selectLabelLoadMode(self):
         """switches between two label calling methodologies
 
@@ -186,9 +187,10 @@ class Ui(QtWidgets.QMainWindow):
                 freqlist = sorted(i for i in self.freqs if i >= self.min_freq and i <= self.max_freq)
 
                 for baseName in self.data.keys():
-                    df = self.data[baseName]["features"]
-                    vals = df.loc[df["Freq"].isin(freqlist), feat].tolist()
-                    graphlist.append({"label": baseName, "values" : vals})
+                    if self.data[baseName]["features"] is not None:
+                        df = self.data[baseName]["features"]
+                        vals = df.loc[df["Freq"].isin(freqlist), feat].tolist()
+                        graphlist.append({"label": baseName, "values" : vals})
 
                 self.MplCanvas.update_figure(xindex=freqlist, plotlist=graphlist, ylabel=feat)
 
@@ -428,6 +430,7 @@ class Ui(QtWidgets.QMainWindow):
 
     #@errorDialogOnException(exceptions=Exception)
     def T1_ingestFiles(self):
+
         """Does the major data ingestion based on prestaged setting
 
         Parameters
@@ -436,22 +439,42 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+<<<<<<< HEAD
         self.n_files_selected = 0
         labelsOk=True
+=======
+        n_files_selected = 0  # Keep track of this for warning message
+
+
+        allOk=True
+        checkcnt = 0
+>>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
         for i in range(self.T1_TableWidget_Files.rowCount()):
-            if not self.T1_TableWidget_Files.item(i, 1).text():
-                if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState()\
+            print(i)
+            if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                     == QtCore.Qt.Checked:
-                        self.messagePopUp(message="Not all labels filled in for selected files",
-                                          informativeText="Check selected files and try again",
-                                          windowTitle="Error: Missing Labels",
-                                          type="error")
-                        labelsOk=False
-                        break
+                checkcnt += 1
+                if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
 
-        if(labelsOk):
+                    self.messagePopUp(message="Not all labels filled in for selected files",
+                                      informativeText="Check selected files and try again",
+                                      windowTitle="Error: Missing Labels",
+                                      type="error")
+                    allOk = False
+
+        if checkcnt < 2:
+            allOk = False
+            self.messagePopUp(
+                message="%d file(s) selected" % checkcnt,
+                informativeText="select more files. Must be at least 2.",
+                windowTitle="Error: Missing Labels",
+                type="error")
+
+        if(allOk):
+            n_files_selected = 0
             for i in range(self.T1_TableWidget_Files.rowCount()):
-
+                # Grab label and basename from table
+                label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
                 # If checked, load file into memory
                 if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                         == QtCore.Qt.Checked:
@@ -459,8 +482,12 @@ class Ui(QtWidgets.QMainWindow):
                     self.statusBar().showMessage('Ingesting files...')
                     self.n_files_selected += 1
 
+<<<<<<< HEAD
                     # Grab label and basename from table
                     label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
+=======
+                    n_files_selected += 1
+>>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
 
                     # Load data set and label
                     self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
@@ -468,9 +495,7 @@ class Ui(QtWidgets.QMainWindow):
                     self.data[basename]['selected'] = True
 
                 else:
-                    if 'features' in self.data[basename]:
-                        del self.data[basename]['features']
-
+                    self.data[basename]['features'] = None
                     self.data[basename]['selected'] = False
 
             # Check for intersection of columns and frequencies
@@ -490,17 +515,17 @@ class Ui(QtWidgets.QMainWindow):
                     self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) - 1)
                     self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) - 1)
 
-                    # Set frequencies for sliders
-                    self.T1_HorizontalSlider_MinFrequency.setValue(self.min_freq)
-                    self.T1_HorizontalSlider_MaxFrequency.setValue(self.max_freq)
-
                     # Set slider positions
                     self.T1_HorizontalSlider_MinFrequency.setSliderPosition(0)
                     self.T1_HorizontalSlider_MaxFrequency.setSliderPosition(len(self.freqs))
 
-                    # Set display for LCDs
-                    self.T1_LCD_MinFrequency.display(self.min_freq)
-                    self.T1_LCD_MaxFrequency.display(self.max_freq)
+
+                    # Set display for LCDs - sort freqs first!
+                    self.freqs.sort()
+                    self.T1_updateCounter()
+
+                    #Remove old column selections from list
+                    self.T1_ListWidget_Features.clear()
 
                     # Set list to columns selection
                     self.T1_ListWidget_Features.addItems(self.columns)
@@ -511,14 +536,23 @@ class Ui(QtWidgets.QMainWindow):
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
+<<<<<<< HEAD
                     self.freqs.sort()
                     self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
+=======
+
+                    self.statusBar().showMessage('Successfully ingested %d files' % n_files_selected)
+>>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
 
 
                 else:
                     self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
+<<<<<<< HEAD
                     self.messagePopUp(message="Only %d common frequency found across %d selected files" % \
                                               (len(self.freqs), self.n_files_selected),
+=======
+                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % (len(self.freqs), n_files_selected),
+>>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Not Enough Frequencies",
                                       type="error")
