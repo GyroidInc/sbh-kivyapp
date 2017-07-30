@@ -241,7 +241,6 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
     Returns
     -------
     """
-    print(widget_analysis_log)
     # Set training method for all models
     trainer = holdout if training_method == "holdout" else cross_validation
 
@@ -274,9 +273,6 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
             if current_metric < best_metric:
                 best_metric, best_model, best_params, best_scaler, best_transformer = \
                     current_metric, current_model, current_params, current_scaler, current_transformer
-                print("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
-                print("\tValidation Metric: %.4f" % best_metric)
-                print("\tHyperparameters: %s\n" % best_params)
 
                 # Update display
                 widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
@@ -287,9 +283,6 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
             if current_metric > best_metric:
                 best_metric, best_model, best_params, best_scaler, best_transformer = \
                     current_metric, current_model, current_params, current_scaler, current_transformer
-                print("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
-                print("\tValidation metric: %.4f" % best_metric)
-                print("\tHyperparameters: %s\n" % best_params)
 
                 # Update display
                 widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))

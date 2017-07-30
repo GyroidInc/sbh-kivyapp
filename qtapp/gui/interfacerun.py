@@ -814,12 +814,15 @@ class Ui(QtWidgets.QMainWindow):
 
                 # If automatically tune
                 if automatically_tune:
+                    self.T2_TextBrowser_AnalysisLog.append("Automatically tuning hyperparameters for %s using %s method, please wait..." % (model_name, training_method))
                     model = ps.get_model(learner_type=learner_type, model_name=model_name)
                     validation_metric, trained_model, trained_scaler, trained_transformer = \
                         ps.automatically_tune(X=X, y=y, learner_type=learner_type, model=model, model_name=model_name,
                                               standardize=standardize, feature_reduction_method=feature_reduction_method,
                                               training_method=training_method,
                                               widget_analysis_log=self.T2_TextBrowser_AnalysisLog)
+                else:
+                    self.T2_TextBrowser_AnalysisLog.append("Other methods not implemented currently...very soon!")
 
     def T2_analysisLog(self):
         """ADD

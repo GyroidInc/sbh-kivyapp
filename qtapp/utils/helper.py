@@ -94,7 +94,6 @@ def find_unique_freqs(data_dict):
     data_freqs = []
     for data in data_dict.values():
         if data["features"] is not None:
-            print(data)
             data_freqs.append(set(data['features']['Freq']))
     return list(set.intersection(*data_freqs))
 
