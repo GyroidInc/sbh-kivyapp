@@ -439,16 +439,11 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-<<<<<<< HEAD
         self.n_files_selected = 0
         labelsOk=True
-=======
-        n_files_selected = 0  # Keep track of this for warning message
-
-
         allOk=True
         checkcnt = 0
->>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
+
         for i in range(self.T1_TableWidget_Files.rowCount()):
             print(i)
             if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
@@ -482,12 +477,9 @@ class Ui(QtWidgets.QMainWindow):
                     self.statusBar().showMessage('Ingesting files...')
                     self.n_files_selected += 1
 
-<<<<<<< HEAD
                     # Grab label and basename from table
                     label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
-=======
-                    n_files_selected += 1
->>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
+
 
                     # Load data set and label
                     self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
@@ -536,23 +528,15 @@ class Ui(QtWidgets.QMainWindow):
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
                         self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
-<<<<<<< HEAD
                     self.freqs.sort()
                     self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
-=======
 
-                    self.statusBar().showMessage('Successfully ingested %d files' % n_files_selected)
->>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
 
 
                 else:
                     self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
-<<<<<<< HEAD
                     self.messagePopUp(message="Only %d common frequency found across %d selected files" % \
                                               (len(self.freqs), self.n_files_selected),
-=======
-                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % (len(self.freqs), n_files_selected),
->>>>>>> 957d7f8b7630f5f07570d6dfaad1a5292ed19a6f
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Not Enough Frequencies",
                                       type="error")
