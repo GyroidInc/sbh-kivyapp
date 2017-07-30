@@ -3,6 +3,7 @@ from itertools import product
 import numpy as np
 import os
 import pandas as pd
+import shutil
 from sklearn.metrics import roc_auc_score, mean_squared_error
 from sklearn.preprocessing import label_binarize
 
@@ -126,7 +127,7 @@ def hyperparameter_combinations(hyperparameter_dict):
     return hp_names, hp_combos
 
 
-def generate_hyperparameter_grid(model, type):
+def generate_hyperparameter_grid(model, learner_type):
     """Generate hyperparameter grid for specific models and learning tasks
 
     Parameters
@@ -135,8 +136,8 @@ def generate_hyperparameter_grid(model, type):
         Name of machine learning model. Valid arguments are: ExtraTrees, RandomForest, GradientBoostedTrees,
         NeuralNetwork, KNearestNeighbor, GaussianProcess, LinearModel, SupportVectorMachine
 
-    type : str
-        Type of learning task. Valid arguments are: Regressor or Classifier
+    learner_type : str
+        learner_type of learning task. Valid arguments are: Regressor or Classifier
 
     Returns
     -------
@@ -153,7 +154,7 @@ def generate_hyperparameter_grid(model, type):
                                (3) criterion: Objective function to optimize during training """
         grid = {"n_estimators": [10, 100, 200, 500],
                 "max_features": [None, "log2", "auto"]}
-        grid['criterion'] = ["mse", "mae"] if type == "Regressor" else ["gini", "entropy"]
+        grid['criterion'] = ["mse", "mae"] if learner_type == "Regressor" else ["gini", "entropy"]
 
     ### GRADIENT BOOSTED TREES ###
     elif model == "GradientBoostedTrees":
@@ -162,7 +163,7 @@ def generate_hyperparameter_grid(model, type):
                 "learning_rate": [.1, .01, .001],
                 "subsample": [1, .8],
                 "max_depth": [1, 3, 5]}
-        grid['loss'] = ["ls", "huber"] if type == "Regressor" else ["deviance", "exponential"]
+        grid['loss'] = ["ls", "huber"] if learner_type == "Regressor" else ["deviance", "exponential"]
 
     ### GAUSSIAN PROCESSES ###
     elif model == "GaussianProcess":
@@ -208,7 +209,7 @@ def generate_hyperparameter_grid(model, type):
     return grid
 
 
-def calculate_metric(y_true, y_hat, type):
+def calculate_metric(y_true, y_hat, learner_type):
     """ADD
 
     Parameters
@@ -217,7 +218,7 @@ def calculate_metric(y_true, y_hat, type):
     Returns
     -------
     """
-    if type == "Regressor":
+    if learner_type == "Regressor":
         return mean_squared_error(y_true=y_true, y_pred=y_hat)
     else:
         if len(set(y_true)) > 2: y_true, y_hat = label_binarize(y_true), label_binarize(y_hat)
@@ -284,49 +285,125 @@ def tranpose_and_append_columns(data, freqs, columns, idx_freq_ranges):
     return pd.DataFrame(np.hstack((learner_input, labels)), columns=feature_names)
 
 
+def create_directory_structure(save_directory, overwrite, configuration_file):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    SUBDIRECTORIES_TO_CREATE = ['Summary', 'Models']
+    # Directory exists and user specifies to overwrite
+    if os.path.isdir(save_directory) and overwrite:
+        shutil.rmtree(save_directory)
+
+    # Directory exists and user does not want to overwrite (so add random integer at end)
+    elif os.path.isdir(save_directory) and not overwrite:
+        valid_name = False
+        while not valid_name:
+            new_save_directory = save_directory + '_' + str(np.random.random_integers(0, 1000000, 1)[0])
+
+            # If new directory created, then break loop and save name
+            if not os.path.isdir(save_directory):
+                valid_name = True
+                break
+
+        # Overwrite save_directory name with new name and update configuration file
+        save_directory = new_save_directory
+        configuration_file['SaveDirectory'] = save_directory
+
+    # Directory does not exist
+    else:
+        pass
+
+    # Create simple directory structure
+    os.mkdir(save_directory)
+    for sub_dirs in SUBDIRECTORIES_TO_CREATE:
+        os.mkdir(os.path.join(save_directory, sub_dirs))
+
+
 def create_blank_config():
     return {
-        'LoadData':{
-            'ExperimentName': '',
-            'LearningTask': '',
-            'TrainSamples': '',
-            'TrainFeatures': '',
-            'Freqs': '',
-            'Columns': ''
-            },
-        'TrainModel': {
-            'Models':'',
-            'ExtraTreesHP':'',
-            'GaussianProcessHP':'',
-            "GradientBoostedTreesHP": '',
-            'KNearestNeigborsHP':'',
-            'LinearModelHP':'',
-            'NeuralNetworkHP':'',
-            'RandomForestHP':'',
-            'SupportVectorMachineHP':'',
-            'StandardizeFeatures':'',
-            'FeatureReduction':'',
-            'TrainingMethod':'',
-            'AutomaticallyTune':'',
-            'SaveModels':'',
-            'ExtraTreesValScore':'',
-            'GaussianProcessValScore':'',
-            "GradientBoostedTreesValScore": '',
-            'KNearestNeigborsValScore':'',
-            'LinearModelValScore':'',
-            'NeuralNetworkValScore':'',
-            'RandomForestValScore':'',
-            'SupportVectorMachineValScore':''
-        },
-        'DeployModel': {
-            'TestedModels':'',
-            'ExtraTreesTestScore':'',
-            "GradientBoostedTreesTestScore": '',
-            'GaussianProcessTestScore':'',
-            'KNearestNeigborsTestScore':'',
-            'LinearModelTestScore':'',
-            'NeuralNetworkTestScore':'',
-            'RandomForestTestScore':'',
-            'SupportVectorMachineTestScore':''
+        'SaveDirectory': '',
+        'ExperimentName': '',
+        'LearningTask': '',
+        'TrainSamples': '',
+        'TrainFeatures': '',
+        'Freqs': '',
+        'Columns': '',
+        'StandardizeFeatures': '',
+        'FeatureReduction': '',
+        'TrainingMethod': '',
+        'AutomaticallyTune': '',
+        'SaveModels': '',
+        'Models':
+            {
+                'ExtraTrees':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'GaussianProcess':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'GradientBoostedTrees':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'KNearestNeighbors':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'LinearModel':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'NeuralNetwork':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'RandomForest':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    },
+                'SupportVectorMachine':
+                    {
+                        "hyperparameters": '',
+                        "selected": False,
+                        "validation_score": '',
+                        "clf_trained_model": '',
+                        "path_trained_model": ''
+                    }
+            }
+
         }
-    }

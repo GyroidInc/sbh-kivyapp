@@ -7,11 +7,4 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 
-REGRESSORS = {"ExtraTrees": ExtraTreesRegressor,
-              "GaussianProcess": GaussianProcessRegressor,
-              "GradientBoostedTrees": GradientBoostingRegressor,
-              "KNearestNeighbors": KNeighborsRegressor,
-              "LinearModel": LinearRegression,
-              "NeuralNetwork": MLPRegressor,
-              "RandomForest": RandomForestRegressor,
-              "SupportVectorMachine": SVR}
+

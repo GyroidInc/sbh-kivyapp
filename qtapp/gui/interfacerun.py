@@ -2,17 +2,18 @@
 
 # Standard imports
 from __future__ import division
-from io import StringIO
-import csv
 
+import csv
+from io import StringIO
+import json
 import matplotlib
 matplotlib.use("Qt5Agg")
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import numpy as np
 import os
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
                              QWidget, QTableWidgetItem, QFileDialog)
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-import numpy as np
 import sys
 import time
 import traceback
@@ -24,8 +25,10 @@ try:
     from qtapp.gui.hyperparameters_ui import HyperparametersUI
     from qtapp.utils import constants, helper
     from qtapp.utils.errorhandling import errorDialogOnException
+    from qtapp.model import pipeline_specifications as ps
 except:
     from hyperparameters_ui import HyperparametersUI
+    from model import pipeline_specifications as ps
     from utils import constants, helper
     from utils.errorhandling import errorDialogOnException
 
@@ -86,6 +89,9 @@ class Ui(QtWidgets.QMainWindow):
         # Dynamically load .ui file
         uic.loadUi('interface.ui', self)
 
+        # Force tab widget to open on Tab 1
+        self.TabWidget.setCurrentIndex(0)
+
         # Create data structure to hold information about files and configuration file
         self.data = {}
         self.config = helper.create_blank_config()
@@ -104,6 +110,7 @@ class Ui(QtWidgets.QMainWindow):
         self.freqs = []
         self.min_freq, self.max_freq = 0, 100
         self.n_files_selected = 0
+        self.dataset_created = False
 
         #self.T1_TableWidget_Files.setFocusPolicy(QtCore.Qt.NoFocus)
 
@@ -439,24 +446,24 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        self.n_files_selected = 0
-        labelsOk=True
-        allOk=True
-        checkcnt = 0
+        # Define initial variables
+        self.n_files_selected, labelsOk, allOk, checkcnt = 0, True, True, 0
 
+        # COMMENT HERE
         for i in range(self.T1_TableWidget_Files.rowCount()):
-            print(i)
             if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                     == QtCore.Qt.Checked:
                 checkcnt += 1
-                if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
 
+                # COMMENT HERE
+                if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
                     self.messagePopUp(message="Not all labels filled in for selected files",
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Missing Labels",
                                       type="error")
                     allOk = False
 
+        # COMMENT HERE
         if checkcnt < 2:
             allOk = False
             self.messagePopUp(
@@ -465,11 +472,12 @@ class Ui(QtWidgets.QMainWindow):
                 windowTitle="Error: Missing Labels",
                 type="error")
 
+        # COMMENT HERE
         if(allOk):
-            n_files_selected = 0
             for i in range(self.T1_TableWidget_Files.rowCount()):
                 # Grab label and basename from table
                 label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
+
                 # If checked, load file into memory
                 if self.T1_TableWidget_Files.cellWidget(i, 0).findChild(QtWidgets.QCheckBox, "checkbox").checkState() \
                         == QtCore.Qt.Checked:
@@ -479,7 +487,6 @@ class Ui(QtWidgets.QMainWindow):
 
                     # Grab label and basename from table
                     label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
-
 
                     # Load data set and label
                     self.data[basename]['features'] = helper.load(file=self.data[basename]['absolute_path'])
@@ -491,62 +498,69 @@ class Ui(QtWidgets.QMainWindow):
                     self.data[basename]['selected'] = False
 
             # Check for intersection of columns and frequencies
-            if self.n_files_selected > 0:
-                self.columns = helper.find_unique_cols(self.data)
-                self.freqs = helper.find_unique_freqs(self.data)
-
-                # Remove columns that are usually constant
-                for c in constants.COLUMNS_TO_DROP:
-                    self.columns.pop(self.columns.index(c))
-
-                if len(self.freqs) > 1:
-
-                    self.min_freq, self.max_freq = min(self.freqs), max(self.freqs)
-
-                    # set the increments to the frequency range selection
-                    self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) - 1)
-                    self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) - 1)
-
-                    # Set slider positions
-                    self.T1_HorizontalSlider_MinFrequency.setSliderPosition(0)
-                    self.T1_HorizontalSlider_MaxFrequency.setSliderPosition(len(self.freqs))
-
-
-                    # Set display for LCDs - sort freqs first!
-                    self.freqs.sort()
-                    self.T1_updateCounter()
-
-                    #Remove old column selections from list
-                    self.T1_ListWidget_Features.clear()
-
-                    # Set list to columns selection
-                    self.T1_ListWidget_Features.addItems(self.columns)
-
-                    # Make all elements checkable
-                    for i in range(self.T1_ListWidget_Features.count()):
-                        item = self.T1_ListWidget_Features.item(i)
-                        item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
-                        self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
-
-                    self.freqs.sort()
-                    self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
-
-
-
-                else:
-                    self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
-                    self.messagePopUp(message="Only %d common frequency found across %d selected files" % \
-                                              (len(self.freqs), self.n_files_selected),
-                                      informativeText="Check selected files and try again",
-                                      windowTitle="Error: Not Enough Frequencies",
-                                      type="error")
-            else:
+            if self.n_files_selected == 0:
                 self.statusBar().showMessage('')
                 self.messagePopUp(message="No files to ingest",
                                   informativeText="Add files and try again",
                                   windowTitle="Error: No Files Selected",
                                   type="error")
                 return
+
+            # Find intersection of rows and columns
+            self.freqs = helper.find_unique_freqs(self.data)
+            self.columns = helper.find_unique_cols(self.data)
+
+            # Check if at least one frequency and column are selected
+            if len(self.freqs) == 0:
+                self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
+                self.messagePopUp(message="No common frequencies found across %d selected files" % \
+                                           self.n_files_selected,
+                                  informativeText="Check selected files and try again",
+                                  windowTitle="Error: No Common Frequencies Across Files",
+                                  type="error")
+                return
+
+            if len(self.columns) == 0:
+                self.statusBar().showMessage('Tip: Exclude files with different features/columns and try again')
+                self.messagePopUp(message="No common features/columns found across %d selected files" % \
+                                           self.n_files_selected,
+                                  informativeText="Check selected files and try again",
+                                  windowTitle="Error: No Common Features/Columns Across Files",
+                                  type="error")
+                return
+
+            # Remove columns that are usually constant
+            for c in constants.COLUMNS_TO_DROP:
+                self.columns.pop(self.columns.index(c))
+
+            # Grab min and max frequency across all data sets
+            self.min_freq, self.max_freq = min(self.freqs), max(self.freqs)
+
+            # Set the increments to the frequency range selection
+            self.T1_HorizontalSlider_MinFrequency.setMaximum(len(self.freqs) - 1)
+            self.T1_HorizontalSlider_MaxFrequency.setMaximum(len(self.freqs) - 1)
+
+            # Set slider positions
+            self.T1_HorizontalSlider_MinFrequency.setSliderPosition(0)
+            self.T1_HorizontalSlider_MaxFrequency.setSliderPosition(len(self.freqs))
+
+            # Set display for LCDs - Sort freqs first!
+            self.freqs.sort()
+            self.T1_updateCounter()
+
+            # Remove old column selections from list
+            self.T1_ListWidget_Features.clear()
+
+            # Set list to columns selection
+            self.T1_ListWidget_Features.addItems(self.columns)
+
+            # Make all elements checkable
+            for i in range(self.T1_ListWidget_Features.count()):
+                item = self.T1_ListWidget_Features.item(i)
+                item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+                self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
+
+            self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
 
 
     def T1_createDataset(self):
@@ -558,6 +572,7 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        # Make sure at least one file selected
         if self.n_files_selected == 0:
             self.messagePopUp(message="No files ingested to create data set",
                               informativeText="Ingest files and try again",
@@ -573,6 +588,14 @@ class Ui(QtWidgets.QMainWindow):
             if self.T1_ListWidget_Features.item(index).checkState() == QtCore.Qt.Checked:
                 cols_to_use.append(self.T1_ListWidget_Features.item(index).text())
 
+        # Make sure at least one column selected
+        if len(cols_to_use) == 0:
+            self.messagePopUp(message="No features/columns select",
+                              informativeText="Select one or more features/columns and try again",
+                              windowTitle="Error: No Features/Columns Selected",
+                              type="error")
+            return
+
         # Get indices for closest frequencies
         min_idx, max_idx = helper.index_for_freq(self.freqs, self.min_freq), helper.index_for_freq(self.freqs, self.max_freq)
 
@@ -583,6 +606,11 @@ class Ui(QtWidgets.QMainWindow):
                                                                 idx_freq_ranges=(min_idx, max_idx))
         self.statusBar().showMessage("Dataset created with %d samples and %d features" % \
                                      (self.learner_input.shape[0], self.learner_input.shape[1]-1))
+        self.dataset_created = True
+
+        # Update configuration file
+        self.config['TrainSamples'], self.config['TrainFeatures'] = self.learner_input.shape
+        self.config['Freqs'], self.config['Columns'] = self.freqs[min_idx:max_idx + 1], cols_to_use
 
 
     def T1_saveConfigurationFile(self):
@@ -599,9 +627,55 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Please enter experiment name",
                               windowTitle="Error: Missing Information",
                               type="error")
+            return
 
-        #TODO: CONTINUE HERE
-        exp_name = self.T1_Label_ExperimentName.text().replace(" ", "_")
+        if not self.dataset_created:
+            self.messagePopUp(message="Dataset not created",
+                              informativeText="Please create dataset",
+                              windowTitle="Error: Missing Information",
+                              type="error")
+            return
+
+        # Set experiment name
+        try:
+            self.config['ExperimentName'] = self.T1_Label_ExperimentName.text().replace(" ", "_")
+        except Exception as e:
+            self.messagePopUp(message="Error setting experiment name because:",
+                              informativeText=e,
+                              windowTitle="Error: Unable to Set Experiment Name",
+                              type="error")
+
+        # Set learning task based on label type (categorical = Classifier, continuous = Regressor)
+        self.config['LearningTask'] = "Regressor" if self.T1_RadioButton_ContinuousLabels.isChecked() else "Classifier"
+
+        # 'Safely' go up two directories and save all files related to current experiment run in 'sbh-qtapp' +
+        # experiment name directory
+        self.config['SaveDirectory'] = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                                                    self.config['ExperimentName'])
+
+        # Create directory structure for current experiment
+        if os.path.isdir(self.config['SaveDirectory']):
+            overwriteFiles = self.messagePopUp(message="Directory already exists for experiment: \n%s" % \
+                                                       self.config['SaveDirectory'],
+                                               informativeText="Do you want to overwrite files?",
+                                               windowTitle="Warning: Directory Already Exists",
+                                               type="warning",
+                                               question=True)
+            overwriteStatus = False if overwriteFiles == QMessageBox.No else True
+        else:
+            overwriteStatus = False
+        helper.create_directory_structure(save_directory=self.config['SaveDirectory'],
+                                          overwrite=overwriteStatus,
+                                          configuration_file=self.config)
+
+
+        self.messagePopUp(message="Successfully saved configuration file for experiment %s" % self.config['ExperimentName'],
+                          informativeText="Ready to select models for training",
+                          windowTitle="Saved Configuration File",
+                          type="information")
+
+        # Force tab widget to open on Tab 2
+        self.TabWidget.setCurrentIndex(1)
 
 
     def T2_setParameters(self):
@@ -613,31 +687,30 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        #TODO: Extra Trees is ALWAYS selected by default --> fix this so error is thrown if no model selected!!!
-        try:
-            selectedModel = self.T2_ListWidget_Models.currentItem().text()
-            if selectedModel == "K-Nearest Neighbors":
-                model = "KNearestNeighbors"
-            else:
-                model = selectedModel.replace(" ", "")
-
-            HyperparametersUI(model=model, type="Regressor", configuration_file=self.config)
-            try:
-                if self.config['TrainModel'][model + "HP"]:
-                    self.statusBar().showMessage('Hyperparameters set for %s' % selectedModel)
-                    print(self.config['TrainModel'][model + "HP"])
-            except Exception as e:
-                self.messagePopUp(message="Error setting hyperparameters for %s because" % model,
-                                  informativeText=e,
-                                  windowTitle="Error: Setting Hyperparameters for %s" % model,
-                                  type="error")
-
-            # TODO: Continue from here
-
-        except:
+        if not self.T2_ListWidget_Models.currentItem():
             self.messagePopUp(message="No model selected",
                               informativeText="Select model and try again",
                               windowTitle="Error: No Model Selected",
+                              type="error")
+            return
+
+        # Grab current model name
+        selectedModel = self.T2_ListWidget_Models.currentItem().text()
+        if selectedModel == "K-Nearest Neighbors":
+            model = "KNearestNeighbors"
+        else:
+            model = selectedModel.replace(" ", "")
+
+        # Run UI for user to select hyperparameters
+        HyperparametersUI(model=model, configuration_file=self.config)
+
+        try:
+            if self.config['Models'][model]['hyperparameters']:
+                self.statusBar().showMessage('Hyperparameters set for %s' % selectedModel)
+        except Exception as e:
+            self.messagePopUp(message="Error setting hyperparameters for %s because" % model,
+                              informativeText=e,
+                              windowTitle="Error: Setting Hyperparameters for %s" % model,
                               type="error")
             return
 
@@ -651,12 +724,30 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        self.n_models_selected = 0
+        # Keep track of number of models selected and define models to train
+        self.n_models_selected, self.models_to_train, models_without_hypers = 0, {}, 0
+
         # See if any models selected
         for i in range(self.T2_ListWidget_Models.count()):
             if self.T2_ListWidget_Models.item(i).checkState() == QtCore.Qt.Checked:
+
+                # Grab model name
+                selectedModel = self.T2_ListWidget_Models.item(i).text()
+                if selectedModel == "K-Nearest Neighbors":
+                    model = "KNearestNeighbors"
+                else:
+                    model = selectedModel.replace(" ", "")
+
+                # Update configuration file to flag that current model should be trained
+                self.config['Models'][model]['selected'] = True
+
+                # If not automatically tuning, check if hyperparameters specified; if not set to default sklearn params
+                if not self.config['AutomaticallyTune']:
+                    if len(self.config['Models'][model]['hyperparameters']) == 0:
+                        self.config['Models'][model]['hyperparameters'] = {}
+                        models_without_hypers += 1
+
                 self.n_models_selected += 1
-                print(self.T2_ListWidget_Models.item(i).text())
 
         if self.n_models_selected == 0:
             self.messagePopUp(message="No models selected for training",
@@ -664,15 +755,71 @@ class Ui(QtWidgets.QMainWindow):
                               windowTitle="Error: No Model Selected",
                               type="error")
             return
+
+        # Set configuration file to parameters from pipeline specifications
+
+        # Standardize features
+        if self.T2_ComboBox_StandardizeFeatures.currentText() == "Yes":
+            self.config['StandardizeFeatures'] = True
         else:
-            self.T2_TextBrowser_AnalysisLog.append("Preparing to train %d models" % self.n_models_selected)
-            if self.n_models_selected == 1:
-                self.statusBar().showMessage("Training %d machine learning model..." % self.n_models_selected)
-            else:
-                self.statusBar().showMessage("Training %d machine learning models..." % self.n_models_selected)
+            self.config['StandardizeFeatures'] = False
 
-            #TODO: Continue from here
+        # Feature reduction (convert to lower-case if not None)
+        if self.T2_ComboBox_FeatureReduction.currentText() == "None":
+            self.config['FeatureReduction'] = None
+        else:
+            self.config['FeatureReduction'] = self.T2_ComboBox_FeatureReduction.currentText().lower()
 
+        # Training method (convert to lower-case)
+        self.config['TrainingMethod'] = self.T2_ComboBox_TrainingMethod.currentText().lower()
+
+        # Automatically tune
+        if self.T2_ComboBox_AutomaticallyTune.currentText() == "Yes":
+            self.config['AutomaticallyTune'] = True
+        else:
+            self.config['AutomaticallyTune'] = False
+
+        # Save models
+        if self.T2_ComboBox_SaveModels.currentText() == "Yes":
+            self.config['SaveModels'] = True
+        else:
+            self.config['SaveModels'] = False
+
+        # If not automatically tuning, inform user which model(s) specified with default hyperparameters
+        if not self.config['AutomaticallyTune'] and models_without_hypers > 0:
+            self.messagePopUp(message="%d models selected and hyperparameters for %d of these models were not specified" % \
+                                      (self.n_models_selected, models_without_hypers),
+                              informativeText="Hyperparameters set to default values",
+                              windowTitle="Setting Default Hyperparameters",
+                              type="information")
+
+        # PRINT SUMMARY INFORMATION HERE ABOUT ANALYSIS BEFORE IT STARTS
+        self.T2_TextBrowser_AnalysisLog.append("Preparing to train %d models" % self.n_models_selected)
+        if self.n_models_selected == 1:
+            self.statusBar().showMessage("Training %d machine learning model..." % self.n_models_selected)
+        else:
+            self.statusBar().showMessage("Training %d machine learning models..." % self.n_models_selected)
+
+        # Grab information from configuration file
+        learner_type = self.config['LearningTask']
+        standardize = self.config['StandardizeFeatures']
+        feature_reduction_method = self.config['FeatureReduction']
+        training_method = self.config['TrainingMethod']
+        automatically_tune = self.config['AutomaticallyTune']
+        X, y = self.learner_input.iloc[:, :-1], self.learner_input.iloc[:, -1]
+
+        # Loop over models and train
+        for model_name, model_information in self.config['Models'].items():
+            if model_information['selected']:
+
+                # If automatically tune
+                if automatically_tune:
+                    model = ps.get_model(learner_type=learner_type, model_name=model_name)
+                    validation_metric, trained_model, trained_scaler, trained_transformer = \
+                        ps.automatically_tune(X=X, y=y, learner_type=learner_type, model=model, model_name=model_name,
+                                              standardize=standardize, feature_reduction_method=feature_reduction_method,
+                                              training_method=training_method,
+                                              widget_analysis_log=self.T2_TextBrowser_AnalysisLog)
 
     def T2_analysisLog(self):
         """ADD
@@ -686,7 +833,7 @@ class Ui(QtWidgets.QMainWindow):
         return self.T2_TextBrowser_AnalysisLog.append("Appending text test...")
 
 
-    def messagePopUp(self, message, informativeText, windowTitle, type):
+    def messagePopUp(self, message, informativeText, windowTitle, type, question=False):
         """ADD
 
         Parameters
@@ -699,12 +846,22 @@ class Ui(QtWidgets.QMainWindow):
         msg.setText(message)
         msg.setInformativeText(informativeText)
         msg.setWindowTitle(windowTitle)
-        msg.setStandardButtons(QMessageBox.Ok)
+
         if type == "warning":
             msg.setIcon(QMessageBox.Warning)
         elif type == "error":
             msg.setIcon(QMessageBox.Critical)
-        msg.exec_()
+        else:
+            msg.setIcon(QMessageBox.Information)
+
+        if question:
+            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            return msg.exec_()
+        else:
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+
+
 
 
 if __name__ == '__main__':

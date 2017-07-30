@@ -13,16 +13,18 @@ class HyperparametersUI(object):
     Returns
     -------
     """
-    def __init__(self, model=None, type=None, configuration_file=None):
+    def __init__(self, model=None, configuration_file=None):
         # Define QDialog as modal application window
         self.dialog = QDialog()
-        self.dialog.setWindowTitle(model + " : " + type)
         self.dialog.setObjectName("Dialog")
         self.dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         self.dialog.setModal(True)
         self.model = model
-        self.type = type
+        self.type = configuration_file['LearningTask']
         self.configuration_file = configuration_file
+
+        # Set window title
+        self.dialog.setWindowTitle(self.model + " : " + self.type)
 
         # Define grid for layout
         self.gridLayout = QGridLayout(self.dialog)
@@ -101,7 +103,7 @@ class HyperparametersUI(object):
             ## input
             self.input_criterion = QComboBox()
             self.input_criterion.setObjectName("input_criterion")
-            if type == "Regressor":
+            if self.type == "Regressor":
                 self.input_criterion.addItems(["Mean Squared Error", "Mean Absolute Error"])
             else:
                 self.input_criterion.addItems(["Gini Index", "Entropy"])
@@ -227,7 +229,7 @@ class HyperparametersUI(object):
             ## input
             self.input_loss = QComboBox()
             self.input_loss.setObjectName("input_loss")
-            if type == "Regressor":
+            if self.type == "Regressor":
                 self.input_loss.addItems(["Least Squares",
                                           "Huber"])
             else:
@@ -541,7 +543,7 @@ class HyperparametersUI(object):
 
         # Close dialog and return params
         self.dialog.close()
-        self.configuration_file['TrainModel'][self.model + "HP"] = params
+        self.configuration_file['Models'][self.model]['hyperparameters'] = params
 
 
 if __name__ == "__main__":
