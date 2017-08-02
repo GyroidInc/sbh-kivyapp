@@ -3,7 +3,9 @@ from itertools import product
 import numpy as np
 import os
 import pandas as pd
+from PyQt5.QtWidgets import QMessageBox
 import shutil
+from sklearn.externals import joblib
 from sklearn.metrics import roc_auc_score, mean_squared_error
 from sklearn.preprocessing import label_binarize
 
@@ -323,6 +325,53 @@ def create_directory_structure(save_directory, overwrite, configuration_file):
         os.mkdir(os.path.join(save_directory, sub_dirs))
 
 
+def messagePopUp(message, informativeText, windowTitle, type, question=False):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    msg = QMessageBox()
+    msg.setText(message)
+    msg.setInformativeText(informativeText)
+    msg.setWindowTitle(windowTitle)
+
+    if type == "warning":
+        msg.setIcon(QMessageBox.Warning)
+    elif type == "error":
+        msg.setIcon(QMessageBox.Critical)
+    else:
+        msg.setIcon(QMessageBox.Information)
+
+    if question:
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        return msg.exec_()
+    else:
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+
+
+def serialize_trained_model(model_name, trained_learner, path_to_model, configuration_file):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    try:
+        joblib.dump(trained_learner, path_to_model)
+    except Exception as e:
+        messagePopUp(message="Error saving model %s because" % model_name,
+                     informativeText=e,
+                     windowTitle="Error: Saving Trained Model",
+                     type="error")
+
+
 def create_blank_config():
     return {
         'SaveDirectory': '',
@@ -344,64 +393,64 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'GaussianProcess':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'GradientBoostedTrees':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'KNearestNeighbors':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'LinearModel':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'NeuralNetwork':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'RandomForest':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     },
                 'SupportVectorMachine':
                     {
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_model": '',
-                        "path_trained_model": ''
+                        "clf_trained_learner": '',
+                        "path_trained_learner": ''
                     }
             }
 

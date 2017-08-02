@@ -13,23 +13,25 @@ from sklearn.svm import SVC, SVR
 
 # Other imports
 import numpy as np
+import pandas as pd
 from sklearn.decomposition import FastICA, PCA
 from sklearn.feature_selection import SelectFromModel
-from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct, ExpSineSquared, Matern, RationalQuadratic, RBF
 from sklearn.model_selection import KFold, ShuffleSplit, StratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 
 
 try:
+    from qtapp.model.builder import ModelBuilder
     from qtapp.utils import helper
 except:
+    from model.builder import ModelBuilder
     from utils import helper
 
 
 __description__ = """Functions to handle pipeline specifications on Tab 2: Train Model"""
 
 
-def get_model(learner_type, model_name):
+def get_model(learner_type, model_name, hyperparameters):
     """ADD
 
     Parameters
@@ -56,7 +58,8 @@ def get_model(learner_type, model_name):
                   "RandomForest": RandomForestRegressor,
                   "SupportVectorMachine": SVR}
 
-    return CLASSIFIERS[model_name] if learner_type == "Classifier" else REGRESSORS[model_name]
+    return CLASSIFIERS[model_name](**hyperparameters) if learner_type == "Classifier" else \
+        REGRESSORS[model_name](**hyperparameters)
 
 
 def standardize_features(X, scaler=None):
@@ -122,7 +125,9 @@ def feature_reduction(X, learner_type, method, y=None, transformer=None):
             return transformer.transform(X), transformer
 
 
-def cross_validation(X, y, learner_type, model, standardize=True, feature_reduction_method=None, k=3):
+def cross_validation(X, y, learner_type, model_name, model=None, standardize=True, feature_reduction_method=None,
+                     widget_analysis_log=None, save_path=None, configuration_file=None,
+                     verbose=False):
     """ADD
 
     Parameters
@@ -131,6 +136,11 @@ def cross_validation(X, y, learner_type, model, standardize=True, feature_reduct
     Returns
     -------
     """
+    if model is None:
+        # Get model based on learning task and model name and instantiate
+        model = get_model(learner_type=learner_type, model_name=model_name,
+                          hyperparameters= configuration_file["Models"][model_name]["hyperparameters"])
+
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
         if isinstance(y, pd.DataFrame):
@@ -138,17 +148,32 @@ def cross_validation(X, y, learner_type, model, standardize=True, feature_reduct
         else:
             y = y.ravel()  # assume a numpy array then
 
-    # Create k-fold cross-validation object based on learning task
-    scores, fold = np.zeros(k), 0
-    cv = KFold(n_splits=k) if learner_type == "Regressor" else StratifiedKFold(n_splits=k)
+    # Update display
+    if verbose:
+        widget_analysis_log.append("------------------------------")
+        widget_analysis_log.append("Training %s using cross-validation method with hyperparameters\n%s" % \
+                                   (model_name, (model.get_params(),)))
+
+    # Create 3-fold cross-validation object based on learning task
+    scores, fold = np.zeros(3), 0
+    cv = KFold(n_splits=3) if learner_type == "Regressor" else StratifiedKFold(n_splits=3)
     for train_index, test_index in cv.split(X, y):
 
+        if verbose:
+            widget_analysis_log.append("\n\tFold %d" % (fold+1))
+
        # Split into train/test and features/labels
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
+        if isinstance(X, pd.DataFrame):
+            X_train, X_test = X.iloc[train_index,:], X.iloc[test_index,:]
+            y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        else:
+            X_train, X_test = X[train_index], X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
 
         # Standardize features if specified
         if standardize:
+            if verbose:
+                widget_analysis_log.append("\tStandardizing features...")
             X_train, scaler = standardize_features(X=X_train)
             X_test = standardize_features(X=X_test, scaler=scaler)
         else:
@@ -156,6 +181,8 @@ def cross_validation(X, y, learner_type, model, standardize=True, feature_reduct
 
         # Reduce features if specified
         if feature_reduction_method:
+            if verbose:
+                widget_analysis_log.append("\tPerforming feature reduction...")
             X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
                                                      y=y_train, transformer=None)
             X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
@@ -164,22 +191,60 @@ def cross_validation(X, y, learner_type, model, standardize=True, feature_reduct
             transformer = None
 
         # Train model
+        if verbose:
+            widget_analysis_log.append("\tTraining model...")
         model.fit(X_train, y_train)
 
         # Get predictions and metric on test fold
         scores[fold] = score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
+        if verbose:
+            widget_analysis_log.append("\tValidation metric: %f" % scores[fold])
         fold += 1
 
+    if verbose:
+        widget_analysis_log.append("\n\tOverall validation metric across folds: %f" % scores.mean())
+
     # Refit on all data now and return parameters
+    if verbose:
+        widget_analysis_log.append("\tRetraining model on all data...")
+
     if standardize: scaler = standardize_features(X=X)
     if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
                                                                  y=y, transformer=None)
 
     model.fit(X, y)
-    return scores.mean(), model, scaler, transformer
+
+    # Package model into an object that holds the trained model, scaler, and transformer
+    trained_learner = ModelBuilder(model_name=model_name,
+                                   trained_model=model,
+                                   trained_scaler=scaler,
+                                   trained_transformer=transformer)
+
+    # Save model if specified
+    if save_path:
+        helper.serialize_trained_model(model_name=model_name,
+                                       trained_learner=trained_learner,
+                                       path_to_model=save_path,
+                                       configuration_file=configuration_file)
+        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+        if verbose:
+            widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
+
+    # Update configuration file
+    configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+    configuration_file["Models"][model_name]["validation_score"] = scores.mean()
+    configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+    # If not verbose, then automatically_tune is calling the method and needs return arguments
+    if verbose:
+        widget_analysis_log.append("\tConfiguration file updated")
+        widget_analysis_log.append("------------------------------\n")
+    else:
+        return scores.mean(), model, scaler, transformer
 
 
-def holdout(X, y, learner_type, model, standardize=True, feature_reduction_method=None, test_size=.33):
+def holdout(X, y, learner_type, model_name, model=None, standardize=True, feature_reduction_method=None,
+            widget_analysis_log=None, save_path=None, configuration_file=None, verbose=False):
     """ADD
 
     Parameters
@@ -188,6 +253,11 @@ def holdout(X, y, learner_type, model, standardize=True, feature_reduction_metho
     Returns
     -------
     """
+    if model is None:
+        # Get model based on learning task and model name and instantiate
+        model = get_model(learner_type=learner_type, model_name=model_name,
+                          hyperparameters= configuration_file["Models"][model_name]["hyperparameters"])
+
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
         if isinstance(y, pd.DataFrame):
@@ -197,12 +267,20 @@ def holdout(X, y, learner_type, model, standardize=True, feature_reduction_metho
 
     # Split into train/test and features/labels (account for stratification if classification task)
     if learner_type == "Regressor":
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33)
     else:
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, stratify=y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33, stratify=y)
+
+    # Update display
+    if verbose:
+        widget_analysis_log.append("------------------------------")
+        widget_analysis_log.append("Training %s using holdout method with hyperparameters\n%s" % \
+                                   (model_name, (model.get_params(),)))
 
     # Standardize features if specified
     if standardize:
+        if verbose:
+            widget_analysis_log.append("\tStandardizing features...")
         X_train, scaler = standardize_features(X=X_train)
         X_test = standardize_features(X=X_test, scaler=scaler)
     else:
@@ -210,6 +288,9 @@ def holdout(X, y, learner_type, model, standardize=True, feature_reduction_metho
 
     # Reduce features if specified
     if feature_reduction_method:
+        if verbose:
+            widget_analysis_log.append("\tPerforming feature reduction...")
+
         X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
                                                  y=y_train, transformer=None)
         X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
@@ -218,21 +299,57 @@ def holdout(X, y, learner_type, model, standardize=True, feature_reduction_metho
         transformer = None
 
     # Train model
+    if verbose:
+        widget_analysis_log.append("\tTraining model and calculating validation metric on holdout set...")
     model.fit(X_train, y_train)
 
     # Get predictions and metric on test fold
-    score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
+    metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
+    if verbose:
+        widget_analysis_log.append("\tValidation metric: %f" % metric)
 
     # Refit on all data now and return parameters
+    if verbose:
+        widget_analysis_log.append("\tRetraining model on all data...")
+
     if standardize: scaler = standardize_features(X=X)
     if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
                                                                  y=y, transformer=None)
     model.fit(X, y)
-    return score, model, scaler, transformer
+
+    # Package model into an object that holds the trained model, scaler, and transformer
+    trained_learner = ModelBuilder(model_name=model_name,
+                                   trained_model=model,
+                                   trained_scaler=scaler,
+                                   trained_transformer=transformer)
+
+    # Save model if specified
+    if save_path:
+        helper.serialize_trained_model(model_name=model_name,
+                                       trained_learner=trained_learner,
+                                       path_to_model=save_path,
+                                       configuration_file=configuration_file)
+        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+        if verbose:
+            widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
+
+    # Update configuration file
+    if verbose:
+        configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+        configuration_file["Models"][model_name]["validation_score"] = metric
+        configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+    # If not verbose, then automatically_tune is calling the method and needs return arguments
+    if verbose:
+        widget_analysis_log.append("\tConfiguration file updated")
+        widget_analysis_log.append("------------------------------\n")
+    else:
+        return metric, model, scaler, transformer
 
 
-def automatically_tune(X, y, learner_type, model, model_name, standardize=True, feature_reduction_method=None,
-                       training_method="holdout", widget_analysis_log=None):
+def automatically_tune(X, y, learner_type, model_name, standardize=True, feature_reduction_method=None,
+                       training_method="holdout", widget_analysis_log=None, save_path=None,
+                       configuration_file=None):
     """ADD
 
     Parameters
@@ -241,6 +358,11 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
     Returns
     -------
     """
+    # Update display
+    widget_analysis_log.append("------------------------------")
+    widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method" % \
+                               (model_name, training_method))
+
     # Set training method for all models
     trainer = holdout if training_method == "holdout" else cross_validation
 
@@ -264,9 +386,12 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
             current_params[hp_name] = hp_combos[n][i]
 
         # Grab metric based on training method
+        model = get_model(learner_type=learner_type, model_name=model_name, hyperparameters=current_params)
         current_metric, current_model, current_scaler, current_transformer \
-            = trainer(X=X, y=y, learner_type=learner_type, model=model(**current_params),
-                      standardize=standardize, feature_reduction_method=feature_reduction_method)
+            = trainer(X=X, y=y, learner_type=learner_type, model_name=model_name, model=model,
+                      standardize=standardize, feature_reduction_method=feature_reduction_method,
+                      widget_analysis_log=widget_analysis_log, save_path=save_path,
+                      configuration_file=configuration_file, verbose=False)
 
         # Compare current_metric to best_metric based on learning task
         if learner_type == "Regressor":
@@ -294,7 +419,27 @@ def automatically_tune(X, y, learner_type, model, model_name, standardize=True, 
     widget_analysis_log.append("\tValidation Metric: %.4f" % best_metric)
     widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
 
-    return best_metric, best_model, best_scaler, best_transformer
+    # Package model into an object that holds the trained model, scaler, and transformer
+    trained_learner = ModelBuilder(model_name=model_name,
+                                   trained_model=best_model,
+                                   trained_scaler=best_scaler,
+                                   trained_transformer=best_transformer)
+
+    # Save model if specified
+    if save_path:
+        helper.serialize_trained_model(model_name=model_name,
+                                       trained_learner=trained_learner,
+                                       path_to_model=save_path,
+                                       configuration_file=configuration_file)
+        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+
+    # Update configuration file
+    configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+    configuration_file["Models"][model_name]["validation_score"] = best_metric
+    configuration_file["Models"][model_name]["hyperparameters"] = best_params
+
+    widget_analysis_log.append("\tConfiguration file updated\n")
+    widget_analysis_log.append("------------------------------\n")
 
 
 if __name__ == "__main__":

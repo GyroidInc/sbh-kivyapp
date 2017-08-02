@@ -15,6 +15,7 @@ from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
                              QWidget, QTableWidgetItem, QFileDialog)
 import sys
+from threading import Thread
 import time
 import traceback
 
@@ -377,7 +378,7 @@ class Ui(QtWidgets.QMainWindow):
             try:
                 self.setLabelsByFile(file)
             except Exception as e:
-                self.messagePopUp(message="Bad File Format",
+                helper.messagePopUp(message="Bad File Format",
                                   informativeText="The CSV label file was mangled resulting in an exception: {}".format(e),
                                   windowTitle="Error: Loading Label File",
                                   type="error")
@@ -457,7 +458,7 @@ class Ui(QtWidgets.QMainWindow):
 
                 # COMMENT HERE
                 if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
-                    self.messagePopUp(message="Not all labels filled in for selected files",
+                    helper.messagePopUp(message="Not all labels filled in for selected files",
                                       informativeText="Check selected files and try again",
                                       windowTitle="Error: Missing Labels",
                                       type="error")
@@ -466,7 +467,7 @@ class Ui(QtWidgets.QMainWindow):
         # COMMENT HERE
         if checkcnt < 2:
             allOk = False
-            self.messagePopUp(
+            helper.messagePopUp(
                 message="%d file(s) selected" % checkcnt,
                 informativeText="select more files. Must be at least 2.",
                 windowTitle="Error: Missing Labels",
@@ -500,7 +501,7 @@ class Ui(QtWidgets.QMainWindow):
             # Check for intersection of columns and frequencies
             if self.n_files_selected == 0:
                 self.statusBar().showMessage('')
-                self.messagePopUp(message="No files to ingest",
+                helper.messagePopUp(message="No files to ingest",
                                   informativeText="Add files and try again",
                                   windowTitle="Error: No Files Selected",
                                   type="error")
@@ -513,7 +514,7 @@ class Ui(QtWidgets.QMainWindow):
             # Check if at least one frequency and column are selected
             if len(self.freqs) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
-                self.messagePopUp(message="No common frequencies found across %d selected files" % \
+                helper.messagePopUp(message="No common frequencies found across %d selected files" % \
                                            self.n_files_selected,
                                   informativeText="Check selected files and try again",
                                   windowTitle="Error: No Common Frequencies Across Files",
@@ -522,7 +523,7 @@ class Ui(QtWidgets.QMainWindow):
 
             if len(self.columns) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different features/columns and try again')
-                self.messagePopUp(message="No common features/columns found across %d selected files" % \
+                helper.messagePopUp(message="No common features/columns found across %d selected files" % \
                                            self.n_files_selected,
                                   informativeText="Check selected files and try again",
                                   windowTitle="Error: No Common Features/Columns Across Files",
@@ -574,7 +575,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         # Make sure at least one file selected
         if self.n_files_selected == 0:
-            self.messagePopUp(message="No files ingested to create data set",
+            helper.messagePopUp(message="No files ingested to create data set",
                               informativeText="Ingest files and try again",
                               windowTitle="Error: No Files Ingested",
                               type="error")
@@ -590,7 +591,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Make sure at least one column selected
         if len(cols_to_use) == 0:
-            self.messagePopUp(message="No features/columns select",
+            helper.messagePopUp(message="No features/columns select",
                               informativeText="Select one or more features/columns and try again",
                               windowTitle="Error: No Features/Columns Selected",
                               type="error")
@@ -623,14 +624,14 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if len(self.T1_Label_ExperimentName.text()) == 0:
-            self.messagePopUp(message="Experiment name not specified",
+            helper.messagePopUp(message="Experiment name not specified",
                               informativeText="Please enter experiment name",
                               windowTitle="Error: Missing Information",
                               type="error")
             return
 
         if not self.dataset_created:
-            self.messagePopUp(message="Dataset not created",
+            helper.messagePopUp(message="Dataset not created",
                               informativeText="Please create dataset",
                               windowTitle="Error: Missing Information",
                               type="error")
@@ -640,7 +641,7 @@ class Ui(QtWidgets.QMainWindow):
         try:
             self.config['ExperimentName'] = self.T1_Label_ExperimentName.text().replace(" ", "_")
         except Exception as e:
-            self.messagePopUp(message="Error setting experiment name because:",
+            helper.messagePopUp(message="Error setting experiment name because:",
                               informativeText=e,
                               windowTitle="Error: Unable to Set Experiment Name",
                               type="error")
@@ -655,7 +656,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Create directory structure for current experiment
         if os.path.isdir(self.config['SaveDirectory']):
-            overwriteFiles = self.messagePopUp(message="Directory already exists for experiment: \n%s" % \
+            overwriteFiles = helper.messagePopUp(message="Directory already exists for experiment: \n%s" % \
                                                        self.config['SaveDirectory'],
                                                informativeText="Do you want to overwrite files?",
                                                windowTitle="Warning: Directory Already Exists",
@@ -669,7 +670,7 @@ class Ui(QtWidgets.QMainWindow):
                                           configuration_file=self.config)
 
 
-        self.messagePopUp(message="Successfully saved configuration file for experiment %s" % self.config['ExperimentName'],
+        helper.messagePopUp(message="Successfully saved configuration file for experiment %s" % self.config['ExperimentName'],
                           informativeText="Ready to select models for training",
                           windowTitle="Saved Configuration File",
                           type="information")
@@ -688,7 +689,7 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         if not self.T2_ListWidget_Models.currentItem():
-            self.messagePopUp(message="No model selected",
+            helper.messagePopUp(message="No model selected",
                               informativeText="Select model and try again",
                               windowTitle="Error: No Model Selected",
                               type="error")
@@ -708,7 +709,7 @@ class Ui(QtWidgets.QMainWindow):
             if self.config['Models'][model]['hyperparameters']:
                 self.statusBar().showMessage('Hyperparameters set for %s' % selectedModel)
         except Exception as e:
-            self.messagePopUp(message="Error setting hyperparameters for %s because" % model,
+            helper.messagePopUp(message="Error setting hyperparameters for %s because" % model,
                               informativeText=e,
                               windowTitle="Error: Setting Hyperparameters for %s" % model,
                               type="error")
@@ -748,9 +749,19 @@ class Ui(QtWidgets.QMainWindow):
                         models_without_hypers += 1
 
                 self.n_models_selected += 1
+            else:
+                # Grab model name
+                selectedModel = self.T2_ListWidget_Models.item(i).text()
+                if selectedModel == "K-Nearest Neighbors":
+                    model = "KNearestNeighbors"
+                else:
+                    model = selectedModel.replace(" ", "")
+
+                # Model not selected to set to False
+                self.config['Models'][model]['selected'] = False
 
         if self.n_models_selected == 0:
-            self.messagePopUp(message="No models selected for training",
+            helper.messagePopUp(message="No models selected for training",
                               informativeText="Select models and try again",
                               windowTitle="Error: No Model Selected",
                               type="error")
@@ -787,18 +798,19 @@ class Ui(QtWidgets.QMainWindow):
 
         # If not automatically tuning, inform user which model(s) specified with default hyperparameters
         if not self.config['AutomaticallyTune'] and models_without_hypers > 0:
-            self.messagePopUp(message="%d models selected and hyperparameters for %d of these models were not specified" % \
+            helper.messagePopUp(message="%d models selected and hyperparameters for %d of these models were not specified" % \
                                       (self.n_models_selected, models_without_hypers),
                               informativeText="Hyperparameters set to default values",
                               windowTitle="Setting Default Hyperparameters",
                               type="information")
 
         # PRINT SUMMARY INFORMATION HERE ABOUT ANALYSIS BEFORE IT STARTS
-        self.T2_TextBrowser_AnalysisLog.append("Preparing to train %d models" % self.n_models_selected)
         if self.n_models_selected == 1:
-            self.statusBar().showMessage("Training %d machine learning model..." % self.n_models_selected)
+            self.T2_TextBrowser_AnalysisLog.append("Training %d machine learning model..." % self.n_models_selected)
+            self.statusBar().showMessage("Training %d machine learning model, please wait..." % self.n_models_selected)
         else:
-            self.statusBar().showMessage("Training %d machine learning models..." % self.n_models_selected)
+            self.T2_TextBrowser_AnalysisLog.append("Training %d machine learning models..." % self.n_models_selected)
+            self.statusBar().showMessage("Training %d machine learning models, please wait..." % self.n_models_selected)
 
         # Grab information from configuration file
         learner_type = self.config['LearningTask']
@@ -812,17 +824,31 @@ class Ui(QtWidgets.QMainWindow):
         for model_name, model_information in self.config['Models'].items():
             if model_information['selected']:
 
+                if self.config["SaveModels"]:
+                    save_path = os.path.join(os.path.join(self.config["SaveDirectory"], "Models"), model_name)
+                else:
+                    save_path = None
+
                 # If automatically tune
                 if automatically_tune:
-                    self.T2_TextBrowser_AnalysisLog.append("Automatically tuning hyperparameters for %s using %s method, please wait..." % (model_name, training_method))
-                    model = ps.get_model(learner_type=learner_type, model_name=model_name)
-                    validation_metric, trained_model, trained_scaler, trained_transformer = \
-                        ps.automatically_tune(X=X, y=y, learner_type=learner_type, model=model, model_name=model_name,
-                                              standardize=standardize, feature_reduction_method=feature_reduction_method,
-                                              training_method=training_method,
-                                              widget_analysis_log=self.T2_TextBrowser_AnalysisLog)
+                    # Start in separate thread
+                    Thread(target=ps.automatically_tune, args=(X, y, learner_type, model_name, standardize, feature_reduction_method,
+                                                               training_method, self.T2_TextBrowser_AnalysisLog, save_path,
+                                                               self.config)).start()
+
+                # Otherwise train using holdout or cross-validation
                 else:
-                    self.T2_TextBrowser_AnalysisLog.append("Other methods not implemented currently...very soon!")
+                    if training_method == "holdout":
+                        Thread(target=ps.holdout, args=(X, y, learner_type, model_name, None, standardize, feature_reduction_method,
+                                                        self.T2_TextBrowser_AnalysisLog, save_path, self.config, True)).start()
+                    else:
+                        Thread(target=ps.cross_validation, args=(X, y, learner_type, model_name, None, standardize, feature_reduction_method,
+                                                        self.T2_TextBrowser_AnalysisLog, save_path, self.config, True)).start()
+
+        self.statusBar().showMessage("Model training complete")
+        self.T2_TextBrowser_AnalysisLog.append("\nModel training complete\n")
+
+
 
     def T2_analysisLog(self):
         """ADD
@@ -834,36 +860,6 @@ class Ui(QtWidgets.QMainWindow):
         -------
         """
         return self.T2_TextBrowser_AnalysisLog.append("Appending text test...")
-
-
-    def messagePopUp(self, message, informativeText, windowTitle, type, question=False):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
-        msg = QMessageBox()
-        msg.setText(message)
-        msg.setInformativeText(informativeText)
-        msg.setWindowTitle(windowTitle)
-
-        if type == "warning":
-            msg.setIcon(QMessageBox.Warning)
-        elif type == "error":
-            msg.setIcon(QMessageBox.Critical)
-        else:
-            msg.setIcon(QMessageBox.Information)
-
-        if question:
-            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-            return msg.exec_()
-        else:
-            msg.setStandardButtons(QMessageBox.Ok)
-            msg.exec_()
-
 
 
 
