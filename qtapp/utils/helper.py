@@ -111,7 +111,7 @@ def load(file):
     Returns
     -------
     """
-    return pd.ExcelFile(os.path.join(file)).parse('Data', header = 3)
+    return pd.ExcelFile(os.path.join(file)).parse('Data', header=3)
 
 
 def hyperparameter_combinations(hyperparameter_dict):
@@ -323,6 +323,23 @@ def create_directory_structure(save_directory, overwrite, configuration_file):
     os.mkdir(save_directory)
     for sub_dirs in SUBDIRECTORIES_TO_CREATE:
         os.mkdir(os.path.join(save_directory, sub_dirs))
+
+
+def check_categorical_labels(labels):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    unique_labels = set(labels)
+    counts = []
+    for y in unique_labels:
+        counts.append(np.sum(labels == y))
+    counts = np.asarray(counts)
+    return np.sum(counts < 3)
 
 
 def messagePopUp(message, informativeText, windowTitle, type, question=False):

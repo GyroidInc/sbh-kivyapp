@@ -238,6 +238,7 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
     # If not verbose, then automatically_tune is calling the method and needs return arguments
     if verbose:
         widget_analysis_log.append("\tConfiguration file updated")
+        widget_analysis_log.append("\nModel training complete\n")
         widget_analysis_log.append("------------------------------\n")
     else:
         return scores.mean(), model, scaler, transformer
@@ -342,13 +343,14 @@ def holdout(X, y, learner_type, model_name, model=None, standardize=True, featur
     # If not verbose, then automatically_tune is calling the method and needs return arguments
     if verbose:
         widget_analysis_log.append("\tConfiguration file updated")
+        widget_analysis_log.append("\nModel training complete\n")
         widget_analysis_log.append("------------------------------\n")
     else:
         return metric, model, scaler, transformer
 
 
 def automatically_tune(X, y, learner_type, model_name, standardize=True, feature_reduction_method=None,
-                       training_method="holdout", widget_analysis_log=None, save_path=None,
+                       training_method="holdout", widget_analysis_log=None, status_bar=None, save_path=None,
                        configuration_file=None):
     """ADD
 
@@ -439,52 +441,5 @@ def automatically_tune(X, y, learner_type, model_name, standardize=True, feature
     configuration_file["Models"][model_name]["hyperparameters"] = best_params
 
     widget_analysis_log.append("\tConfiguration file updated\n")
+    widget_analysis_log.append("\nModel training complete\n")
     widget_analysis_log.append("------------------------------\n")
-
-
-if __name__ == "__main__":
-
-    # Simple tests
-    from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, RandomForestRegressor, ExtraTreesRegressor
-
-    ### Classifier ###
-
-    # Generate data
-    X, y = np.random.normal(0, 1, (100, 30)), np.random.binomial(1, .5, 100)
-
-    # Create two simple models
-    models = {"ExtraTrees": ExtraTreesClassifier, 'RandomForest': RandomForestClassifier}
-
-    # Iterate over standardization, feature reduction, and training method
-    for std in [True, False]:
-        for fr in ["PCA", "FR", None]:
-            for tr in ["holdout", "cv"]:
-                automatically_tune(X=X,
-                                   y=y,
-                                   learner_type="Classifier",
-                                   models=models,
-                                   standardize=std,
-                                   feature_reduction_method=fr,
-                                   training_method=tr)
-
-    ### Regressor ###
-
-    # Generate data
-    X, y = np.random.normal(0, 1, (100, 30)), np.random.normal(0, 1, 100)
-
-    # Create two simple models
-    models = {"ExtraTrees": ExtraTreesRegressor, 'RandomForest': RandomForestRegressor}
-
-    # Iterate over standardization, feature reduction, and training method
-    for std in [True, False]:
-        for fr in ["PCA", "FR", None]:
-            for tr in ["holdout", "cv"]:
-                automatically_tune(X=X,
-                                   y=y,
-                                   learner_type="Regressor",
-                                   models=models,
-                                   standardize=std,
-                                   feature_reduction_method=fr,
-                                   training_method=tr)
-
-    print("Pseudo-Tests passed")

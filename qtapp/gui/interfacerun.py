@@ -20,14 +20,15 @@ import time
 import traceback
 
 # Imports from qtapp
-from dynamicmplcanvas import DynamicMplCanvas
 
 try:
     from qtapp.gui.hyperparameters_ui import HyperparametersUI
+    from qtapp.gui.dynamicmplcanvas import DynamicMplCanvas
+    from qtapp.model import pipeline_specifications as ps
     from qtapp.utils import constants, helper
     from qtapp.utils.errorhandling import errorDialogOnException
-    from qtapp.model import pipeline_specifications as ps
 except:
+    from dynamicmplcanvas import DynamicMplCanvas
     from hyperparameters_ui import HyperparametersUI
     from model import pipeline_specifications as ps
     from utils import constants, helper
@@ -98,6 +99,10 @@ class Ui(QtWidgets.QMainWindow):
         self.config = helper.create_blank_config()
         self.statusBar().showMessage('Load Files or Configuration File to Begin...')
 
+        # Set experiment names on Tab 2 and Tab 3
+        self.T2_Label_ExperimentName.setText("No Experiment Name Saved in Configuration File")
+        self.T3_Label_ExperimentName.setText("No Experiment Name Saved in Configuration File")
+
         # Create matplotlib widget
         self.vbox = QtWidgets.QVBoxLayout()
         self.MplCanvas = DynamicMplCanvas()
@@ -133,6 +138,19 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_updateCounter)
         self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_updateCounter)
 
+        ## MENU ITEM BUTTONS ##
+
+        # Connect the menu item 'Save Configuration File'
+        self.FileItem_SaveConfigurationFile.triggered.connect(self.saveConfigurationFile)
+
+        # Connect the menu item 'Load Configuration File'
+        self.FileItem_LoadConfigurationFile.triggered.connect(self.loadConfigurationFile)
+
+        # Connect the menu item 'Exit'
+        self.FileItem_Exit.triggered.connect(self.exitApplication)
+
+        ## TAB 1 BUTTONS ##
+
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
@@ -155,8 +173,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T2_Button_BeginTraining.clicked.connect(self.T2_beginTraining)
 
         # Connect the 'Save Configuration File' button
-        self.T2_Button_SaveConfigurationFile.clicked.connect(self.T2_analysisLog)
-
+        self.T2_Button_SaveConfigurationFile.clicked.connect(self.saveConfigurationFile)
 
 
     def T1_selectLabelLoadMode(self):
@@ -231,6 +248,14 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        if self.T1_TableWidget_Files.rowCount() == 0:
+            helper.messagePopUp(message="No files loaded",
+                                informativeText="Please load files and try again",
+                                windowTitle="Error: No Files Selected",
+                                type="error")
+            self.statusBar().showMessage("Error: No Files Selected")
+            return
+
         toDict = dict(zip(self.data.keys(), helper.get_labels_from_filenames(self.data.keys())))
         for Basename in self.data:
             self.data[Basename]["label"] = toDict[Basename]
@@ -247,7 +272,6 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-
         for i in range(self.T1_TableWidget_Files.rowCount()):
             # Grab label and basename from table
             if self.T1_TableWidget_Files.item(i, 2).text() in labelDict:
@@ -320,8 +344,8 @@ class Ui(QtWidgets.QMainWindow):
             toSet = self.T1_LCD_MaxFrequency
             toSet.display(self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()])
             self.max_freq = self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()]
-
             self.statusBar().showMessage("""Click 'Create Dataset' to update frequencies""")
+
 
     def T1_checkMaxSlider(self):
         """Checks maximum value of slider
@@ -369,6 +393,14 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        if self.T1_TableWidget_Files.rowCount() == 0:
+            helper.messagePopUp(message="No files loaded",
+                                informativeText="Please load files and try again",
+                                windowTitle="Error: No Files Selected",
+                                type="error")
+            self.statusBar().showMessage("Error: No Files Selected")
+            return
+
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
@@ -474,7 +506,7 @@ class Ui(QtWidgets.QMainWindow):
                 type="error")
 
         # COMMENT HERE
-        if(allOk):
+        if allOk:
             for i in range(self.T1_TableWidget_Files.rowCount()):
                 # Grab label and basename from table
                 label, basename = self.T1_TableWidget_Files.item(i, 1).text(), self.T1_TableWidget_Files.item(i, 2).text()
@@ -505,6 +537,7 @@ class Ui(QtWidgets.QMainWindow):
                                   informativeText="Add files and try again",
                                   windowTitle="Error: No Files Selected",
                                   type="error")
+                self.statusBar().showMessage("Error: No Files Selected")
                 return
 
             # Find intersection of rows and columns
@@ -519,6 +552,7 @@ class Ui(QtWidgets.QMainWindow):
                                   informativeText="Check selected files and try again",
                                   windowTitle="Error: No Common Frequencies Across Files",
                                   type="error")
+                self.statusBar().showMessage("Error: No Common Frequencies Across Files")
                 return
 
             if len(self.columns) == 0:
@@ -528,6 +562,7 @@ class Ui(QtWidgets.QMainWindow):
                                   informativeText="Check selected files and try again",
                                   windowTitle="Error: No Common Features/Columns Across Files",
                                   type="error")
+                self.statusBar().showMessage("Error: No Common Features/Columns Across Files")
                 return
 
             # Remove columns that are usually constant
@@ -579,6 +614,7 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Ingest files and try again",
                               windowTitle="Error: No Files Ingested",
                               type="error")
+            self.statusBar().showMessage("Error: No Files Ingested")
             return
 
         self.statusBar().showMessage("Creating dataset for model training...")
@@ -595,6 +631,7 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Select one or more features/columns and try again",
                               windowTitle="Error: No Features/Columns Selected",
                               type="error")
+            self.statusBar().showMessage("Error: No Features/Columns Selected")
             return
 
         # Get indices for closest frequencies
@@ -628,6 +665,7 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Please enter experiment name",
                               windowTitle="Error: Missing Information",
                               type="error")
+            self.statusBar().showMessage("Error: Missing Information")
             return
 
         if not self.dataset_created:
@@ -635,13 +673,14 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Please create dataset",
                               windowTitle="Error: Missing Information",
                               type="error")
+            self.statusBar().showMessage("Error: Missing Information")
             return
 
         # Set experiment name
         try:
             self.config['ExperimentName'] = self.T1_Label_ExperimentName.text().replace(" ", "_")
         except Exception as e:
-            helper.messagePopUp(message="Error setting experiment name because:",
+            helper.messagePopUp(message="Error setting experiment name because",
                               informativeText=e,
                               windowTitle="Error: Unable to Set Experiment Name",
                               type="error")
@@ -669,11 +708,8 @@ class Ui(QtWidgets.QMainWindow):
                                           overwrite=overwriteStatus,
                                           configuration_file=self.config)
 
-
-        helper.messagePopUp(message="Successfully saved configuration file for experiment %s" % self.config['ExperimentName'],
-                          informativeText="Ready to select models for training",
-                          windowTitle="Saved Configuration File",
-                          type="information")
+        # Save configuration file
+        self.saveConfigurationFile()
 
         # Force tab widget to open on Tab 2
         self.TabWidget.setCurrentIndex(1)
@@ -693,6 +729,7 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Select model and try again",
                               windowTitle="Error: No Model Selected",
                               type="error")
+            self.statusBar().showMessage("Error: No Model Selected")
             return
 
         # Grab current model name
@@ -713,6 +750,8 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText=e,
                               windowTitle="Error: Setting Hyperparameters for %s" % model,
                               type="error")
+            self.statusBar().showMessage("Error: Setting Hyperparameters for %s" % model)
+
             return
 
 
@@ -725,6 +764,25 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        # Check and make sure number of samples is sufficient for training
+        if self.config["LearningTask"] == "Classifier":
+            n_classes_lt3 = helper.check_categorical_labels(labels=self.learner_input.iloc[:, -1])
+            if n_classes_lt3:
+                helper.messagePopUp(message="Need at least three samples per class for classifier models",
+                                    informativeText="%d classes with less than three samples" % n_classes_lt3,
+                                    windowTitle="Error: Not Enough Samples Per Class",
+                                    type = "error")
+                self.statusBar().showMessage("Error: Not Enough Samples Per Class")
+                return
+        else:
+            if self.learner_input.shape[0] < 3:
+                helper.messagePopUp(message="Need at least three samples for regression models",
+                                    informativeText="%d samples found" % self.learner_input.shape[0],
+                                    windowTitle="Error: Not Enough Samples",
+                                    type = "error")
+                self.statusBar().showMessage("Error: Not Enough Samples")
+                return
+
         # Keep track of number of models selected and define models to train
         self.n_models_selected, self.models_to_train, models_without_hypers = 0, {}, 0
 
@@ -765,6 +823,7 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText="Select models and try again",
                               windowTitle="Error: No Model Selected",
                               type="error")
+            self.statusBar().showMessage("Error: No Model Selected")
             return
 
         # Set configuration file to parameters from pipeline specifications
@@ -807,10 +866,10 @@ class Ui(QtWidgets.QMainWindow):
         # PRINT SUMMARY INFORMATION HERE ABOUT ANALYSIS BEFORE IT STARTS
         if self.n_models_selected == 1:
             self.T2_TextBrowser_AnalysisLog.append("Training %d machine learning model..." % self.n_models_selected)
-            self.statusBar().showMessage("Training %d machine learning model, please wait..." % self.n_models_selected)
+            self.statusBar().showMessage("Training %d machine learning model, see log for details" % self.n_models_selected)
         else:
             self.T2_TextBrowser_AnalysisLog.append("Training %d machine learning models..." % self.n_models_selected)
-            self.statusBar().showMessage("Training %d machine learning models, please wait..." % self.n_models_selected)
+            self.statusBar().showMessage("Training %d machine learning models, see log for details" % self.n_models_selected)
 
         # Grab information from configuration file
         learner_type = self.config['LearningTask']
@@ -842,15 +901,12 @@ class Ui(QtWidgets.QMainWindow):
                         Thread(target=ps.holdout, args=(X, y, learner_type, model_name, None, standardize, feature_reduction_method,
                                                         self.T2_TextBrowser_AnalysisLog, save_path, self.config, True)).start()
                     else:
-                        Thread(target=ps.cross_validation, args=(X, y, learner_type, model_name, None, standardize, feature_reduction_method,
-                                                        self.T2_TextBrowser_AnalysisLog, save_path, self.config, True)).start()
-
-        self.statusBar().showMessage("Model training complete")
-        self.T2_TextBrowser_AnalysisLog.append("\nModel training complete\n")
+                        Thread(target=ps.cross_validation, args=(X, y, learner_type, model_name, None, standardize,
+                                                                 feature_reduction_method, self.T2_TextBrowser_AnalysisLog,
+                                                                 save_path, self.config, True)).start()
 
 
-
-    def T2_analysisLog(self):
+    def saveConfigurationFile(self):
         """ADD
 
         Parameters
@@ -859,8 +915,83 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        return self.T2_TextBrowser_AnalysisLog.append("Appending text test...")
+        if len(self.config["ExperimentName"]) == 0:
+            helper.messagePopUp(message="Experiment name not specified",
+                                informativeText="Please enter experiment name and save configuration file",
+                                windowTitle="Error: Missing Information",
+                                type="error")
+            self.statusBar().showMessage("Error: Missing Information")
+            return
 
+        try:
+            # Save configuration file
+            json.dump(self.config, open(os.path.join(self.config['SaveDirectory'], 'configuration.json'), 'w'))
+
+            # Update status bar
+            self.statusBar().showMessage("Successfully saved configuration file for experiment %s" % \
+                                         self.config['ExperimentName'])
+
+            # Update experiment name on Tab 2 and Tab 3
+            self.T2_Label_ExperimentName.setText(self.config['ExperimentName'])
+            self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
+        except Exception as e:
+            helper.messagePopUp(message="Error saving configuration file because",
+                                informativeText=e,
+                                windowTitle="Error: Saving Configuration File",
+                                type="error")
+            self.statusBar().showMessage("Error: Saving Configuration File")
+            return
+
+
+    def loadConfigurationFile(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file = QFileDialog.getOpenFileName(self, "Load: Configuration file", "",
+                                            "Configuration files (*.json)",
+                                            options=options)
+        if file[0]:
+            try:
+                self.config = json.load(open(file[0], 'r'))
+                self.statusBar().showMessage("Configuration file loaded for %s" % self.config["ExperimentName"])
+                self.T1_Label_ExperimentName.setText(self.config["ExperimentName"])
+                self.T2_Label_ExperimentName.setText(self.config['ExperimentName'])
+                self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
+            except Exception as e:
+                helper.messagePopUp(message="Error loading configuration file %s because" % file[0],
+                                    informativeText=e,
+                                    windowTitle="Error: Loading Configuration File",
+                                    type="error")
+                self.statusBar().showMessage("Error: Loading Configuration File")
+                return
+
+
+
+    def exitApplication(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        answer = helper.messagePopUp(message="Are you sure you want to exit?",
+                                     informativeText="Please make sure to save configuration file",
+                                     windowTitle="Exit Application",
+                                     type="warning",
+                                     question=True)
+        if answer == QMessageBox.Yes:
+            sys.exit(0)
+        else:
+            pass
 
 
 if __name__ == '__main__':
