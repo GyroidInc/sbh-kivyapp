@@ -99,6 +99,7 @@ class Ui(QtWidgets.QMainWindow):
         # Create data structure to hold information about files and configuration file
         self.data = {}
         self.config = helper.create_blank_config()
+        self.learner_input = None
         self.statusBar().showMessage('Load Files or Configuration File to Begin...')
 
         # Set experiment names on Tab 2 and Tab 3
@@ -177,9 +178,13 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the 'Save Configuration File' button
         self.T2_Button_SaveConfigurationFile.clicked.connect(self.saveConfigurationFile)
 
-        # Add a progress widget
+        # Connect the 'Clear Log' button
+        self.T2_Button_ClearLog.clicked.connect(self.T2_TextBrowser_AnalysisLog.clear)
 
+        ## TAB 3 BUTTONS ##
 
+        # Connect the 'Clear Log' button
+        self.T2_Button_ClearLog.clicked.connect(self.T3_TextBrowser_AnalysisLog.clear)
 
 
     def T1_selectLabelLoadMode(self):
@@ -241,7 +246,7 @@ class Ui(QtWidgets.QMainWindow):
             k, v = row
             toDict[k] = v
         for Basename in self.data:
-            self.data[Basename]["Label"] =  toDict[Basename]
+            self.data[Basename]["Label"] = toDict[Basename]
         self.T1_UpdateFileList(toDict)
 
 
@@ -487,7 +492,7 @@ class Ui(QtWidgets.QMainWindow):
         # Define initial variables
         progress = QtWidgets.QProgressDialog(parent=self)
         progress.setCancelButton(None)
-        progress.setLabelText('Ingesting features...')
+        progress.setLabelText('Ingesting files...')
         progress.setWindowTitle("Loading")
         progress.setMinimum(0)
         progress.setMaximum(0)
@@ -679,6 +684,7 @@ class Ui(QtWidgets.QMainWindow):
         # Update configuration file
         self.config['TrainSamples'], self.config['TrainFeatures'] = self.learner_input.shape
         self.config['Freqs'], self.config['Columns'] = self.freqs[min_idx:max_idx + 1], cols_to_use
+        self.config['LearningTask'] = "Regressor" if self.T1_RadioButton_ContinuousLabels.isChecked() else "Classifier"
 
 
     def T1_saveConfigurationFile(self):
@@ -794,6 +800,14 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        if self.learner_input is None:
+            helper.messagePopUp(message="Training data not created",
+                                informativeText="Create training dataset and try again",
+                                windowTitle="Error: No Training Data",
+                                type="error")
+            self.statusBar().showMessage("Error: No Training Data")
+            return
+
         # Check and make sure number of samples is sufficient for training
         if self.config["LearningTask"] == "Classifier":
             n_classes_lt3 = helper.check_categorical_labels(labels=self.learner_input.iloc[:, -1])
@@ -881,9 +895,19 @@ class Ui(QtWidgets.QMainWindow):
 
         # Save models
         if self.T2_ComboBox_SaveModels.currentText() == "Yes":
+            # Check and make sure configuration file was saved from Tab 1
+            if len(self.config["ExperimentName"]) == 0:
+                helper.messagePopUp(message="Configuration file not saved",
+                                    informativeText="Please save configuration file and try again",
+                                    windowTitle="Error: Configuration File Not Saved",
+                                    type = "error")
+                self.statusBar().showMessage("Error: Configuration File Not Saved")
+                return
+
             self.config['SaveModels'] = True
         else:
             self.config['SaveModels'] = False
+
 
         # If not automatically tuning, inform user which model(s) specified with default hyperparameters
         if not self.config['AutomaticallyTune'] and models_without_hypers > 0:
@@ -909,31 +933,22 @@ class Ui(QtWidgets.QMainWindow):
         automatically_tune = self.config['AutomaticallyTune']
         X, y = self.learner_input.iloc[:, :-1], self.learner_input.iloc[:, -1]
 
-        # Loop over models and train
-        for model_name, model_information in self.config['Models'].items():
-            if model_information['selected']:
+        # If automatically tune
+        if automatically_tune:
+            # Start in separate thread
+            Thread(target=ps.automatically_tune, args=(X, y, learner_type, standardize, feature_reduction_method,
+                                                       training_method, self.T2_TextBrowser_AnalysisLog,
+                                                       self.config)).start()
 
-                if self.config["SaveModels"]:
-                    save_path = os.path.join(os.path.join(self.config["SaveDirectory"], "Models"), model_name)
-                else:
-                    save_path = None
-
-                # If automatically tune
-                if automatically_tune:
-                    # Start in separate thread
-                    Thread(target=ps.automatically_tune, args=(X, y, learner_type, model_name, standardize, feature_reduction_method,
-                                                               training_method, self.T2_TextBrowser_AnalysisLog, save_path,
-                                                               self.config)).start()
-
-                # Otherwise train using holdout or cross-validation
-                else:
-                    if training_method == "holdout":
-                        Thread(target=ps.holdout, args=(X, y, learner_type, model_name, None, standardize, feature_reduction_method,
-                                                        self.T2_TextBrowser_AnalysisLog, save_path, self.config, True)).start()
-                    else:
-                        Thread(target=ps.cross_validation, args=(X, y, learner_type, model_name, None, standardize,
-                                                                 feature_reduction_method, self.T2_TextBrowser_AnalysisLog,
-                                                                 save_path, self.config, True)).start()
+        # Otherwise train using holdout or cross-validation
+        else:
+            if training_method == "holdout":
+                Thread(target=ps.holdout, args=(X, y, learner_type, standardize, feature_reduction_method,
+                                                self.T2_TextBrowser_AnalysisLog, self.config)).start()
+            else:
+                Thread(target=ps.cv, args=(X, y, learner_type, standardize,
+                                           feature_reduction_method, self.T2_TextBrowser_AnalysisLog,
+                                           self.config)).start()
 
 
     def saveConfigurationFile(self):

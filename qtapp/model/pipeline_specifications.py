@@ -13,6 +13,7 @@ from sklearn.svm import SVC, SVR
 
 # Other imports
 import numpy as np
+import os
 import pandas as pd
 from sklearn.decomposition import FastICA, PCA
 from sklearn.feature_selection import SelectFromModel
@@ -125,9 +126,40 @@ def feature_reduction(X, learner_type, method, y=None, transformer=None):
             return transformer.transform(X), transformer
 
 
-def cross_validation(X, y, learner_type, model_name, model=None, standardize=True, feature_reduction_method=None,
-                     widget_analysis_log=None, save_path=None, configuration_file=None,
-                     verbose=False):
+def feature_importance_analysis(X, y, learner_type, save_directory):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    --------
+    """
+    # Open log file for writing
+    summary = open(os.path.join(os.path.join(save_directory, "Summary")), "feature_importance_analysis.txt")
+    summary.write("Feature importance analysis conducted using random forest model\n\n")
+
+    # Define random forest for feature importance analysis and train
+    params = {'n_estimators': 200}
+    clf = RandomForestClassifier(**params) if learner_type == "Classifier" else RandomForestRegressor(**params)
+    clf.fit(X, y)
+
+    # Grab importances and sort
+    var_names = X.columns
+    importances = clf.feature_importances_
+    indices = np.argsort(importances)[::-1]
+
+    # Write all results
+    for i in range(X.shape[1]):
+        summary.write("%d. feature %d (%f)" % (i + 1, var_names[indices[i]], importances[indices[i]]))
+    summary.close()
+
+    # Return top 15 features to print in analysis log
+    return var_names[indices[:15]], importances[indices[:15]]
+
+
+def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
+       widget_analysis_log=None, configuration_file=None):
     """ADD
 
     Parameters
@@ -136,11 +168,219 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
     Returns
     -------
     """
-    if model is None:
-        # Get model based on learning task and model name and instantiate
-        model = get_model(learner_type=learner_type, model_name=model_name,
-                          hyperparameters= configuration_file["Models"][model_name]["hyperparameters"])
+    # Loop over models and train
+    for model_name, model_information in configuration_file['Models'].items():
+        if model_information['selected']:
 
+            if configuration_file["SaveModels"]:
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+            else:
+                save_path = None
+
+            # Make sure y is flattened to 1d array-like
+            if y.ndim == 2:
+                if isinstance(y, pd.DataFrame):
+                    y = y.values.ravel()
+                else:
+                    y = y.ravel()  # assume a numpy array then
+
+            # Grab model
+            model = get_model(learner_type=learner_type, model_name=model_name,
+                              hyperparameters=model_information["hyperparameters"])
+
+            # Update display
+            widget_analysis_log.append("Training %s using cross-validation method with hyperparameters\n%s\n" % \
+                                       (model_name, (model.get_params(),)))
+
+            # Create 3-fold cross-validation object based on learning task
+            scores, fold = np.zeros(3), 0
+            cv = KFold(n_splits=3) if learner_type == "Regressor" else StratifiedKFold(n_splits=3)
+            for train_index, test_index in cv.split(X, y):
+
+                widget_analysis_log.append("\n\tFold %d" % (fold+1))
+
+               # Split into train/test and features/labels
+                if isinstance(X, pd.DataFrame):
+                    X_train, X_test = X.iloc[train_index,:], X.iloc[test_index,:]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                else:
+                    X_train, X_test = X[train_index], X[test_index]
+                    y_train, y_test = y[train_index], y[test_index]
+
+                # Standardize features if specified
+                if standardize:
+                    widget_analysis_log.append("\tStandardizing features...")
+                    X_train, scaler = standardize_features(X=X_train)
+                    X_test = standardize_features(X=X_test, scaler=scaler)
+                else:
+                    scaler = None
+
+                # Reduce features if specified
+                if feature_reduction_method:
+                    widget_analysis_log.append("\tPerforming feature reduction...")
+                    X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
+                                                             y=y_train, transformer=None)
+                    X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
+                                               y=None, transformer=transformer)
+                else:
+                    transformer = None
+
+                # Train model
+                widget_analysis_log.append("\tTraining model...")
+                model.fit(X_train, y_train)
+
+                # Get predictions and metric on test fold
+                scores[fold] = score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
+                widget_analysis_log.append("\tValidation metric: %f" % scores[fold])
+                fold += 1
+
+            widget_analysis_log.append("\n\tOverall validation metric across folds: %f" % scores.mean())
+
+            # Refit on all data now and return parameters
+            widget_analysis_log.append("\tRetraining model on all data...")
+
+            if standardize: scaler = standardize_features(X=X)
+            if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
+                                                                         y=y, transformer=None)
+
+            model.fit(X, y)
+
+            # Package model into an object that holds the trained model, scaler, and transformer
+            trained_learner = ModelBuilder(model_name=model_name,
+                                           trained_model=model,
+                                           trained_scaler=scaler,
+                                           trained_transformer=transformer)
+
+            # Save model if specified
+            if save_path:
+                helper.serialize_trained_model(model_name=model_name,
+                                               trained_learner=trained_learner,
+                                               path_to_model=save_path,
+                                               configuration_file=configuration_file)
+                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+                widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
+
+            # Update configuration file
+            configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+            configuration_file["Models"][model_name]["validation_score"] = scores.mean()
+            configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+            # If not verbose, then automatically_tune is calling the method and needs return arguments
+            widget_analysis_log.append("\tConfiguration file updated")
+            widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
+            widget_analysis_log.append("------------------------------\n")
+
+
+def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
+            widget_analysis_log=None, configuration_file=None):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    # Loop over models and train
+    for model_name, model_information in configuration_file['Models'].items():
+        if model_information['selected']:
+
+            if configuration_file["SaveModels"]:
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+            else:
+                save_path = None
+
+            # Make sure y is flattened to 1d array-like
+            if y.ndim == 2:
+                if isinstance(y, pd.DataFrame):
+                    y = y.values.ravel()
+                else:
+                    y = y.ravel()  # assume a numpy array then
+
+            # Split into train/test and features/labels (account for stratification if classification task)
+            if learner_type == "Regressor":
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33)
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33, stratify=y)
+
+            # Grab model
+            model = get_model(learner_type=learner_type, model_name=model_name,
+                              hyperparameters=model_information["hyperparameters"])
+
+            # Update display
+            widget_analysis_log.append("Training %s using holdout method with hyperparameters\n%s\n" % \
+                                       (model_name, (model.get_params(),)))
+
+            # Standardize features if specified
+            if standardize:
+                widget_analysis_log.append("\tStandardizing features...")
+                X_train, scaler = standardize_features(X=X_train)
+                X_test = standardize_features(X=X_test, scaler=scaler)
+            else:
+                scaler = None
+
+            # Reduce features if specified
+            if feature_reduction_method:
+                widget_analysis_log.append("\tPerforming feature reduction...")
+                X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
+                                                         y=y_train, transformer=None)
+                X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
+                                           y=None, transformer=transformer)
+            else:
+                transformer = None
+
+            # Train model
+            widget_analysis_log.append("\tTraining model and calculating validation metric on holdout set...")
+            model.fit(X_train, y_train)
+
+            # Get predictions and metric on test fold
+            metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
+            widget_analysis_log.append("\tValidation metric: %f" % metric)
+
+            # Refit on all data now and return parameters
+            widget_analysis_log.append("\tRetraining model on all data...")
+
+            if standardize: scaler = standardize_features(X=X)
+            if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
+                                                                         y=y, transformer=None)
+            model.fit(X, y)
+
+            # Package model into an object that holds the trained model, scaler, and transformer
+            trained_learner = ModelBuilder(model_name=model_name,
+                                           trained_model=model,
+                                           trained_scaler=scaler,
+                                           trained_transformer=transformer)
+
+            # Save model if specified
+            if save_path:
+                helper.serialize_trained_model(model_name=model_name,
+                                               trained_learner=trained_learner,
+                                               path_to_model=save_path,
+                                               configuration_file=configuration_file)
+                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+                widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
+
+            # Update configuration file
+            configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+            configuration_file["Models"][model_name]["validation_score"] = metric
+            configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+            widget_analysis_log.append("\tConfiguration file updated")
+            widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
+            widget_analysis_log.append("------------------------------\n")
+
+
+
+def autotune_cv(X, y, learner_type, model=None, standardize=True, feature_reduction_method=None,
+                configuration_file=None):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
         if isinstance(y, pd.DataFrame):
@@ -148,19 +388,10 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
         else:
             y = y.ravel()  # assume a numpy array then
 
-    # Update display
-    if verbose:
-        widget_analysis_log.append("------------------------------")
-        widget_analysis_log.append("Training %s using cross-validation method with hyperparameters\n%s" % \
-                                   (model_name, (model.get_params(),)))
-
     # Create 3-fold cross-validation object based on learning task
     scores, fold = np.zeros(3), 0
     cv = KFold(n_splits=3) if learner_type == "Regressor" else StratifiedKFold(n_splits=3)
     for train_index, test_index in cv.split(X, y):
-
-        if verbose:
-            widget_analysis_log.append("\n\tFold %d" % (fold+1))
 
        # Split into train/test and features/labels
         if isinstance(X, pd.DataFrame):
@@ -172,8 +403,6 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
 
         # Standardize features if specified
         if standardize:
-            if verbose:
-                widget_analysis_log.append("\tStandardizing features...")
             X_train, scaler = standardize_features(X=X_train)
             X_test = standardize_features(X=X_test, scaler=scaler)
         else:
@@ -181,8 +410,6 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
 
         # Reduce features if specified
         if feature_reduction_method:
-            if verbose:
-                widget_analysis_log.append("\tPerforming feature reduction...")
             X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
                                                      y=y_train, transformer=None)
             X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
@@ -191,61 +418,23 @@ def cross_validation(X, y, learner_type, model_name, model=None, standardize=Tru
             transformer = None
 
         # Train model
-        if verbose:
-            widget_analysis_log.append("\tTraining model...")
         model.fit(X_train, y_train)
 
         # Get predictions and metric on test fold
         scores[fold] = score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
-        if verbose:
-            widget_analysis_log.append("\tValidation metric: %f" % scores[fold])
         fold += 1
 
-    if verbose:
-        widget_analysis_log.append("\n\tOverall validation metric across folds: %f" % scores.mean())
-
     # Refit on all data now and return parameters
-    if verbose:
-        widget_analysis_log.append("\tRetraining model on all data...")
-
     if standardize: scaler = standardize_features(X=X)
     if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
                                                                  y=y, transformer=None)
 
     model.fit(X, y)
-
-    # Package model into an object that holds the trained model, scaler, and transformer
-    trained_learner = ModelBuilder(model_name=model_name,
-                                   trained_model=model,
-                                   trained_scaler=scaler,
-                                   trained_transformer=transformer)
-
-    # Save model if specified
-    if save_path:
-        helper.serialize_trained_model(model_name=model_name,
-                                       trained_learner=trained_learner,
-                                       path_to_model=save_path,
-                                       configuration_file=configuration_file)
-        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
-        if verbose:
-            widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
-
-    # Update configuration file
-    configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
-    configuration_file["Models"][model_name]["validation_score"] = scores.mean()
-    configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
-
-    # If not verbose, then automatically_tune is calling the method and needs return arguments
-    if verbose:
-        widget_analysis_log.append("\tConfiguration file updated")
-        widget_analysis_log.append("\nModel training complete\n")
-        widget_analysis_log.append("------------------------------\n")
-    else:
-        return scores.mean(), model, scaler, transformer
+    return scores.mean(), model, scaler, transformer
 
 
-def holdout(X, y, learner_type, model_name, model=None, standardize=True, feature_reduction_method=None,
-            widget_analysis_log=None, save_path=None, configuration_file=None, verbose=False):
+def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_reduction_method=None,
+                     configuration_file=None):
     """ADD
 
     Parameters
@@ -254,11 +443,6 @@ def holdout(X, y, learner_type, model_name, model=None, standardize=True, featur
     Returns
     -------
     """
-    if model is None:
-        # Get model based on learning task and model name and instantiate
-        model = get_model(learner_type=learner_type, model_name=model_name,
-                          hyperparameters= configuration_file["Models"][model_name]["hyperparameters"])
-
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
         if isinstance(y, pd.DataFrame):
@@ -272,16 +456,9 @@ def holdout(X, y, learner_type, model_name, model=None, standardize=True, featur
     else:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33, stratify=y)
 
-    # Update display
-    if verbose:
-        widget_analysis_log.append("------------------------------")
-        widget_analysis_log.append("Training %s using holdout method with hyperparameters\n%s" % \
-                                   (model_name, (model.get_params(),)))
 
     # Standardize features if specified
     if standardize:
-        if verbose:
-            widget_analysis_log.append("\tStandardizing features...")
         X_train, scaler = standardize_features(X=X_train)
         X_test = standardize_features(X=X_test, scaler=scaler)
     else:
@@ -289,9 +466,6 @@ def holdout(X, y, learner_type, model_name, model=None, standardize=True, featur
 
     # Reduce features if specified
     if feature_reduction_method:
-        if verbose:
-            widget_analysis_log.append("\tPerforming feature reduction...")
-
         X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
                                                  y=y_train, transformer=None)
         X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
@@ -300,57 +474,21 @@ def holdout(X, y, learner_type, model_name, model=None, standardize=True, featur
         transformer = None
 
     # Train model
-    if verbose:
-        widget_analysis_log.append("\tTraining model and calculating validation metric on holdout set...")
     model.fit(X_train, y_train)
 
     # Get predictions and metric on test fold
     metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
-    if verbose:
-        widget_analysis_log.append("\tValidation metric: %f" % metric)
 
     # Refit on all data now and return parameters
-    if verbose:
-        widget_analysis_log.append("\tRetraining model on all data...")
-
     if standardize: scaler = standardize_features(X=X)
     if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
                                                                  y=y, transformer=None)
     model.fit(X, y)
-
-    # Package model into an object that holds the trained model, scaler, and transformer
-    trained_learner = ModelBuilder(model_name=model_name,
-                                   trained_model=model,
-                                   trained_scaler=scaler,
-                                   trained_transformer=transformer)
-
-    # Save model if specified
-    if save_path:
-        helper.serialize_trained_model(model_name=model_name,
-                                       trained_learner=trained_learner,
-                                       path_to_model=save_path,
-                                       configuration_file=configuration_file)
-        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
-        if verbose:
-            widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
-
-    # Update configuration file
-    if verbose:
-        configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
-        configuration_file["Models"][model_name]["validation_score"] = metric
-        configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
-
-    # If not verbose, then automatically_tune is calling the method and needs return arguments
-    if verbose:
-        widget_analysis_log.append("\tConfiguration file updated")
-        widget_analysis_log.append("\nModel training complete\n")
-        widget_analysis_log.append("------------------------------\n")
-    else:
-        return metric, model, scaler, transformer
+    return metric, model, scaler, transformer
 
 
-def automatically_tune(X, y, learner_type, model_name, standardize=True, feature_reduction_method=None,
-                       training_method="holdout", widget_analysis_log=None, status_bar=None, save_path=None,
+def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_method=None,
+                       training_method="holdout", widget_analysis_log=None,
                        configuration_file=None):
     """ADD
 
@@ -360,86 +498,93 @@ def automatically_tune(X, y, learner_type, model_name, standardize=True, feature
     Returns
     -------
     """
-    # Update display
-    widget_analysis_log.append("------------------------------")
-    widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method" % \
-                               (model_name, training_method))
+    # Loop over models and train
+    for model_name, model_information in configuration_file['Models'].items():
+        if model_information['selected']:
 
-    # Set training method for all models
-    trainer = holdout if training_method == "holdout" else cross_validation
+            if configuration_file["SaveModels"]:
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+            else:
+                save_path = None
 
-    # Generate hyperparameter grid
-    hp_grid = helper.generate_hyperparameter_grid(model=model_name, learner_type=learner_type)
-    hp_names, hp_combos = helper.hyperparameter_combinations(hp_grid)
+            # Update display
+            widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method\n" % \
+                                       (model_name, training_method))
 
-    # Parameters for current model
-    n_combos, best_model, best_params, best_scaler, best_transformer = len(hp_combos), None, None, None, None
+            # Set training method for all models
+            trainer = autotune_holdout if training_method == "holdout" else autotune_cv
 
-    # Set initial metric based on learning task
-    # (MSE for regression -> lower is better, AUC for classifier -> higher is better)
-    best_metric = 0. if learner_type == "Classifier" else 1e10
+            # Generate hyperparameter grid
+            hp_grid = helper.generate_hyperparameter_grid(model=model_name, learner_type=learner_type)
+            hp_names, hp_combos = helper.hyperparameter_combinations(hp_grid)
 
-    # Iterate over all hyperparameter combos
-    for n in range(n_combos):
+            # Parameters for current model
+            n_combos, best_model, best_params, best_scaler, best_transformer = len(hp_combos), None, None, None, None
 
-        # Grab current hyperparameter combination
-        current_params = {}
-        for i, hp_name in enumerate(hp_names):
-            current_params[hp_name] = hp_combos[n][i]
+            # Set initial metric based on learning task
+            # (MSE for regression -> lower is better, AUC for classifier -> higher is better)
+            best_metric = 0. if learner_type == "Classifier" else 1e10
 
-        # Grab metric based on training method
-        model = get_model(learner_type=learner_type, model_name=model_name, hyperparameters=current_params)
-        current_metric, current_model, current_scaler, current_transformer \
-            = trainer(X=X, y=y, learner_type=learner_type, model_name=model_name, model=model,
-                      standardize=standardize, feature_reduction_method=feature_reduction_method,
-                      widget_analysis_log=widget_analysis_log, save_path=save_path,
-                      configuration_file=configuration_file, verbose=False)
+            # Iterate over all hyperparameter combos
+            for n in range(n_combos):
 
-        # Compare current_metric to best_metric based on learning task
-        if learner_type == "Regressor":
-            if current_metric < best_metric:
-                best_metric, best_model, best_params, best_scaler, best_transformer = \
-                    current_metric, current_model, current_params, current_scaler, current_transformer
+                # Grab current hyperparameter combination
+                current_params = {}
+                for i, hp_name in enumerate(hp_names):
+                    current_params[hp_name] = hp_combos[n][i]
 
-                # Update display
-                widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
-                widget_analysis_log.append("\tValidation metric: %.4f" % best_metric)
-                widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
+                # Grab metric based on training method
+                model = get_model(learner_type=learner_type, model_name=model_name, hyperparameters=current_params)
+                current_metric, current_model, current_scaler, current_transformer \
+                    = trainer(X=X, y=y, learner_type=learner_type, model=model,
+                              standardize=standardize, feature_reduction_method=feature_reduction_method,
+                              configuration_file=configuration_file)
 
-        else:
-            if current_metric > best_metric:
-                best_metric, best_model, best_params, best_scaler, best_transformer = \
-                    current_metric, current_model, current_params, current_scaler, current_transformer
+                # Compare current_metric to best_metric based on learning task
+                if learner_type == "Regressor":
+                    if current_metric < best_metric:
+                        best_metric, best_model, best_params, best_scaler, best_transformer = \
+                            current_metric, current_model, current_params, current_scaler, current_transformer
 
-                # Update display
-                widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
-                widget_analysis_log.append("\tValidation metric: %.4f" % best_metric)
-                widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
+                        # Update display
+                        widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
+                        widget_analysis_log.append("\tValidation metric: %.4f" % best_metric)
+                        widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
 
-    # Update display
-    widget_analysis_log.append("Best model (%s)" % model_name)
-    widget_analysis_log.append("\tValidation Metric: %.4f" % best_metric)
-    widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
+                else:
+                    if current_metric > best_metric:
+                        best_metric, best_model, best_params, best_scaler, best_transformer = \
+                            current_metric, current_model, current_params, current_scaler, current_transformer
 
-    # Package model into an object that holds the trained model, scaler, and transformer
-    trained_learner = ModelBuilder(model_name=model_name,
-                                   trained_model=best_model,
-                                   trained_scaler=best_scaler,
-                                   trained_transformer=best_transformer)
+                        # Update display
+                        widget_analysis_log.append("Next best model (%s) at combination %d/%d:" % (model_name, n+1, n_combos))
+                        widget_analysis_log.append("\tValidation metric: %.4f" % best_metric)
+                        widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
 
-    # Save model if specified
-    if save_path:
-        helper.serialize_trained_model(model_name=model_name,
-                                       trained_learner=trained_learner,
-                                       path_to_model=save_path,
-                                       configuration_file=configuration_file)
-        configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+            # Update display
+            widget_analysis_log.append("Best model (%s)" % model_name)
+            widget_analysis_log.append("\tValidation Metric: %.4f" % best_metric)
+            widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
 
-    # Update configuration file
-    configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
-    configuration_file["Models"][model_name]["validation_score"] = best_metric
-    configuration_file["Models"][model_name]["hyperparameters"] = best_params
+            # Package model into an object that holds the trained model, scaler, and transformer
+            trained_learner = ModelBuilder(model_name=model_name,
+                                           trained_model=best_model,
+                                           trained_scaler=best_scaler,
+                                           trained_transformer=best_transformer)
 
-    widget_analysis_log.append("\tConfiguration file updated\n")
-    widget_analysis_log.append("\nModel training complete\n")
-    widget_analysis_log.append("------------------------------\n")
+            # Save model if specified
+            if save_path:
+                helper.serialize_trained_model(model_name=model_name,
+                                               trained_learner=trained_learner,
+                                               path_to_model=save_path,
+                                               configuration_file=configuration_file)
+                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
+
+            # Update configuration file
+            configuration_file["Models"][model_name]["clf_trained_learner"] = trained_learner
+            configuration_file["Models"][model_name]["validation_score"] = best_metric
+            configuration_file["Models"][model_name]["hyperparameters"] = best_params
+
+            widget_analysis_log.append("\tConfiguration file updated\n")
+            widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
+            widget_analysis_log.append("------------------------------\n")

@@ -72,7 +72,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -220,7 +220,7 @@
                  <bool>true</bool>
                 </property>
                 <attribute name="horizontalHeaderVisible">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </attribute>
                 <attribute name="horizontalHeaderCascadingSectionResizes">
                  <bool>true</bool>
@@ -1186,7 +1186,7 @@
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
                   <widget class="QTextBrowser" name="T2_TextBrowser_AnalysisLog">
                    <property name="font">
@@ -1209,6 +1209,18 @@ p, li { white-space: pre-wrap; }
                    </property>
                    <property name="placeholderText">
                     <string>Analysis summary...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignHCenter">
+                  <widget class="QPushButton" name="T2_Button_ClearLog">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Clear Log</string>
                    </property>
                   </widget>
                  </item>
@@ -1380,8 +1392,8 @@ p, li { white-space: pre-wrap; }
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_10">
-                 <item row="0" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
                   <widget class="QTextBrowser" name="T3_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
@@ -1400,6 +1412,18 @@ p, li { white-space: pre-wrap; }
                    </property>
                    <property name="placeholderText">
                     <string>Analysis summary...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignHCenter">
+                  <widget class="QPushButton" name="T3_Button_ClearLog">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Clear Log</string>
                    </property>
                   </widget>
                  </item>

@@ -474,7 +474,7 @@ class HyperparametersUI(object):
                 max_features = None
 
             params =  {
-                "n_estimators": float(self.input_n_estimators.text()),
+                "n_estimators": int(self.input_n_estimators.text()),
                 "max_features": max_features,
                 "criterion": criterion
             }
@@ -489,7 +489,7 @@ class HyperparametersUI(object):
                 loss = self.input_loss.currentText().lower()
 
             params = {
-                "n_estimators": float(self.input_n_estimators.text()),
+                "n_estimators": int(self.input_n_estimators.text()),
                 "learning_rate": float(self.input_learning_rate.text()),
                 "subsample": float(self.input_subsample.text()),
                 "max_depth": int(self.input_max_depth.text()),

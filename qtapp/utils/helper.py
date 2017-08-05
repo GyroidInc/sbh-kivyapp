@@ -38,19 +38,23 @@ def parse_label(file):
     # Get name and extension of file
     try:
         name, ext = os.path.splitext(file)
-        return float(name.split('_')[-1])
+        label = name.split('_')[-1]
+        if int(label) == float(label):
+            return int(label)
+        else:
+            return float(label)
     except:
         return ''
 
 
 def get_labels_from_filenames(files):
-    """Get labels from the filenames based on format "filename_label.file_ext" -- the relative path is parsed
-    such that the label extracted is the number after the undescore
+    """Get labels from the filenames based on format "filename_label.file_ext" -- the basename is parsed
+    such that the label extracted is the number after the underscore
 
     Parameters
     ----------
-    file : list
-        List of relative filenames
+    files : list
+        List of basenames
 
     Returns
     -------
@@ -59,10 +63,7 @@ def get_labels_from_filenames(files):
     """
     parsed_labels = []
     for f in files:
-        try:
-            parsed_labels.append(parse_label(f))
-        except Exception as e:
-            raise ValueError("Error trying to convert label %s from file %s to float because %s" % (label, f, e))
+        parsed_labels.append(parse_label(f))
     return parsed_labels
 
 
@@ -177,7 +178,7 @@ def generate_hyperparameter_grid(model, learner_type):
     elif model == "KNearestNeighbors":
         """ 2 hyperparameters: (1) n_neighbors: Number of nearest neighbors to use for prediction
                                (2) p: Power parameter for Minkowski metric """
-        grid = {"n_neighbors": [1, 3, 5],
+        grid = {"n_neighbors": [1, 3],
                 "p": [1, 2]}
 
     ### LINEAR MODELS ###
@@ -223,7 +224,9 @@ def calculate_metric(y_true, y_hat, learner_type):
     if learner_type == "Regressor":
         return mean_squared_error(y_true=y_true, y_pred=y_hat)
     else:
-        if len(set(y_true)) > 2: y_true, y_hat = label_binarize(y_true), label_binarize(y_hat)
+        # Ensures labels are 0/1 coded for roc_auc_score function
+        y_true = label_binarize(y_true, classes=np.unique(y_true))
+        y_hat = label_binarize(y_hat, classes=np.unique(y_true))
         return roc_auc_score(y_true=y_true, y_score=y_hat, average="weighted")
 
 
@@ -388,6 +391,18 @@ def serialize_trained_model(model_name, trained_learner, path_to_model, configur
                      informativeText=e,
                      windowTitle="Error: Saving Trained Model",
                      type="error")
+
+
+def generate_summary_report(configuration_file):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    pass
 
 
 def create_blank_config():
