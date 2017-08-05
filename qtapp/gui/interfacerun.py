@@ -475,9 +475,20 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_LoadingPopupIngest(self):
+
+        """Sets up ingestion with a loading bar
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        # Define initial variables
         progress = QtWidgets.QProgressDialog(parent=self)
         progress.setCancelButton(None)
-        progress.setLabelText('Updating...')
+        progress.setLabelText('Ingesting features...')
+        progress.setWindowTitle("Loading")
         progress.setMinimum(0)
         progress.setMaximum(0)
         progress.forceShow()
@@ -511,7 +522,7 @@ class Ui(QtWidgets.QMainWindow):
                     allOk = False
                     message="Not all labels filled in for selected files"
                     informativeText="Check selected files and try again"
-                    windowTitle="Error: Missing Labels",
+                    windowTitle="Error: Missing Labels"
                     type="error"
                     return message, informativeText, windowTitle, type
 
@@ -553,12 +564,12 @@ class Ui(QtWidgets.QMainWindow):
             # Check for intersection of columns and frequencies
             if self.n_files_selected == 0:
                 self.statusBar().showMessage('')
-                helper.messagePopUp(message="No files to ingest",
-                                  informativeText="Add files and try again",
-                                  windowTitle="Error: No Files Selected",
-                                  type="error")
+                message="No files to ingest"
+                informativeText="Add files and try again",
+                windowTitle="Error: No Files Selected",
+                type="error"
                 self.statusBar().showMessage("Error: No Files Selected")
-                return
+                return message, informativeText, windowTitle, type
 
             # Find intersection of rows and columns
             self.freqs = helper.find_unique_freqs(self.data)
