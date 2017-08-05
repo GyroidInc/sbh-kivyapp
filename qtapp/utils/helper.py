@@ -8,6 +8,7 @@ import shutil
 from sklearn.externals import joblib
 from sklearn.metrics import roc_auc_score, mean_squared_error
 from sklearn.preprocessing import label_binarize
+from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct, ExpSineSquared, Matern, RationalQuadratic, RBF
 
 
 def get_base_filename(file):

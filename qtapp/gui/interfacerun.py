@@ -27,12 +27,14 @@ try:
     from qtapp.model import pipeline_specifications as ps
     from qtapp.utils import constants, helper
     from qtapp.utils.errorhandling import errorDialogOnException
+    from qtapp.utils.nonguiwrapper import nongui
 except:
     from dynamicmplcanvas import DynamicMplCanvas
     from hyperparameters_ui import HyperparametersUI
     from model import pipeline_specifications as ps
     from utils import constants, helper
     from utils.errorhandling import errorDialogOnException
+    from utils.nonguiwrapper import nongui
 
 
 def excepthook(excType, excValue, tracebackobj):
@@ -156,7 +158,7 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_Button_LoadDirectory.clicked.connect(self.T1_openDirectory)
 
         # Connect 'Ingest Files' button
-        self.T1_Button_IngestFiles.clicked.connect(self.T1_ingestFiles)
+        self.T1_Button_IngestFiles.clicked.connect(self.T1_LoadingPopupIngest)
 
         # Connect 'Create Dataset' button
         self.T1_Button_CreateDataset.clicked.connect(self.T1_createDataset)
@@ -174,6 +176,10 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect the 'Save Configuration File' button
         self.T2_Button_SaveConfigurationFile.clicked.connect(self.saveConfigurationFile)
+
+        # Add a progress widget
+
+
 
 
     def T1_selectLabelLoadMode(self):
@@ -468,7 +474,19 @@ class Ui(QtWidgets.QMainWindow):
                         self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
 
-    #@errorDialogOnException(exceptions=Exception)
+    def T1_LoadingPopupIngest(self):
+        progress = QtWidgets.QProgressDialog(parent=self)
+        progress.setCancelButton(None)
+        progress.setLabelText('Updating...')
+        progress.setMinimum(0)
+        progress.setMaximum(0)
+        progress.forceShow()
+        message, informativeText, windowTitle, type = self.T1_ingestFiles()
+        if message is not None:
+            helper.messagePopUp(message, informativeText, windowTitle, type)
+        progress.cancel()
+
+    @nongui
     def T1_ingestFiles(self):
 
         """Does the major data ingestion based on prestaged setting
@@ -490,20 +508,22 @@ class Ui(QtWidgets.QMainWindow):
 
                 # COMMENT HERE
                 if not self.T1_TableWidget_Files.item(i, 1).text() and allOk == True:
-                    helper.messagePopUp(message="Not all labels filled in for selected files",
-                                      informativeText="Check selected files and try again",
-                                      windowTitle="Error: Missing Labels",
-                                      type="error")
                     allOk = False
+                    message="Not all labels filled in for selected files"
+                    informativeText="Check selected files and try again"
+                    windowTitle="Error: Missing Labels",
+                    type="error"
+                    return message, informativeText, windowTitle, type
 
         # COMMENT HERE
         if checkcnt < 2:
             allOk = False
-            helper.messagePopUp(
-                message="%d file(s) selected" % checkcnt,
-                informativeText="select more files. Must be at least 2.",
-                windowTitle="Error: Missing Labels",
-                type="error")
+            message="%d file(s) selected" % checkcnt
+            informativeText="select more files. Must be at least 2."
+            windowTitle="Error: Missing Labels"
+            type="error"
+            return message, informativeText, windowTitle, type
+
 
         # COMMENT HERE
         if allOk:
@@ -547,23 +567,21 @@ class Ui(QtWidgets.QMainWindow):
             # Check if at least one frequency and column are selected
             if len(self.freqs) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
-                helper.messagePopUp(message="No common frequencies found across %d selected files" % \
-                                           self.n_files_selected,
-                                  informativeText="Check selected files and try again",
-                                  windowTitle="Error: No Common Frequencies Across Files",
-                                  type="error")
+                message="No common frequencies found across %d selected files" % self.n_files_selected,
+                informativeText="Check selected files and try again",
+                windowTitle="Error: No Common Frequencies Across Files",
+                type="error"
                 self.statusBar().showMessage("Error: No Common Frequencies Across Files")
-                return
+                return message, informativeText, windowTitle, type
 
             if len(self.columns) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different features/columns and try again')
-                helper.messagePopUp(message="No common features/columns found across %d selected files" % \
-                                           self.n_files_selected,
-                                  informativeText="Check selected files and try again",
-                                  windowTitle="Error: No Common Features/Columns Across Files",
-                                  type="error")
+                message="No common features/columns found across %d selected files" % self.n_files_selected
+                informativeText="Check selected files and try again"
+                windowTitle="Error: No Common Features/Columns Across Files"
+                type="error"
                 self.statusBar().showMessage("Error: No Common Features/Columns Across Files")
-                return
+                return message, informativeText, windowTitle, type
 
             # Remove columns that are usually constant
             for c in constants.COLUMNS_TO_DROP:
@@ -597,6 +615,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
             self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
+            return None, None, None, None
 
 
     def T1_createDataset(self):
