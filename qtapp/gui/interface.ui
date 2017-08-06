@@ -105,6 +105,8 @@
              <property name="font">
               <font>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -154,16 +156,7 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_13">
-                <property name="leftMargin">
-                 <number>12</number>
-                </property>
-                <property name="topMargin">
-                 <number>12</number>
-                </property>
-                <property name="rightMargin">
-                 <number>12</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>12</number>
                 </property>
                 <item row="0" column="1">
@@ -171,6 +164,8 @@
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -186,8 +181,8 @@
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
-                    <weight>50</weight>
-                    <bold>false</bold>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -253,7 +248,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignCenter</set>
+                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -266,7 +261,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignCenter</set>
+                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                  </property>
                 </column>
                 <column>
@@ -279,7 +274,7 @@
                   </font>
                  </property>
                  <property name="textAlignment">
-                  <set>AlignCenter</set>
+                  <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                  </property>
                 </column>
                </widget>
@@ -342,16 +337,7 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_11">
-                <property name="leftMargin">
-                 <number>12</number>
-                </property>
-                <property name="topMargin">
-                 <number>12</number>
-                </property>
-                <property name="rightMargin">
-                 <number>12</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>12</number>
                 </property>
                 <item row="0" column="1">
@@ -374,6 +360,8 @@
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -411,6 +399,8 @@
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -483,6 +473,8 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -649,6 +641,8 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -751,6 +745,8 @@
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -842,7 +838,7 @@
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Reduce number of features to smaller dimension&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
-                   <property name="currentText">
+                   <property name="currentText" stdset="0">
                     <string>None</string>
                    </property>
                    <property name="frame">
@@ -934,7 +930,7 @@
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Standardize features to have same scale&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
-                   <property name="currentText">
+                   <property name="currentText" stdset="0">
                     <string>Yes</string>
                    </property>
                    <property name="frame">
@@ -1158,6 +1154,8 @@
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1201,13 +1199,13 @@
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="textInteractionFlags">
                     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
                    </property>
-                   <property name="placeholderText">
+                   <property name="placeholderText" stdset="0">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1217,6 +1215,8 @@ p, li { white-space: pre-wrap; }
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1235,6 +1235,8 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -1257,6 +1259,8 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -1326,23 +1330,14 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignCenter</set>
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                     </property>
                    </column>
                   </widget>
                  </item>
                  <item row="0" column="0" colspan="2">
                   <layout class="QFormLayout" name="T3_FormLayout_TrainedModels">
-                   <property name="leftMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="bottomMargin">
+                   <property name="margin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
@@ -1350,6 +1345,8 @@ p, li { white-space: pre-wrap; }
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1407,10 +1404,10 @@ p, li { white-space: pre-wrap; }
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
-                   <property name="placeholderText">
+                   <property name="placeholderText" stdset="0">
                     <string>Analysis summary...</string>
                    </property>
                   </widget>
@@ -1420,6 +1417,8 @@ p, li { white-space: pre-wrap; }
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1478,7 +1477,7 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignCenter</set>
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1491,7 +1490,7 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignCenter</set>
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                     </property>
                    </column>
                    <column>
@@ -1504,7 +1503,7 @@ p, li { white-space: pre-wrap; }
                      </font>
                     </property>
                     <property name="textAlignment">
-                     <set>AlignCenter</set>
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                     </property>
                    </column>
                   </widget>
@@ -1514,6 +1513,8 @@ p, li { white-space: pre-wrap; }
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1526,16 +1527,7 @@ p, li { white-space: pre-wrap; }
                  </item>
                  <item row="0" column="0">
                   <layout class="QGridLayout" name="gridLayout_14">
-                   <property name="leftMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>12</number>
-                   </property>
-                   <property name="bottomMargin">
+                   <property name="margin">
                     <number>12</number>
                    </property>
                    <item row="0" column="0">
@@ -1543,6 +1535,8 @@ p, li { white-space: pre-wrap; }
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1558,6 +1552,8 @@ p, li { white-space: pre-wrap; }
                      <property name="font">
                       <font>
                        <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1616,7 +1612,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1440</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
