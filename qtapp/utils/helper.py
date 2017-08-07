@@ -427,6 +427,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'GaussianProcess':
@@ -435,6 +436,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'GradientBoostedTrees':
@@ -443,6 +445,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'KNearestNeighbors':
@@ -451,6 +454,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'LinearModel':
@@ -459,6 +463,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'NeuralNetwork':
@@ -467,6 +472,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'RandomForest':
@@ -475,6 +481,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     },
                 'SupportVectorMachine':
@@ -483,6 +490,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
+                        "test_model": False,
                         "path_trained_learner": ''
                     }
             }
