@@ -421,11 +421,12 @@ class Ui(QtWidgets.QMainWindow):
             try:
                 self.setLabelsByFile(file)
             except Exception as e:
-                helper.messagePopUp(message="Bad File Format",
-                                  informativeText="The CSV label file was mangled resulting in an exception: {}".format(e),
+                helper.messagePopUp(message="Error loading label file because",
+                                  informativeText=str(e),
                                   windowTitle="Error: Loading Label File",
                                   type="error")
-
+                self.statusBar().showMessage("Error: Loading Label File")
+                return
 
     def T1_openFiles(self):
         """Clicked action for 'Load Files...' button
@@ -502,9 +503,9 @@ class Ui(QtWidgets.QMainWindow):
             helper.messagePopUp(message, informativeText, windowTitle, type)
         progress.cancel()
 
+
     @nongui
     def T1_ingestFiles(self):
-
         """Does the major data ingestion based on prestaged setting
 
         Parameters
@@ -662,7 +663,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Make sure at least one column selected
         if len(cols_to_use) == 0:
-            helper.messagePopUp(message="No features/columns select",
+            helper.messagePopUp(message="No features/columns selected",
                               informativeText="Select one or more features/columns and try again",
                               windowTitle="Error: No Features/Columns Selected",
                               type="error")
@@ -717,7 +718,7 @@ class Ui(QtWidgets.QMainWindow):
             self.config['ExperimentName'] = self.T1_Label_ExperimentName.text().replace(" ", "_")
         except Exception as e:
             helper.messagePopUp(message="Error setting experiment name because",
-                              informativeText=e,
+                              informativeText=str(e),
                               windowTitle="Error: Unable to Set Experiment Name",
                               type="error")
 
@@ -783,7 +784,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.statusBar().showMessage('Hyperparameters set for %s' % selectedModel)
         except Exception as e:
             helper.messagePopUp(message="Error setting hyperparameters for %s because" % model,
-                              informativeText=e,
+                              informativeText=str(e),
                               windowTitle="Error: Setting Hyperparameters for %s" % model,
                               type="error")
             self.statusBar().showMessage("Error: Setting Hyperparameters for %s" % model)
@@ -893,22 +894,6 @@ class Ui(QtWidgets.QMainWindow):
         else:
             self.config['AutomaticallyTune'] = False
 
-        # Save models
-        if self.T2_ComboBox_SaveModels.currentText() == "Yes":
-            # Check and make sure configuration file was saved from Tab 1
-            if len(self.config["ExperimentName"]) == 0:
-                helper.messagePopUp(message="Configuration file not saved",
-                                    informativeText="Please save configuration file and try again",
-                                    windowTitle="Error: Configuration File Not Saved",
-                                    type = "error")
-                self.statusBar().showMessage("Error: Configuration File Not Saved")
-                return
-
-            self.config['SaveModels'] = True
-        else:
-            self.config['SaveModels'] = False
-
-
         # If not automatically tuning, inform user which model(s) specified with default hyperparameters
         if not self.config['AutomaticallyTune'] and models_without_hypers > 0:
             helper.messagePopUp(message="%d models selected and hyperparameters for %d of these models were not specified" % \
@@ -981,7 +966,7 @@ class Ui(QtWidgets.QMainWindow):
             self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
         except Exception as e:
             helper.messagePopUp(message="Error saving configuration file because",
-                                informativeText=e,
+                                informativeText=str(e),
                                 windowTitle="Error: Saving Configuration File",
                                 type="error")
             self.statusBar().showMessage("Error: Saving Configuration File")
@@ -1011,7 +996,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
             except Exception as e:
                 helper.messagePopUp(message="Error loading configuration file %s because" % file[0],
-                                    informativeText=e,
+                                    informativeText=str(e),
                                     windowTitle="Error: Loading Configuration File",
                                     type="error")
                 self.statusBar().showMessage("Error: Loading Configuration File")
