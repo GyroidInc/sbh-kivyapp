@@ -301,7 +301,6 @@ class Ui(QtWidgets.QMainWindow):
         self.MplCanvas.update_figure([0, 1, 2, 3], [{"values": [0, 1, 2, 3], "label": "Test.xlsx"},
                                           {"values": [4, 0, 2, 3], "label": "Test2.xlsx"}])
 
-
     def T1_fileTable_createRow(self, label, file):
         """Adds new row to the file table
 
@@ -950,6 +949,104 @@ class Ui(QtWidgets.QMainWindow):
                                            feature_reduction_method, self.T2_TextBrowser_AnalysisLog,
                                            self.config)).start()
 
+
+    def T3_ingestFile(self, filepath):
+
+        """Does the major data ingestion based on prestaged setting
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        features = helper.load(file=filepath)
+        freq = set(features["Freq"])
+        feat = set(features.keys())
+        if self.freqs < freq and self.columns < feat:
+            pass
+
+
+
+    def T3_fileTable_createRow(self, label, file):
+        """Adds new row to the file table
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        cell_widget = QWidget()
+        chk_bx = QtWidgets.QCheckBox()
+        chk_bx.setCheckState(QtCore.Qt.Checked)
+        chk_bx.setObjectName("checkbox")
+        lay_out = QtWidgets.QHBoxLayout(cell_widget)
+        lay_out.addWidget(chk_bx)
+        lay_out.setAlignment(QtCore.Qt.AlignCenter)
+        lay_out.setContentsMargins(0, 0, 0, 0)
+        cell_widget.setLayout(lay_out)
+        file = QtWidgets.QTableWidgetItem(file)
+        file.setFlags(QtCore.Qt.ItemIsEnabled)
+        file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        label = QtWidgets.QTableWidgetItem(label)
+        label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        inx = self.T1_TableWidget_Files.rowCount()
+        self.T3_TableWidget_TestFiles.insertRow(inx)
+        self.T3_TableWidget_TestFiles.setCellWidget(inx, 0, cell_widget)
+        self.T3_TableWidget_TestFiles.setItem(inx, 1, label)
+        self.T3_TableWidget_TestFiles.setItem(inx, 2, file)
+
+    def T3_openFiles(self):
+        """Clicked action for 'Load Files...' button
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+                                                "*.xlsx files (*.xlsx);;"
+                                                " *.xls files (*xls);; All files (*)",
+                                                options=options)
+        if files:
+            # Add labels and files to table
+            for f in files:
+                basename = helper.get_base_filename(f)
+                if basename not in self.data:
+                    self.T3_fileTable_createRow(label="", file=basename)
+                    self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
+
+    def T3_openDirectory(self):
+        """Clicked action for 'Load Directory...' button
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly | QFileDialog.DontUseNativeDialog
+        directory = QFileDialog.getExistingDirectory(self,
+                                                     "Load : SansEC directory with experiment files",
+                                                     os.path.expanduser("~"), options=options)
+
+        if directory:
+            # Grab files that end with .xlsx, .csv, and .xls
+            files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx')
+                     or f.endswith('.csv') or f.endswith('.xls')]
+
+            if files:
+                # Add labels and files to table
+                for f in files:
+                    basename = helper.get_base_filename(f)
+                    if basename not in self.data:
+                        self.T3_fileTable_createRow(label="", file=basename)
+                        self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
 
     def saveConfigurationFile(self):
         """ADD
