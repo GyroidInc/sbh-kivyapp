@@ -54,7 +54,7 @@ def excepthook(excType, excValue, tracebackobj):
         """using the error reporting dialog or via email to <%s>.\n""" \
         """A log has been written to "%s".\n\nError information:\n""" % \
         ("contact@gyriod.io", "_errmsg_.log")
-    versionInfo = "0.0.1"
+    versionInfo = constants.VERSION
     timeString = time.strftime("%Y-%m-%d, %H:%M:%S")
 
     tbinfofile = StringIO()
