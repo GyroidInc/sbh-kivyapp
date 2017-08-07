@@ -99,6 +99,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Create data structure to hold information about files and configuration file
         self.data = {}
+        self.testdata = {}
         self.config = helper.create_blank_config()
         self.learner_input = None
         self.statusBar().showMessage('Load Files or Configuration File to Begin...')
@@ -183,6 +184,10 @@ class Ui(QtWidgets.QMainWindow):
         self.T2_Button_ClearLog.clicked.connect(self.T2_TextBrowser_AnalysisLog.clear)
 
         ## TAB 3 BUTTONS ##
+
+        #Connect file loading buttons
+        self.T3_Button_LoadDirectory.clicked.connect(self.T3_openDirectory)
+        self.T3_Button_LoadFiles.clicked.connect(self.T3_openFiles)
 
         # Connect the 'Clear Log' button
         self.T2_Button_ClearLog.clicked.connect(self.T3_TextBrowser_AnalysisLog.clear)
@@ -949,8 +954,18 @@ class Ui(QtWidgets.QMainWindow):
         features = helper.load(file=filepath)
         freq = set(features["Freq"])
         feat = set(features.keys())
-        if self.freqs < freq and self.columns < feat:
-            pass
+        if set(self.freqs) < freq and set(self.columns) < feat:
+            basename = helper.get_base_filename(filepath)
+            if basename not in self.testdata:
+                features = features[self.columns]
+                features = features[features["Freq"].isin(self.freqs)]
+                self.testdata[basename]= {'absolute_path': filepath, 'features': features, 'label': None,
+                                                 'selected': True}
+                self.T3_fileTable_createRow(label="", file=basename)
+            return True
+        else:
+            return False
+
 
 
 
@@ -999,12 +1014,16 @@ class Ui(QtWidgets.QMainWindow):
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
         if files:
-            # Add labels and files to table
+            notingested=[]
             for f in files:
-                basename = helper.get_base_filename(f)
-                if basename not in self.data:
-                    self.T3_fileTable_createRow(label="", file=basename)
-                    self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
+                if not self.T3_ingestFile(f):
+                    notingested.append(helper.get_base_filename(f))
+            if notingested:
+                helper.messagePopUp(message="Unable to load some files: feature/freq mismatch",
+                                    informativeText="The following files were not"
+                                    "ingested: {}".format(" ,".join(notingested)),
+                                    windowTitle="Error: File loading",
+                                    type="error")
 
     def T3_openDirectory(self):
         """Clicked action for 'Load Directory...' button
@@ -1027,12 +1046,19 @@ class Ui(QtWidgets.QMainWindow):
                      or f.endswith('.csv') or f.endswith('.xls')]
 
             if files:
+                notingested = []
                 # Add labels and files to table
                 for f in files:
-                    basename = helper.get_base_filename(f)
-                    if basename not in self.data:
-                        self.T3_fileTable_createRow(label="", file=basename)
-                        self.data[basename] = {'absolute_path': f, 'features': None, 'label': None, 'selected': True}
+                    if not self.T3_ingestFile(f):
+                        notingested.append(helper.get_base_filename(f))
+                if notingested:
+                    helper.messagePopUp(message="Unable to load some files: feature/freq mismatch",
+                                        informativeText="The following files were not"
+                                        "ingested: {}".format(" ,".join(notingested)),
+                                        windowTitle="Error: File loading",
+                                        type="error")
+
+
 
     def saveConfigurationFile(self):
         """ADD
