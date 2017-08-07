@@ -204,7 +204,8 @@ def generate_hyperparameter_grid(model, learner_type):
         grid = {"kernel": ["rbf", "poly"],
                 "degree": [1, 2, 3],
                 "C": [.001, .01, .1, 1, 10, 100, 1000],
-                "gamma": ['auto', .0001, .001, .01]}
+                "gamma": ['auto', .0001, .001, .01],
+                "max_iter": [10000]}
 
     else:
         raise ValueError("Model (%s) is not a valid argument" % model)
@@ -418,7 +419,6 @@ def create_blank_config():
         'FeatureReduction': '',
         'TrainingMethod': '',
         'AutomaticallyTune': '',
-        'SaveModels': '',
         'Models':
             {
                 'ExtraTrees':
@@ -426,7 +426,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'GaussianProcess':
@@ -434,7 +434,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'GradientBoostedTrees':
@@ -442,7 +442,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'KNearestNeighbors':
@@ -450,7 +450,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'LinearModel':
@@ -458,7 +458,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'NeuralNetwork':
@@ -466,7 +466,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'RandomForest':
@@ -474,7 +474,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     },
                 'SupportVectorMachine':
@@ -482,7 +482,7 @@ def create_blank_config():
                         "hyperparameters": '',
                         "selected": False,
                         "validation_score": '',
-                        "clf_trained_learner": '',
+                        "test_score": '',
                         "path_trained_learner": ''
                     }
             }

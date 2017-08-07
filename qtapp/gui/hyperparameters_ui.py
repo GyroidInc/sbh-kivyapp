@@ -501,7 +501,8 @@ class HyperparametersUI(object):
                 "kernel": self.input_kernel.currentText().lower(),
                 "C": float(self.input_C.text()),
                 "gamma": float(self.input_gamma.text()),
-                "degree": int(self.input_degree.text())
+                "degree": int(self.input_degree.text()),
+                "max_iter": 10000
             }
 
         elif self.model == "GaussianProcess":
