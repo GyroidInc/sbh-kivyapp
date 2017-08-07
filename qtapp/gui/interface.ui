@@ -1162,6 +1162,19 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
+                  <widget class="QProgressBar" name="T2_ProgressBar_Training">
+                   <property name="maximum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>-1</number>
+                   </property>
+                   <property name="format">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QTextBrowser" name="T2_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>

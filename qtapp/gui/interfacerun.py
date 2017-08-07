@@ -22,6 +22,7 @@ import traceback
 # Imports from qtapp
 
 try:
+    from qtapp.gui.about_ui import AboutUI
     from qtapp.gui.hyperparameters_ui import HyperparametersUI
     from qtapp.gui.dynamicmplcanvas import DynamicMplCanvas
     from qtapp.model import pipeline_specifications as ps
@@ -29,6 +30,7 @@ try:
     from qtapp.utils.errorhandling import errorDialogOnException
     from qtapp.utils.nonguiwrapper import nongui
 except:
+    from about_ui import AboutUI
     from dynamicmplcanvas import DynamicMplCanvas
     from hyperparameters_ui import HyperparametersUI
     from model import pipeline_specifications as ps
@@ -52,7 +54,7 @@ def excepthook(excType, excValue, tracebackobj):
         """using the error reporting dialog or via email to <%s>.\n""" \
         """A log has been written to "%s".\n\nError information:\n""" % \
         ("contact@gyriod.io", "_errmsg_.log")
-    versionInfo = "0.0.1"
+    versionInfo = constants.VERSION
     timeString = time.strftime("%Y-%m-%d, %H:%M:%S")
 
     tbinfofile = StringIO()
@@ -153,6 +155,9 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect the menu item 'Exit'
         self.FileItem_Exit.triggered.connect(self.exitApplication)
+
+        # Connect the menu item 'About'
+        self.HelpItem_About.triggered.connect(AboutUI)
 
         ## TAB 1 BUTTONS ##
 

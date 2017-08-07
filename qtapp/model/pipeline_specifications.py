@@ -575,7 +575,7 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
                 # Catch first error that most likely occurred during training
                 except Exception as e:
                     # Skip current hyperparameter combination
-                    widget_analysis_log.append("Error training model (%s) with hyperparameter combination %s because %s" %
+                    widget_analysis_log.append("Error training model (%s) with hyperparameter combination %s because %s\n" %
                                             (model_name, current_params, str(e)))
                     continue
 
