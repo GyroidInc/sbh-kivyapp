@@ -18,12 +18,12 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="197" column="15" lean-forward="true" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
+            <state relative-caret-position="155">
+              <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
-                <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-                <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+                <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+                <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
               </folding>
             </state>
           </provider>
@@ -32,8 +32,8 @@
       <file leaf-file-name="hyperparameters_ui.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41">
-              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="73" selection-end-column="74" />
+            <state relative-caret-position="259">
+              <caret line="545" column="8" lean-forward="true" selection-start-line="545" selection-start-column="8" selection-end-line="545" selection-end-column="27" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -44,8 +44,8 @@
       <file leaf-file-name="about_ui.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/about_ui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+            <state relative-caret-position="220">
+              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -53,11 +53,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/constants.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-656">
-              <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
+            <state relative-caret-position="471">
+              <caret line="591" column="58" lean-forward="true" selection-start-line="591" selection-start-column="58" selection-end-line="591" selection-end-column="58" />
               <folding>
                 <element signature="e#25#56#0" expanded="true" />
               </folding>
@@ -126,13 +136,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/preprocess/ingest.py" />
-        <option value="$PROJECT_DIR$/utils/constants.py" />
         <option value="$PROJECT_DIR$/model/builder.py" />
         <option value="$PROJECT_DIR$/gui/hyperparameters_ui.py" />
         <option value="$PROJECT_DIR$/utils/helper.py" />
-        <option value="$PROJECT_DIR$/gui/interfacerun.py" />
-        <option value="$PROJECT_DIR$/gui/about_ui.py" />
         <option value="$PROJECT_DIR$/model/pipeline_specifications.py" />
+        <option value="$PROJECT_DIR$/utils/constants.py" />
+        <option value="$PROJECT_DIR$/gui/about_ui.py" />
+        <option value="$PROJECT_DIR$/gui/interfacerun.py" />
       </list>
     </option>
   </component>
@@ -270,24 +280,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="dynamicmplcanvas" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gui" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="qtapp" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/dynamicmplcanvas.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="pipeline_specifications" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -337,6 +329,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="qtapp" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/helper.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="about_ui" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtapp" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/about_ui.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -408,18 +418,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.interfacerun" />
-      <item index="1" class="java.lang.String" itemvalue="Python.dynamicmplcanvas" />
-      <item index="2" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
-      <item index="3" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
-      <item index="4" class="java.lang.String" itemvalue="Python.helper" />
+      <item index="1" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
+      <item index="2" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
+      <item index="3" class="java.lang.String" itemvalue="Python.helper" />
+      <item index="4" class="java.lang.String" itemvalue="Python.about_ui" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.interfacerun" />
-        <item index="1" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
-        <item index="2" class="java.lang.String" itemvalue="Python.helper" />
-        <item index="3" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
-        <item index="4" class="java.lang.String" itemvalue="Python.dynamicmplcanvas" />
+        <item index="1" class="java.lang.String" itemvalue="Python.about_ui" />
+        <item index="2" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
+        <item index="3" class="java.lang.String" itemvalue="Python.helper" />
+        <item index="4" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
       </list>
     </recent_temporary>
   </component>
@@ -581,8 +591,8 @@
           <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>
@@ -593,8 +603,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>
@@ -634,8 +644,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>
@@ -688,8 +698,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>
@@ -753,8 +763,8 @@
           <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>
@@ -775,13 +785,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/regression.py" />
-    <entry file="file://$PROJECT_DIR$/utils/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/errorhandling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -838,26 +841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="73" selection-end-column="74" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/about_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/nonguiwrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -878,22 +861,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-656">
-          <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
+        <state relative-caret-position="471">
+          <caret line="591" column="58" lean-forward="true" selection-start-line="591" selection-start-column="58" selection-end-line="591" selection-end-column="58" />
           <folding>
             <element signature="e#25#56#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="545" column="8" lean-forward="true" selection-start-line="545" selection-start-column="8" selection-end-line="545" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/about_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="197" column="15" lean-forward="true" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
+        <state relative-caret-position="155">
+          <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="635:927" ph="..." />
+            <marker date="1502091612000" expanded="true" signature="30261:31637" ph="..." />
           </folding>
         </state>
       </provider>

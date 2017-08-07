@@ -22,6 +22,7 @@ import traceback
 # Imports from qtapp
 
 try:
+    from qtapp.gui.about_ui import AboutUI
     from qtapp.gui.hyperparameters_ui import HyperparametersUI
     from qtapp.gui.dynamicmplcanvas import DynamicMplCanvas
     from qtapp.model import pipeline_specifications as ps
@@ -29,6 +30,7 @@ try:
     from qtapp.utils.errorhandling import errorDialogOnException
     from qtapp.utils.nonguiwrapper import nongui
 except:
+    from about_ui import AboutUI
     from dynamicmplcanvas import DynamicMplCanvas
     from hyperparameters_ui import HyperparametersUI
     from model import pipeline_specifications as ps
@@ -152,6 +154,9 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect the menu item 'Exit'
         self.FileItem_Exit.triggered.connect(self.exitApplication)
+
+        # Connect the menu item 'About'
+        self.HelpItem_About.triggered.connect(AboutUI)
 
         ## TAB 1 BUTTONS ##
 
