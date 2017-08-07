@@ -150,8 +150,10 @@ def feature_importance_analysis(X, y, learner_type, save_directory):
     indices = np.argsort(importances)[::-1]
 
     # Write all results
+    summary.write("{:<25}{:<20}".format("Rank. Feature Name", "Importance Score"))
     for i in range(X.shape[1]):
-        summary.write("%d. feature %d (%f)" % (i + 1, var_names[indices[i]], importances[indices[i]]))
+        summary.write("{:<25}{:<20.4f}".format(str(i+1) + '. ' + var_names[indices[i]],
+                                               importances[indices[i]]))
     summary.close()
 
     # Return top 15 features to print in analysis log
@@ -532,13 +534,13 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
             n_models_success = 0
             for n in range(n_combos):
 
+                # Grab current hyperparameter combination
+                current_params = {}
+                for i, hp_name in enumerate(hp_names):
+                    current_params[hp_name] = hp_combos[n][i]
+
                 # Try the current hyperparameter combination
                 try:
-                    # Grab current hyperparameter combination
-                    current_params = {}
-                    for i, hp_name in enumerate(hp_names):
-                        current_params[hp_name] = hp_combos[n][i]
-
                     # Grab metric based on training method
                     model = get_model(learner_type=learner_type, model_name=model_name, hyperparameters=current_params)
                     current_metric, current_model, current_scaler, current_transformer \
@@ -572,9 +574,9 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
 
                 # Catch first error that most likely occurred during training
                 except Exception as e:
-                    # Increase counter of models failed and skip current hyperparameter combination
-                    widget_analysis_log("Error training model (%s) with hyperparameter combination %s because %s" %
-                                        (model_name, current_params, str(e)))
+                    # Skip current hyperparameter combination
+                    widget_analysis_log.append("Error training model (%s) with hyperparameter combination %s because %s" %
+                                            (model_name, current_params, str(e)))
                     continue
 
             # If at least one model successfully trained, continue processing

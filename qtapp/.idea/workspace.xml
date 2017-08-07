@@ -18,24 +18,12 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="923" column="19" lean-forward="false" selection-start-line="923" selection-start-column="19" selection-end-line="923" selection-end-column="19" />
+            <state relative-caret-position="125">
+              <caret line="197" column="15" lean-forward="true" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
-                <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-                <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nonguiwrapper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/nonguiwrapper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="15" lean-forward="true" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
+                <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+                <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
               </folding>
             </state>
           </provider>
@@ -44,9 +32,23 @@
       <file leaf-file-name="hyperparameters_ui.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="503" column="56" lean-forward="true" selection-start-line="503" selection-start-column="56" selection-end-line="503" selection-end-column="56" />
-              <folding />
+            <state relative-caret-position="41">
+              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="73" selection-end-column="74" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="about_ui.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/about_ui.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,8 +56,8 @@
       <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3956">
-              <caret line="172" column="41" lean-forward="false" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
+            <state relative-caret-position="-656">
+              <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
               <folding>
                 <element signature="e#25#56#0" expanded="true" />
               </folding>
@@ -66,8 +68,8 @@
       <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="198" column="41" lean-forward="true" selection-start-line="198" selection-start-column="41" selection-end-line="198" selection-end-column="41" />
+            <state relative-caret-position="350">
+              <caret line="198" column="34" lean-forward="true" selection-start-line="198" selection-start-column="34" selection-end-line="198" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -84,11 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>== 0</find>
-      <find>please</find>
-      <find>return</find>
-      <find>question</find>
-      <find>Model Training</find>
       <find>because</find>
       <find>T1_setLabelsByName</find>
       <find>label files</find>
@@ -113,6 +110,11 @@
       <find>clf_trained</find>
       <find>Save</find>
       <find>Exception</find>
+      <find>selected</find>
+      <find>&quot;selected&quot;</find>
+      <find>'selected'</find>
+      <find>widget_analysis_log</find>
+      <find>str(n</find>
       <find>support</find>
     </findStrings>
     <replaceStrings>
@@ -126,10 +128,11 @@
         <option value="$PROJECT_DIR$/preprocess/ingest.py" />
         <option value="$PROJECT_DIR$/utils/constants.py" />
         <option value="$PROJECT_DIR$/model/builder.py" />
-        <option value="$PROJECT_DIR$/gui/interfacerun.py" />
-        <option value="$PROJECT_DIR$/model/pipeline_specifications.py" />
-        <option value="$PROJECT_DIR$/utils/helper.py" />
         <option value="$PROJECT_DIR$/gui/hyperparameters_ui.py" />
+        <option value="$PROJECT_DIR$/utils/helper.py" />
+        <option value="$PROJECT_DIR$/gui/interfacerun.py" />
+        <option value="$PROJECT_DIR$/gui/about_ui.py" />
+        <option value="$PROJECT_DIR$/model/pipeline_specifications.py" />
       </list>
     </option>
   </component>
@@ -413,8 +416,8 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.interfacerun" />
-        <item index="1" class="java.lang.String" itemvalue="Python.helper" />
-        <item index="2" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
+        <item index="1" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
+        <item index="2" class="java.lang.String" itemvalue="Python.helper" />
         <item index="3" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
         <item index="4" class="java.lang.String" itemvalue="Python.dynamicmplcanvas" />
       </list>
@@ -502,13 +505,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/utils/errorhandling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="7" lean-forward="false" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/preprocess/ingest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3810">
@@ -563,7 +559,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6975">
           <caret line="467" column="30" lean-forward="false" selection-start-line="467" selection-start-column="30" selection-end-line="467" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -583,8 +581,8 @@
           <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>
@@ -595,8 +593,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>
@@ -636,8 +634,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>
@@ -656,7 +654,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6405">
           <caret line="429" column="53" lean-forward="false" selection-start-line="429" selection-start-column="53" selection-end-line="429" selection-end-column="53" />
-          <folding />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -688,8 +688,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>
@@ -753,8 +753,8 @@
           <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>
@@ -838,50 +838,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="73" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/about_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/nonguiwrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="15" lean-forward="true" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
           <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="503" column="56" lean-forward="true" selection-start-line="503" selection-start-column="56" selection-end-line="503" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3956">
-          <caret line="172" column="41" lean-forward="false" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
+            <element signature="e#0#43#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="198" column="41" lean-forward="true" selection-start-line="198" selection-start-column="41" selection-end-line="198" selection-end-column="41" />
+        <state relative-caret-position="350">
+          <caret line="198" column="34" lean-forward="true" selection-start-line="198" selection-start-column="34" selection-end-line="198" selection-end-column="34" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-656">
+          <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="923" column="19" lean-forward="false" selection-start-line="923" selection-start-column="19" selection-end-line="923" selection-end-column="19" />
+        <state relative-caret-position="125">
+          <caret line="197" column="15" lean-forward="true" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
-            <marker date="1502084457000" expanded="true" signature="592:884" ph="..." />
-            <marker date="1502084457000" expanded="true" signature="30035:31411" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="592:884" ph="..." />
+            <marker date="1502088111000" expanded="true" signature="30089:31465" ph="..." />
           </folding>
         </state>
       </provider>

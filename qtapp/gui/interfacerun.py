@@ -92,6 +92,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Dynamically load .ui file
         uic.loadUi('interface.ui', self)
+        self.setWindowIcon(QtGui.QIcon('gyroid.png'))
 
         # Force tab widget to open on Tab 1
         self.TabWidget.setCurrentIndex(0)
