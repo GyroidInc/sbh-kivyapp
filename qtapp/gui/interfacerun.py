@@ -811,6 +811,9 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
+        self.T2_Button_BeginTraining.setEnabled(False)
+        self.T2_ProgressBar_Training.setRange(0,0)
+
         if self.learner_input is None:
             helper.messagePopUp(message="Training data not created",
                                 informativeText="Create training dataset and try again",
@@ -928,23 +931,26 @@ class Ui(QtWidgets.QMainWindow):
         automatically_tune = self.config['AutomaticallyTune']
         X, y = self.learner_input.iloc[:, :-1], self.learner_input.iloc[:, -1]
 
+        e = None
         # If automatically tune
         if automatically_tune:
             # Start in separate thread
-            Thread(target=ps.automatically_tune, args=(X, y, learner_type, standardize, feature_reduction_method,
-                                                       training_method, self.T2_TextBrowser_AnalysisLog,
-                                                       self.config)).start()
+           e = ps.automatically_tune(X, y, learner_type, standardize, feature_reduction_method,
+                                 training_method, self.T2_TextBrowser_AnalysisLog, self.config)
 
         # Otherwise train using holdout or cross-validation
         else:
             if training_method == "holdout":
-                Thread(target=ps.holdout, args=(X, y, learner_type, standardize, feature_reduction_method,
-                                                self.T2_TextBrowser_AnalysisLog, self.config)).start()
+                e = ps.holdout(X, y, learner_type, standardize, feature_reduction_method,
+                                self.T2_TextBrowser_AnalysisLog, self.config)
             else:
-                Thread(target=ps.cv, args=(X, y, learner_type, standardize,
-                                           feature_reduction_method, self.T2_TextBrowser_AnalysisLog,
-                                           self.config)).start()
+                e = ps.cv(X, y, learner_type, standardize, feature_reduction_method,
+                          self.T2_TextBrowser_AnalysisLog, self.config)
 
+        self.T2_Button_BeginTraining.setEnabled(True)
+        self.T2_ProgressBar_Training.setRange(0, 1)
+        if e is not None:
+            raise e
 
     def T3_ingestFile(self, filepath):
 

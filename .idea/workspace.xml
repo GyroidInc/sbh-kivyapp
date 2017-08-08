@@ -4,6 +4,7 @@
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" afterPath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
     </list>
     <ignored path=".idea/" />
     <ignored path=".idea/workspace.xml" />
@@ -22,8 +23,8 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1198">
-              <caret line="996" column="36" lean-forward="true" selection-start-line="996" selection-start-column="36" selection-end-line="996" selection-end-column="36" />
+            <state relative-caret-position="191">
+              <caret line="945" column="17" lean-forward="true" selection-start-line="945" selection-start-column="17" selection-end-line="945" selection-end-column="17" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -67,18 +68,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3657">
-              <caret line="574" column="11" lean-forward="false" selection-start-line="574" selection-start-column="11" selection-end-line="574" selection-end-column="11" />
-              <folding>
-                <element signature="e#25#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="regressor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/model/regressor.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -86,27 +75,6 @@
               <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hyperparameters_ui.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-                <marker date="1502087459495" expanded="true" signature="349:23325" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="19802:23325" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="21458:21759" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="21481:21758" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="21806:22439" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="22488:22638" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="22511:22637" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="22683:23134" ph="..." />
-                <marker date="1502087459495" expanded="true" signature="22925:23133" ph="..." />
               </folding>
             </state>
           </provider>
@@ -172,6 +140,7 @@
       <find>utils</find>
       <find>type</find>
       <find>print</find>
+      <find>cv</find>
     </findStrings>
     <replaceStrings>
       <replace>learner_type</replace>
@@ -203,9 +172,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-10" />
-    <option name="y" value="34" />
-    <option name="width" value="1934" />
-    <option name="height" value="996" />
+    <option name="width" value="980" />
+    <option name="height" value="1030" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -239,6 +207,12 @@
               <item name="sbh-qtapp" type="462c0819:PsiDirectoryNode" />
               <item name="qtapp" type="462c0819:PsiDirectoryNode" />
               <item name="gui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sbh-qtapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sbh-qtapp" type="462c0819:PsiDirectoryNode" />
+              <item name="qtapp" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sbh-qtapp" type="b2602c69:ProjectViewProjectNode" />
@@ -520,7 +494,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502087437552</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="start of tab 3 underway">
+      <created>1502147186024</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1502147186024</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -533,13 +514,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-10" y="34" width="1934" height="996" extended-state="0" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14278242" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32454127" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3266385" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34745762" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32454127" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16585957" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33171913" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -604,7 +585,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -966,45 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/model/regressor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-            <marker date="1502087459495" expanded="true" signature="349:23325" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="19802:23325" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="21458:21759" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="21481:21758" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="21806:22439" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="22488:22638" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="22511:22637" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="22683:23134" ph="..." />
-            <marker date="1502087459495" expanded="true" signature="22925:23133" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3657">
-          <caret line="574" column="11" lean-forward="false" selection-start-line="574" selection-start-column="11" selection-end-line="574" selection-end-column="11" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -1025,10 +967,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/model/regressor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4361">
+          <caret line="203" column="22" lean-forward="false" selection-start-line="203" selection-start-column="22" selection-end-line="203" selection-end-column="22" />
+          <folding>
+            <element signature="e#25#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1198">
-          <caret line="996" column="36" lean-forward="true" selection-start-line="996" selection-start-column="36" selection-end-line="996" selection-end-column="36" />
+        <state relative-caret-position="191">
+          <caret line="945" column="17" lean-forward="true" selection-start-line="945" selection-start-column="17" selection-end-line="945" selection-end-column="17" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
           </folding>
