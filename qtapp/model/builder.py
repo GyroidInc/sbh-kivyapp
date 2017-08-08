@@ -26,7 +26,7 @@ class ModelBuilder(object):
         -------
         """
         if self.trained_scaler:
-            X = self.trained_scaler.transform(X)
+            X = self.trained_scaler[-1].transform(X)
 
         if self.trained_transformer:
             X = self.trained_transformer.transform(X)

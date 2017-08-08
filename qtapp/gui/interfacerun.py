@@ -100,8 +100,7 @@ class Ui(QtWidgets.QMainWindow):
         self.TabWidget.setCurrentIndex(0)
 
         # Create data structure to hold information about files and configuration file
-        self.data = {}
-        self.testdata = {}
+        self.data, self.test_data = {}, {}
         self.config = helper.create_blank_config()
         self.learner_input = None
         self.statusBar().showMessage('Load Files or Configuration File to Begin...')
@@ -183,19 +182,25 @@ class Ui(QtWidgets.QMainWindow):
         self.T2_Button_BeginTraining.clicked.connect(self.T2_beginTraining)
 
         # Connect the 'Save Configuration File' button
-        self.T2_Button_SaveConfigurationFile.clicked.connect(self.saveConfigurationFile)
+        self.T2_Button_SaveConfigurationFile.clicked.connect(self.T2_saveConfigurationFile)
 
         # Connect the 'Clear Log' button
         self.T2_Button_ClearLog.clicked.connect(self.T2_TextBrowser_AnalysisLog.clear)
 
         ## TAB 3 BUTTONS ##
 
-        #Connect file loading buttons
-        self.T3_Button_LoadDirectory.clicked.connect(self.T3_openDirectory)
+        # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T3_Button_LoadFiles.clicked.connect(self.T3_openFiles)
+        self.T3_Button_LoadDirectory.clicked.connect(self.T3_openDirectory)
 
         # Connect the 'Clear Log' button
-        self.T2_Button_ClearLog.clicked.connect(self.T3_TextBrowser_AnalysisLog.clear)
+        self.T3_Button_ClearLog.clicked.connect(self.T3_TextBrowser_AnalysisLog.clear)
+
+        # Connect 'Load Trained Models...' button
+        self.T3_Button_LoadTrainedModels.clicked.connect(self.T3_loadTrainedModels)
+
+        # Connect 'Begin Testing' button
+        self.T3_Button_BeginTesting.clicked.connect(self.T3_beginTesting)
 
 
     def T1_selectLabelLoadMode(self):
@@ -300,18 +305,6 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_TableWidget_Files.item(i, 1).setText(str(labelDict[self.T1_TableWidget_Files.item(i, 2).text()]))
 
 
-    def T1_UpdateFigureTest(self):
-        """Just a test
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
-        self.MplCanvas.update_figure([0, 1, 2, 3], [{"values": [0, 1, 2, 3], "label": "Test.xlsx"},
-                                          {"values": [4, 0, 2, 3], "label": "Test2.xlsx"}])
-
     def T1_fileTable_createRow(self, label, file):
         """Adds new row to the file table
 
@@ -321,26 +314,24 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        #chkBoxItem = QtWidgets.QTableWidgetItem()
-        #chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
-        #chkBoxItem.setCheckState(QtCore.Qt.Checked)
-        #chkBoxItem.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-
         cell_widget = QWidget()
         chk_bx = QtWidgets.QCheckBox()
         chk_bx.setCheckState(QtCore.Qt.Checked)
         chk_bx.setObjectName("checkbox")
+
         lay_out = QtWidgets.QHBoxLayout(cell_widget)
         lay_out.addWidget(chk_bx)
         lay_out.setAlignment(QtCore.Qt.AlignCenter)
         lay_out.setContentsMargins(0, 0, 0, 0)
         cell_widget.setLayout(lay_out)
-        #cell_widget.findChild(QtWidgets.QCheckBox, "checkbox")
+
         file = QtWidgets.QTableWidgetItem(file)
         file.setFlags(QtCore.Qt.ItemIsEnabled)
         file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
         label = QtWidgets.QTableWidgetItem(label)
         label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
         inx = self.T1_TableWidget_Files.rowCount()
         self.T1_TableWidget_Files.insertRow(inx)
         self.T1_TableWidget_Files.setCellWidget(inx, 0, cell_widget)
@@ -438,6 +429,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.statusBar().showMessage("Error: Loading Label File")
                 return
 
+
     def T1_openFiles(self):
         """Clicked action for 'Load Files...' button
 
@@ -449,7 +441,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+        files, _ = QFileDialog.getOpenFileNames(self, "Load : SansEC experiment files", "",
                                                 "*.xlsx files (*.xlsx);;"
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
@@ -479,7 +471,7 @@ class Ui(QtWidgets.QMainWindow):
         if directory:
             # Grab files that end with .xlsx, .csv, and .xls
             files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx')
-                     or f.endswith('.csv') or f.endswith('.xls')]
+                     or f.endswith('.xls')]
 
             if files:
                 # Add labels and files to table
@@ -946,9 +938,8 @@ class Ui(QtWidgets.QMainWindow):
                                            self.config)).start()
 
 
-    def T3_ingestFile(self, filepath):
-
-        """Does the major data ingestion based on prestaged setting
+    def T2_saveConfigurationFile(self):
+        """ADD
 
         Parameters
         ----------
@@ -956,22 +947,33 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        features = helper.load(file=filepath)
-        freq = set(features["Freq"])
-        feat = set(features.keys())
-        if set(self.freqs) < freq and set(self.columns) < feat:
-            basename = helper.get_base_filename(filepath)
-            if basename not in self.testdata:
-                features = features[self.columns]
-                features = features[features["Freq"].isin(self.freqs)]
-                self.testdata[basename]= {'absolute_path': filepath, 'features': features, 'label': None,
-                                                 'selected': True}
-                self.T3_fileTable_createRow(label="", file=basename)
-            return True
-        else:
-            return False
+        if len(self.config["ExperimentName"]) == 0:
+            helper.messagePopUp(message="Experiment name not specified",
+                                informativeText="Please enter experiment name and save configuration file",
+                                windowTitle="Error: Missing Information",
+                                type="error")
+            self.statusBar().showMessage("Error: Missing Information")
+            return
 
+        try:
+            # Save configuration file
+            json.dump(self.config, open(os.path.join(self.config['SaveDirectory'], 'configuration.json'), 'w'))
 
+            # Update status bar
+            self.statusBar().showMessage("Successfully saved configuration file for experiment %s" % \
+                                         self.config['ExperimentName'])
+
+            # Update experiment name on Tab 2 and Tab 3
+            self.T2_Label_ExperimentName.setText(self.config['ExperimentName'])
+            self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
+        except Exception as e:
+            helper.messagePopUp(message="Error saving configuration file because",
+                                informativeText=str(e),
+                                windowTitle="Error: Saving Configuration File",
+                                type="error")
+            self.statusBar().showMessage("Error: Saving Configuration File")
+            return
+        self.TabWidget.setCurrentIndex(2)
 
 
     def T3_fileTable_createRow(self, label, file):
@@ -987,21 +989,26 @@ class Ui(QtWidgets.QMainWindow):
         chk_bx = QtWidgets.QCheckBox()
         chk_bx.setCheckState(QtCore.Qt.Checked)
         chk_bx.setObjectName("checkbox")
+
         lay_out = QtWidgets.QHBoxLayout(cell_widget)
         lay_out.addWidget(chk_bx)
         lay_out.setAlignment(QtCore.Qt.AlignCenter)
         lay_out.setContentsMargins(0, 0, 0, 0)
         cell_widget.setLayout(lay_out)
+
         file = QtWidgets.QTableWidgetItem(file)
         file.setFlags(QtCore.Qt.ItemIsEnabled)
         file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
         label = QtWidgets.QTableWidgetItem(label)
         label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
         inx = self.T1_TableWidget_Files.rowCount()
         self.T3_TableWidget_TestFiles.insertRow(inx)
         self.T3_TableWidget_TestFiles.setCellWidget(inx, 0, cell_widget)
         self.T3_TableWidget_TestFiles.setItem(inx, 1, label)
         self.T3_TableWidget_TestFiles.setItem(inx, 2, file)
+
 
     def T3_openFiles(self):
         """Clicked action for 'Load Files...' button
@@ -1014,21 +1021,20 @@ class Ui(QtWidgets.QMainWindow):
         """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+        files, _ = QFileDialog.getOpenFileNames(self, "Load : SansEC experiment files", "",
                                                 "*.xlsx files (*.xlsx);;"
                                                 " *.xls files (*xls);; All files (*)",
                                                 options=options)
         if files:
-            notingested=[]
             for f in files:
-                if not self.T3_ingestFile(f):
-                    notingested.append(helper.get_base_filename(f))
-            if notingested:
-                helper.messagePopUp(message="Unable to load some files: feature/freq mismatch",
-                                    informativeText="The following files were not"
-                                    "ingested: {}".format(" ,".join(notingested)),
-                                    windowTitle="Error: File loading",
-                                    type="error")
+                basename = helper.get_base_filename(f)
+                label = str(helper.parse_label(basename))
+                self.test_data[basename] = {'absolute_path': f,
+                                            'selected': True,
+                                            'features': '',
+                                            'label': label}
+                self.T3_fileTable_createRow(label=label, file=basename)
+
 
     def T3_openDirectory(self):
         """Clicked action for 'Load Directory...' button
@@ -1043,26 +1049,235 @@ class Ui(QtWidgets.QMainWindow):
         options |= QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly | QFileDialog.DontUseNativeDialog
         directory = QFileDialog.getExistingDirectory(self,
                                                      "Load : SansEC directory with experiment files",
-                                                     os.path.expanduser("~"), options=options)
+                                                     os.path.expanduser("~"),
+                                                     options=options)
 
         if directory:
             # Grab files that end with .xlsx, .csv, and .xls
             files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.xlsx')
-                     or f.endswith('.csv') or f.endswith('.xls')]
+                     or f.endswith('.xls')]
 
             if files:
-                notingested = []
-                # Add labels and files to table
                 for f in files:
-                    if not self.T3_ingestFile(f):
-                        notingested.append(helper.get_base_filename(f))
-                if notingested:
-                    helper.messagePopUp(message="Unable to load some files: feature/freq mismatch",
-                                        informativeText="The following files were not"
-                                        "ingested: {}".format(" ,".join(notingested)),
-                                        windowTitle="Error: File loading",
-                                        type="error")
+                    basename = helper.get_base_filename(f)
+                    label = str(helper.parse_label(basename))
+                    self.test_data[basename] = {'absolute_path': f,
+                                                'selected': True,
+                                                'features': '',
+                                                'label': label}
+                    self.T3_fileTable_createRow(label=label, file=basename)
 
+
+    def T3_loadTrainedModels(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        if len(self.T3_Label_ExperimentName.text()) == 0:
+            helper.messagePopUp(message="Experiment name not specified",
+                              informativeText="Please enter experiment name",
+                              windowTitle="Error: Missing Information",
+                              type="error")
+            self.statusBar().showMessage("Error: Missing Information")
+            return
+
+        # Load directory for files
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(self,
+                                                "Load : Trained machine learning models",
+                                                os.path.join(self.config["SaveDirectory"], "Models"),
+                                                "*.pkl files (*.pkl)",
+                                                options=options)
+        # Grab files that end with .pkl
+        if files:
+            model_directory = os.path.join(self.config["SaveDirectory"], "Models")
+            files = [f.split('.pkl')[0] for f in os.listdir(model_directory) if f.endswith('.pkl')]
+
+        # Remove old column selections from list
+        self.T3_ListWidget_Models.clear()
+
+        # Set list to columns selection
+        self.T3_ListWidget_Models.addItems(files)
+
+        # Flag all test_models value in the configuration file to True by default
+        for f in files:
+            self.config["Models"][f]["test_model"] = True
+
+        # Make all elements checkable
+        for i in range(self.T3_ListWidget_Models.count()):
+            item = self.T3_ListWidget_Models.item(i)
+            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            self.T3_ListWidget_Models.item(i).setCheckState(QtCore.Qt.Checked)
+
+
+    def T3_beginTesting(self):
+        """Does the major data ingestion based on prestaged setting
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        # Check that at least one model loaded
+        if self.T3_ListWidget_Models.count() == 0:
+            helper.messagePopUp(message="No models loaded",
+                                informativeText="Please load trained models and try again",
+                                windowTitle="Error: No Models Loaded",
+                                type="error")
+            self.statusBar().showMessage("Error: No Models Loaded")
+            return
+
+        # Check that at least one file is loaded
+        if self.T3_TableWidget_TestFiles.rowCount() == 0:
+            helper.messagePopUp(message="No files loaded",
+                                informativeText="Please load files and try again",
+                                windowTitle="Error: No Files Selected",
+                                type="error")
+            self.statusBar().showMessage("Error: No Files Selected")
+            return
+
+        # Check that all files are labeled
+        missing_labels = 0
+        for i in range(self.T3_TableWidget_TestFiles.rowCount()):
+            if self.T3_TableWidget_TestFiles.cellWidget(i, 0).findChild(QtWidgets.QCheckBox,
+                                                                        "checkbox").checkState() \
+                    == QtCore.Qt.Checked:
+                # Check if label exists
+                if not self.T3_TableWidget_TestFiles.item(i, 1).text():
+                    missing_labels += 1
+
+        # Create error if missing labels found
+        if missing_labels > 0:
+            helper.messagePopUp(message="Not all labels filled in for selected files",
+                                informativeText="Check selected files and try again",
+                                windowTitle="Error: Missing Labels",
+                                type="error")
+            self.statusBar().showMessage("Error: Missing Labels")
+            return
+
+        ### TODO: ADD CHECKS THAT AT LEAST ONE MODEL SELECTED AND AT LEAST ONE FILE SELECTED
+
+        # Try and load each selected trained model
+        models_to_test, models_failed = {}, 0
+        for index in range(self.T3_ListWidget_Models.count()):
+            if self.T3_ListWidget_Models.item(index).checkState() == QtCore.Qt.Checked:
+                try:
+                    model_name = self.T3_ListWidget_Models.item(index).text()
+                    models_to_test[model_name] = \
+                        helper.load_trained_model(self.config["Models"][model_name]["path_trained_learner"])
+                except:
+                    models_failed += 1
+                    continue
+
+        if models_failed > 0 and models_failed < self.T3_ListWidget_Models.count():
+            helper.messagePopUp(message="Warning: %d/%d models failed loading" % (models_failed,
+                                                                                  self.T3_ListWidget_Models.count()),
+                                informativeText="Press OK to continue",
+                                windowTitle="Warning: Some Models Failed Loading",
+                                type="warning")
+            self.statusBar().showMessage("Warning: Some Models Failed Loading")
+            pass
+
+        if models_failed == self.T3_ListWidget_Models.count():
+            helper.messagePopUp(message="Error: All %d models failed loading" % self.T3_ListWidget_Models.count(),
+                                informativeText="Check saved models and try again",
+                                windowTitle="Error: No Models Loaded",
+                                type="error")
+            self.statusBar().showMessage("Error: No Models Loaded")
+            return
+
+        # Try and load each selected test file and check for same frequencies and columns as training data
+        files_failed = 0
+        for i in range(self.T3_TableWidget_TestFiles.rowCount()):
+            if self.T3_TableWidget_TestFiles.cellWidget(i, 0).findChild(QtWidgets.QCheckBox,
+                                                                        "checkbox").checkState() \
+                    == QtCore.Qt.Checked:
+                basename = self.T3_TableWidget_TestFiles.item(i, 2).text()
+                try:
+                    self.test_data[basename]['features'] = helper.load(self.test_data[basename]["absolute_path"])
+                except:
+                    files_failed += 1
+                    continue
+
+        if files_failed > 0 and files_failed < self.T3_TableWidget_TestFiles.rowCount():
+            helper.messagePopUp(message="Warning: %d/%d files failed loading" % (files_failed,
+                                                                                 self.T3_TableWidget_TestFiles.rowCount()),
+                                informativeText="Press OK to continue",
+                                windowTitle="Warning: Some Files Failed Loading",
+                                type="warning")
+            self.statusBar().showMessage("Warning: Some Files Failed Loading")
+            pass
+
+        if files_failed == self.T3_TableWidget_TestFiles.rowCount():
+            helper.messagePopUp(message="Error: All %d files failed loading" % self.T3_TableWidget_TestFiles.rowCount(),
+                                informativeText="Check loaded files and try again",
+                                windowTitle="Error: No Files Loaded",
+                                type="error")
+            self.statusBar().showMessage("Error: No Files Loaded")
+            return
+
+        # Check that all test files have the same frequencies and features as training data
+        valid_test_data, invalid_files = {}, []
+        for key, value in self.test_data.items():
+
+            # Get frequencies and features for current file
+            testing_freqs = value['features']['Freq']
+            testing_feats = value['features'].columns.tolist()
+
+            # Remove columns that are usually constant
+            for c in constants.COLUMNS_TO_DROP:
+                testing_feats.pop(testing_feats.index(c))
+
+            try:
+                if helper.check_testing_freqs_and_features(testing_freqs=testing_freqs,
+                                                           testing_feats=testing_feats,
+                                                           training_freqs=self.config['Freqs'],
+                                                           training_feats=self.config['Columns']):
+                    valid_test_data[key] = value
+                else:
+                    invalid_files.append(key)
+            except:
+                invalid_files.append(key)
+                continue
+
+        # Create warning and error messages if some files failed comparison to training data
+        files_failed = len(invalid_files)
+        if files_failed > 0 and files_failed < self.T3_TableWidget_TestFiles.rowCount():
+            helper.messagePopUp(message="Warning: %d/%d files were dissimilar to training data" % (files_failed,
+                                                                                 self.T3_TableWidget_TestFiles.rowCount()),
+                                informativeText="Press OK to continue",
+                                windowTitle="Warning: Some Files Dissimilar to Training Data",
+                                type="warning")
+            self.statusBar().showMessage("Warning: Some Files Dissimilar to Training Data")
+            pass
+
+        if files_failed == self.T3_TableWidget_TestFiles.rowCount():
+            helper.messagePopUp(message="Error: All %d files dissimilar to training data" % self.T3_TableWidget_TestFiles.rowCount(),
+                                informativeText="Check loaded files and try again",
+                                windowTitle="Error: All Files Dissimilar to Training Data",
+                                type="error")
+            self.statusBar().showMessage("Error: All Files Dissimilar to Training Data")
+            return
+
+        # Create input for machine learning models and test for similar frequencies and columns as training data
+        min_freq, max_freq = min(self.config['Freqs']), max(self.config['Freqs'])
+        min_idx = helper.index_for_freq(self.config['Freqs'], min_freq)
+        max_idx = helper.index_for_freq(self.config['Freqs'], max_freq)
+        test_input = helper.tranpose_and_append_columns(data=valid_test_data,
+                                                        freqs=self.config['Freqs'],
+                                                         columns=self.config['Columns'],
+                                                         idx_freq_ranges=(min_idx, max_idx))
+        X, y = test_input.iloc[:, :-1], test_input.iloc[:, -1]
+
+        # Deploy selected trained models on test data set
+        Thread(target=ps.deploy_models, args=(X, y, models_to_test, self.T3_TextBrowser_AnalysisLog,
+                                              self.config)).start()
 
 
     def saveConfigurationFile(self):
@@ -1113,7 +1328,7 @@ class Ui(QtWidgets.QMainWindow):
         """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file = QFileDialog.getOpenFileName(self, "Load: Configuration file", "",
+        file = QFileDialog.getOpenFileName(self, "Load : Configuration file", "",
                                             "Configuration files (*.json)",
                                             options=options)
         if file[0]:

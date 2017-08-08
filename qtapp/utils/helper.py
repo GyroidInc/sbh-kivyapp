@@ -265,6 +265,21 @@ def generate_feature_names(freqs, columns, idx_freq_ranges):
     return names
 
 
+def check_testing_freqs_and_features(testing_freqs, testing_feats, training_freqs, training_feats):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    if set(testing_freqs) == set(training_freqs) and set(testing_feats) == set(training_feats):
+        return 1
+    else:
+        return 0
+
+
 def tranpose_and_append_columns(data, freqs, columns, idx_freq_ranges):
     """ADD
 
@@ -389,9 +404,29 @@ def serialize_trained_model(model_name, trained_learner, path_to_model, configur
         joblib.dump(trained_learner, path_to_model)
     except Exception as e:
         messagePopUp(message="Error saving model %s because" % model_name,
-                     informativeText=e,
+                     informativeText=str(e),
                      windowTitle="Error: Saving Trained Model",
                      type="error")
+        return
+
+
+def load_trained_model(path_to_model):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    try:
+        return joblib.load(path_to_model)
+    except Exception as e:
+        messagePopUp(message="Error loading model path %s because" % path_to_model,
+                     informativeText=str(e),
+                     windowTitle="Error: Loading Trained Model",
+                     type="error")
+        return
 
 
 def generate_summary_report(configuration_file):
@@ -427,7 +462,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'GaussianProcess':
@@ -436,7 +471,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'GradientBoostedTrees':
@@ -445,7 +480,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'KNearestNeighbors':
@@ -454,7 +489,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'LinearModel':
@@ -463,7 +498,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'NeuralNetwork':
@@ -472,7 +507,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'RandomForest':
@@ -481,7 +516,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     },
                 'SupportVectorMachine':
@@ -490,7 +525,7 @@ def create_blank_config():
                         "selected": False,
                         "validation_score": '',
                         "test_score": '',
-                        "test_model": False,
+                        "test_model": '',
                         "path_trained_learner": ''
                     }
             }

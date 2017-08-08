@@ -29,7 +29,8 @@ except:
     from utils import helper
 
 
-__description__ = """Functions to handle pipeline specifications on Tab 2: Train Model"""
+__description__ = """Functions to handle pipeline specifications on Tab 2: Train Model and
+                     model testing on Tab 3: Deploy Model"""
 
 
 def get_model(learner_type, model_name, hyperparameters):
@@ -175,7 +176,7 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
         if model_information['selected']:
             try:
                 # Create save path
-                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
 
                 # Make sure y is flattened to 1d array-like
                 if y.ndim == 2:
@@ -291,7 +292,7 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
         if model_information['selected']:
             try:
                 # Create save path
-                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
 
                 # Make sure y is flattened to 1d array-like
                 if y.ndim == 2:
@@ -510,7 +511,7 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
         if model_information['selected']:
 
             # Specify save path
-            save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+            save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
 
             # Update display
             widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method\n" % \
@@ -613,3 +614,29 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
                 widget_analysis_log.append("***ERROR: 0/%d models successfully trained for %s" % \
                                            (n_combos, model_name))
                 widget_analysis_log.append("Tip: Check input data set and try again\n")
+
+
+def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_file=None):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    for model_name, clf in models_to_test.items():
+
+        widget_analysis_log.append("Deploying model %s on test data..." % model_name)
+
+        # Get predictions on test set
+        y_hat = models_to_test[model_name].predict(X)
+
+        # Grab metrics
+        metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
+        widget_analysis_log.append("\tMetric: %.4f\n" % metric)
+
+        # Update configuration file
+        configuration_file["Models"][model_name]["test_score"] = metric
+
+    widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")

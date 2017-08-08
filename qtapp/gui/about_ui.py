@@ -70,7 +70,7 @@ class AboutUI(object):
         self.spacer = QtWidgets.QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.okButton = QPushButton(self.dialog)
-        self.okButton.setText("Ok")
+        self.okButton.setText("OK")
 
         # Add spacer and ok button
         self.gridLayout.addItem(self.spacer, 3, 1, 1, 1)
