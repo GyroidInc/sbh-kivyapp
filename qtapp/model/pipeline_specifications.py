@@ -31,8 +31,7 @@ except:
     from utils.nonguiwrapper import nongui
 
 
-__description__ = """Functions to handle pipeline specifications on Tab 2: Train Model and
-                     model testing on Tab 3: Deploy Model"""
+__description__ = """Functions to handle pipeline specifications on Tab 2: Train Model"""
 
 
 def get_model(learner_type, model_name, hyperparameters):
@@ -175,19 +174,12 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
     -------
     """
     # Loop over models and train
-<<<<<<< HEAD
-    for model_name, model_information in configuration_file['Models'].items():
-        if model_information['selected']:
-            try:
-                # Create save path
-                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
-=======
     try:
         for model_name, model_information in configuration_file['Models'].items():
             if model_information['selected']:
                 try:
                     # Create save path
-                    save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+                    save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
 
                     # Make sure y is flattened to 1d array-like
                     if y.ndim == 2:
@@ -279,7 +271,6 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
                     widget_analysis_log.append("\tConfiguration file updated")
                     widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
                     widget_analysis_log.append("------------------------------\n")
->>>>>>> fbd3ea61c5d4f1c7d30ba875cbc38c94997dfcf9
 
                 except Exception as e:
                     # Model failed for current hyperparameters
@@ -308,7 +299,7 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
             if model_information['selected']:
                 try:
                     # Create save path
-                    save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+                    save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name  + '.pkl')
 
                     # Make sure y is flattened to 1d array-like
                     if y.ndim == 2:
@@ -354,154 +345,6 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
                     model.fit(X_train, y_train)
 
                     # Get predictions and metric on test fold
-<<<<<<< HEAD
-                    scores[fold] = score = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
-                    widget_analysis_log.append("\tValidation metric: %f" % scores[fold])
-                    fold += 1
-
-                widget_analysis_log.append("\n\tOverall validation metric across folds: %f" % scores.mean())
-
-                # Refit on all data now and return parameters
-                widget_analysis_log.append("\tRetraining model on all data...")
-
-                if standardize: scaler = standardize_features(X=X)
-                if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                             y=y, transformer=None)
-
-                model.fit(X, y)
-
-                # Package model into an object that holds the trained model, scaler, and transformer
-                trained_learner = ModelBuilder(model_name=model_name,
-                                               trained_model=model,
-                                               trained_scaler=scaler,
-                                               trained_transformer=transformer)
-
-                # Save model
-                helper.serialize_trained_model(model_name=model_name,
-                                               trained_learner=trained_learner,
-                                               path_to_model=save_path,
-                                               configuration_file=configuration_file)
-                widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
-
-                # Update configuration file
-                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
-                configuration_file["Models"][model_name]["validation_score"] = scores.mean()
-                configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
-
-                # If not verbose, then automatically_tune is calling the method and needs return arguments
-                widget_analysis_log.append("\tConfiguration file updated")
-                widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
-                widget_analysis_log.append("------------------------------\n")
-
-            except Exception as e:
-                # Model failed for current hyperparameters
-                widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
-                                           (model_name, model_information["hyperparameters"], str(e)))
-                widget_analysis_log.append("Tip: Check input data set and try again\n")
-                continue
-
-
-def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
-            widget_analysis_log=None, configuration_file=None):
-    """ADD
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-    """
-    # Loop over models and train
-    for model_name, model_information in configuration_file['Models'].items():
-        if model_information['selected']:
-            try:
-                # Create save path
-                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
-
-                # Make sure y is flattened to 1d array-like
-                if y.ndim == 2:
-                    if isinstance(y, pd.DataFrame):
-                        y = y.values.ravel()
-                    else:
-                        y = y.ravel()  # assume a numpy array then
-
-                # Split into train/test and features/labels (account for stratification if classification task)
-                if learner_type == "Regressor":
-                    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33)
-                else:
-                    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33, stratify=y)
-
-                # Grab model
-                model = get_model(learner_type=learner_type, model_name=model_name,
-                                  hyperparameters=model_information["hyperparameters"])
-
-                # Update display
-                widget_analysis_log.append("Training %s using holdout method with hyperparameters\n%s\n" % \
-                                           (model_name, (model.get_params(),)))
-
-                # Standardize features if specified
-                if standardize:
-                    widget_analysis_log.append("\tStandardizing features...")
-                    X_train, scaler = standardize_features(X=X_train)
-                    X_test = standardize_features(X=X_test, scaler=scaler)
-                else:
-                    scaler = None
-
-                # Reduce features if specified
-                if feature_reduction_method:
-                    widget_analysis_log.append("\tPerforming feature reduction...")
-                    X_train, transformer = feature_reduction(X=X_train, learner_type=learner_type, method=feature_reduction_method,
-                                                             y=y_train, transformer=None)
-                    X_test = feature_reduction(X=X_test, learner_type=learner_type, method=feature_reduction_method,
-                                               y=None, transformer=transformer)
-                else:
-                    transformer = None
-
-                # Train model
-                widget_analysis_log.append("\tTraining model and calculating validation metric on holdout set...")
-                model.fit(X_train, y_train)
-
-                # Get predictions and metric on test fold
-                metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
-                widget_analysis_log.append("\tValidation metric: %f" % metric)
-
-                # Refit on all data now and return parameters
-                widget_analysis_log.append("\tRetraining model on all data...")
-
-                if standardize: scaler = standardize_features(X=X)
-                if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                             y=y, transformer=None)
-                model.fit(X, y)
-
-                # Package model into an object that holds the trained model, scaler, and transformer
-                trained_learner = ModelBuilder(model_name=model_name,
-                                               trained_model=model,
-                                               trained_scaler=scaler,
-                                               trained_transformer=transformer)
-
-                # Save model
-                helper.serialize_trained_model(model_name=model_name,
-                                               trained_learner=trained_learner,
-                                               path_to_model=save_path,
-                                               configuration_file=configuration_file)
-                widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
-
-                # Update configuration file
-                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
-                configuration_file["Models"][model_name]["validation_score"] = metric
-                configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
-
-                widget_analysis_log.append("\tConfiguration file updated")
-                widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
-                widget_analysis_log.append("------------------------------\n")
-
-            except Exception as e:
-                # Model failed for current hyperparameters
-                widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
-                                           (model_name, model_information["hyperparameters"], str(e)))
-                widget_analysis_log.append("Tip: Check input data set and try again\n")
-                continue
-=======
                     metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
                     widget_analysis_log.append("\tValidation metric: %f" % metric)
 
@@ -534,7 +377,6 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
                     widget_analysis_log.append("\tConfiguration file updated")
                     widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
                     widget_analysis_log.append("------------------------------\n")
->>>>>>> fbd3ea61c5d4f1c7d30ba875cbc38c94997dfcf9
 
                 except Exception as e:
                     # Model failed for current hyperparameters
@@ -673,87 +515,15 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
     Returns
     -------
     """
-<<<<<<< HEAD
-    # Loop over models and train
-    for model_name, model_information in configuration_file['Models'].items():
-        if model_information['selected']:
-
-            # Specify save path
-            save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
-
-            # Update display
-            widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method\n" % \
-                                       (model_name, training_method))
-=======
     try:
         # Loop over models and train
         for model_name, model_information in configuration_file['Models'].items():
             if model_information['selected']:
->>>>>>> fbd3ea61c5d4f1c7d30ba875cbc38c94997dfcf9
 
                 # Specify save path
-                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name)
+                save_path = os.path.join(os.path.join(configuration_file["SaveDirectory"], "Models"), model_name + '.pkl')
 
                 # Update display
-<<<<<<< HEAD
-                widget_analysis_log.append("Best model (%s)" % model_name)
-                widget_analysis_log.append("\tValidation Metric: %.4f" % best_metric)
-                widget_analysis_log.append("\tHyperparameters: %s\n" % best_params)
-
-                # Package model into an object that holds the trained model, scaler, and transformer
-                trained_learner = ModelBuilder(model_name=model_name,
-                                               trained_model=best_model,
-                                               trained_scaler=best_scaler,
-                                               trained_transformer=best_transformer)
-
-                # Save model
-                helper.serialize_trained_model(model_name=model_name,
-                                               trained_learner=trained_learner,
-                                               path_to_model=save_path,
-                                               configuration_file=configuration_file)
-                widget_analysis_log.append("\tTrained learner saved at %s" % save_path)
-
-                # Update configuration file
-                configuration_file["Models"][model_name]["path_trained_learner"] = save_path
-                configuration_file["Models"][model_name]["validation_score"] = best_metric
-                configuration_file["Models"][model_name]["hyperparameters"] = best_params
-
-                widget_analysis_log.append("\tConfiguration file updated\n")
-                widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
-                widget_analysis_log.append("------------------------------\n")
-
-            # All models failed for current model_name, create error message
-            else:
-                widget_analysis_log.append("***ERROR: 0/%d models successfully trained for %s" % \
-                                           (n_combos, model_name))
-                widget_analysis_log.append("Tip: Check input data set and try again\n")
-
-
-def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_file=None):
-    """ADD
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-    """
-    for model_name, clf in models_to_test.items():
-
-        widget_analysis_log.append("Deploying model %s on test data..." % model_name)
-
-        # Get predictions on test set
-        y_hat = models_to_test[model_name].predict(X)
-
-        # Grab metrics
-        metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
-        widget_analysis_log.append("\tMetric: %.4f\n" % metric)
-
-        # Update configuration file
-        configuration_file["Models"][model_name]["test_score"] = metric
-
-    widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")
-=======
                 widget_analysis_log.append("Automatically tuning hyperparameters for %s using %s method\n" % \
                                            (model_name, training_method))
 
@@ -857,4 +627,28 @@ def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_
     except Exception as e:
         return e
     return None
->>>>>>> fbd3ea61c5d4f1c7d30ba875cbc38c94997dfcf9
+
+def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_file=None):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    for model_name, clf in models_to_test.items():
+
+        widget_analysis_log.append("Deploying model %s on test data..." % model_name)
+
+        # Get predictions on test set
+        y_hat = models_to_test[model_name].predict(X)
+
+        # Grab metrics
+        metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
+        widget_analysis_log.append("\tMetric: %.4f\n" % metric)
+
+        # Update configuration file
+        configuration_file["Models"][model_name]["test_score"] = metric
+
+    widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interface.ui" afterPath="$PROJECT_DIR$/qtapp/gui/interface.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" afterPath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
     </list>
@@ -23,8 +24,8 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="945" column="17" lean-forward="true" selection-start-line="945" selection-start-column="17" selection-end-line="945" selection-end-column="17" />
+            <state relative-caret-position="348">
+              <caret line="1011" column="43" lean-forward="false" selection-start-line="1011" selection-start-column="43" selection-end-line="1011" selection-end-column="43" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -76,6 +77,16 @@
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-295">
+              <caret line="625" column="60" lean-forward="true" selection-start-line="625" selection-start-column="60" selection-end-line="625" selection-end-column="60" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -141,6 +152,8 @@
       <find>type</find>
       <find>print</find>
       <find>cv</find>
+      <find>save_pat</find>
+      <find>save_path</find>
     </findStrings>
     <replaceStrings>
       <replace>learner_type</replace>
@@ -241,11 +254,11 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Sherri\PycharmProjects\sbh-qtapp\qtapp\gui" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Sherri\PycharmProjects\sbh-qtapp\qtapp\preprocess" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Sherri\PycharmProjects\sbh-qtapp\qtapp\gui" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -501,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502147186024</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added nongui threading to training; animated bar">
+      <created>1502159804414</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1502159804414</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
@@ -516,12 +536,12 @@
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32454127" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3266385" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32454127" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16585957" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16513762" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33171913" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -581,7 +601,8 @@
     <MESSAGE value="Fixed several bugs." />
     <MESSAGE value="Added nongui decorator. Loading bar now on file ingest; threading" />
     <MESSAGE value="start of tab 3 underway" />
-    <option name="LAST_COMMIT_MESSAGE" value="start of tab 3 underway" />
+    <MESSAGE value="Added nongui threading to training; animated bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added nongui threading to training; animated bar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -795,9 +816,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -937,16 +956,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="19" lean-forward="false" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -972,8 +981,16 @@
         <state relative-caret-position="250">
           <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#42#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-295">
+          <caret line="625" column="60" lean-forward="true" selection-start-line="625" selection-start-column="60" selection-end-line="625" selection-end-column="60" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -987,20 +1004,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
+    <entry file="file://$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4361">
-          <caret line="203" column="22" lean-forward="false" selection-start-line="203" selection-start-column="22" selection-end-line="203" selection-end-column="22" />
+        <state relative-caret-position="255">
+          <caret line="18" column="19" lean-forward="false" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
           <folding>
-            <element signature="e#25#56#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="945" column="17" lean-forward="true" selection-start-line="945" selection-start-column="17" selection-end-line="945" selection-end-column="17" />
+        <state relative-caret-position="348">
+          <caret line="1011" column="43" lean-forward="false" selection-start-line="1011" selection-start-column="43" selection-end-line="1011" selection-end-column="43" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
           </folding>

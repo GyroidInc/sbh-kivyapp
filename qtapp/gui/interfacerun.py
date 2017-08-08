@@ -1009,7 +1009,7 @@ class Ui(QtWidgets.QMainWindow):
         label = QtWidgets.QTableWidgetItem(label)
         label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-        inx = self.T1_TableWidget_Files.rowCount()
+        inx = self.T3_TableWidget_TestFiles.rowCount()
         self.T3_TableWidget_TestFiles.insertRow(inx)
         self.T3_TableWidget_TestFiles.setCellWidget(inx, 0, cell_widget)
         self.T3_TableWidget_TestFiles.setItem(inx, 1, label)
