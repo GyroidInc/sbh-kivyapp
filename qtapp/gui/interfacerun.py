@@ -803,8 +803,7 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-        self.T2_Button_BeginTraining.setEnabled(False)
-        self.T2_ProgressBar_Training.setRange(0,0)
+
 
         if self.learner_input is None:
             helper.messagePopUp(message="Training data not created",
@@ -875,6 +874,9 @@ class Ui(QtWidgets.QMainWindow):
                               type="error")
             self.statusBar().showMessage("Error: No Model Selected")
             return
+
+        self.T2_Button_BeginTraining.setEnabled(False)
+        self.T2_ProgressBar_Training.setRange(0,0)
 
         # Set configuration file to parameters from pipeline specifications
 
@@ -1149,11 +1151,12 @@ class Ui(QtWidgets.QMainWindow):
             return
 
         # Check that all files are labeled
-        missing_labels = 0
+        missing_labels, selected_files, selected_models = 0, 0, 0
         for i in range(self.T3_TableWidget_TestFiles.rowCount()):
             if self.T3_TableWidget_TestFiles.cellWidget(i, 0).findChild(QtWidgets.QCheckBox,
                                                                         "checkbox").checkState() \
                     == QtCore.Qt.Checked:
+                selected_files += 1
                 # Check if label exists
                 if not self.T3_TableWidget_TestFiles.item(i, 1).text():
                     missing_labels += 1
@@ -1167,7 +1170,16 @@ class Ui(QtWidgets.QMainWindow):
             self.statusBar().showMessage("Error: Missing Labels")
             return
 
-        ### TODO: ADD CHECKS THAT AT LEAST ONE MODEL SELECTED AND AT LEAST ONE FILE SELECTED
+        for index in range(self.T3_ListWidget_Models.count()):
+            if self.T3_ListWidget_Models.item(index).checkState() == QtCore.Qt.Checked:
+                selected_models+=1
+
+        if selected_files < 1 or selected_models < 1:
+            helper.messagePopUp(message="less than one model or file selected",
+                                informativeText="Check selected files and models and try again",
+                                windowTitle="Error: Missing Labels",
+                                type="error")
+            self.statusBar().showMessage("Error: No selected model/file")
 
         # Try and load each selected trained model
         models_to_test, models_failed = {}, 0
