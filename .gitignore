@@ -99,3 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# pycharm
+qtapp/.idea/
+qtapp/.idea/workspace.xml
+Test/
