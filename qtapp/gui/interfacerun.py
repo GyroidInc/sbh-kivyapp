@@ -569,6 +569,10 @@ class Ui(QtWidgets.QMainWindow):
                     self.data[basename]['label'] = label
                     self.data[basename]['selected'] = True
 
+                    # Update configuration file if file not already added
+                    if self.data[basename]['absolute_path'] not in self.config["TrainFiles"]:
+                        self.config["TrainFiles"].append(self.data[basename]['absolute_path'])
+
                 else:
                     self.data[basename]['features'] = None
                     self.data[basename]['selected'] = False
@@ -1170,6 +1174,7 @@ class Ui(QtWidgets.QMainWindow):
                                                                         "checkbox").checkState() \
                     == QtCore.Qt.Checked:
                 selected_files += 1
+
                 # Check if label exists
                 if not self.T3_TableWidget_TestFiles.item(i, 1).text():
                     missing_labels += 1
@@ -1185,10 +1190,10 @@ class Ui(QtWidgets.QMainWindow):
 
         for index in range(self.T3_ListWidget_Models.count()):
             if self.T3_ListWidget_Models.item(index).checkState() == QtCore.Qt.Checked:
-                selected_models+=1
+                selected_models += 1
 
         if selected_files < 1 or selected_models < 1:
-            helper.messagePopUp(message="less than one model or file selected",
+            helper.messagePopUp(message="Less than one model or file selected",
                                 informativeText="Check selected files and models and try again",
                                 windowTitle="Error: Missing Labels",
                                 type="error")
@@ -1235,6 +1240,10 @@ class Ui(QtWidgets.QMainWindow):
                 except:
                     files_failed += 1
                     continue
+
+                # Update configuration file if file not already added
+                if self.test_data[basename]['absolute_path'] not in self.config["TestFiles"]:
+                    self.config["TestFiles"].append(self.test_data[basename]['absolute_path'])
 
         if files_failed > 0 and files_failed < self.T3_TableWidget_TestFiles.rowCount():
             helper.messagePopUp(message="Warning: %d/%d files failed loading" % (files_failed,
@@ -1297,14 +1306,24 @@ class Ui(QtWidgets.QMainWindow):
             return
 
         # Create input for machine learning models and test for similar frequencies and columns as training data
-        min_freq, max_freq = min(self.config['Freqs']), max(self.config['Freqs'])
-        min_idx = helper.index_for_freq(self.config['Freqs'], min_freq)
-        max_idx = helper.index_for_freq(self.config['Freqs'], max_freq)
-        test_input = helper.tranpose_and_append_columns(data=valid_test_data,
-                                                        freqs=self.config['Freqs'],
-                                                         columns=self.config['Columns'],
-                                                         idx_freq_ranges=(min_idx, max_idx))
-        X, y = test_input.iloc[:, :-1], test_input.iloc[:, -1]
+        self.T3_TextBrowser_AnalysisLog.append("Creating testing data set...")
+        try:
+            min_freq, max_freq = min(self.config['Freqs']), max(self.config['Freqs'])
+            min_idx = helper.index_for_freq(self.config['Freqs'], min_freq)
+            max_idx = helper.index_for_freq(self.config['Freqs'], max_freq)
+            test_input = helper.tranpose_and_append_columns(data=valid_test_data,
+                                                            freqs=self.config['Freqs'],
+                                                             columns=self.config['Columns'],
+                                                             idx_freq_ranges=(min_idx, max_idx))
+            X, y = test_input.iloc[:, :-1], test_input.iloc[:, -1]
+
+        except Exception as e:
+            helper.messagePopUp(message="Error: Creating testing dataset because",
+                                informativeText=str(e),
+                                windowTitle="Error: Creating Testing Dataset",
+                                type="error")
+            self.statusBar().showMessage("Error: Creating Testing Dataset")
+            return
 
         # Deploy selected trained models on test data set
         Thread(target=ps.deploy_models, args=(X, y, models_to_test, self.T3_TextBrowser_AnalysisLog,

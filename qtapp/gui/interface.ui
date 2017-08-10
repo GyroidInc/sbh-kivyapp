@@ -1352,6 +1352,19 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
+                  <widget class="QProgressBar" name="T3_ProgressBar_Testing">
+                   <property name="maximum">
+                    <number>1</number>
+                   </property>
+                   <property name="value">
+                    <number>-1</number>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QTextBrowser" name="T3_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>

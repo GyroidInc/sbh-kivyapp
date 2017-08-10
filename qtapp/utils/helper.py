@@ -444,12 +444,16 @@ def generate_summary_report(configuration_file, importances):
     summary.write("SUMMARY OF ANALYSIS FOR EXPERIMENT %s\n\n" % configuration_file["ExperimentName"])
 
     summary.write("-- DATA SUMMARY --\n")
-    summary.write("\t     Save Directory: %s\n" % configuration_file["SaveDirectory"])
-    summary.write("\t      Learning Task: %s\n" % configuration_file["LearningTask"])
-    summary.write("\t#  Training Samples: %d\n" % configuration_file["TrainSamples"])
-    summary.write("\t# Training Features: %d\n" % configuration_file["TrainFeatures"])
-    summary.write("\t    Frequency Range: (%.3f, %.3f)\n" % (min(configuration_file["Freqs"]), max(configuration_file["Freqs"])))
-    summary.write("\t   Features/Columns: %s\n\n" % (configuration_file["Columns"],))
+    summary.write("\t  Save Directory: %s\n" % configuration_file["SaveDirectory"])
+    summary.write("\t   Learning Task: %s\n\n" % configuration_file["LearningTask"])
+    summary.write("\t # Train Samples: %d\n" % configuration_file["TrainSamples"])
+    summary.write("\t     Train Files: %s\n\n" % (configuration_file["TrainFiles"],))
+    summary.write("\t  # Test Samples: %d\n" % len(configuration_file["TestFiles"]))
+    summary.write("\t      Test Files: %s\n\n" % (configuration_file["TestFiles"],))
+    summary.write("\t   # Frequencies: %d\n" % len(configuration_file["Freqs"]))
+    summary.write("\t Frequency Range: (%.3f, %.3f)\n\n" % (min(configuration_file["Freqs"]), max(configuration_file["Freqs"])))
+    summary.write("\t      # Features: %d\n" % configuration_file["TrainFeatures"])
+    summary.write("\tFeatures/Columns: %s\n\n" % (configuration_file["Columns"],))
 
     summary.write("-- TRAINING SUMMARY --\n")
     summary.write("\tStandardize Features: %s\n" % configuration_file["StandardizeFeatures"])
@@ -490,6 +494,8 @@ def create_blank_config():
         'SaveDirectory': '',
         'ExperimentName': '',
         'LearningTask': '',
+        "TrainFiles":[],
+        "TestFiles":[],
         'TrainSamples': '',
         'TrainFeatures': '',
         'Freqs': '',

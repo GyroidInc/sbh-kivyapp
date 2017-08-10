@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/qtapp/gui/configuration.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/qtapp/model/regressor.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbh-qtapp.iml" afterPath="$PROJECT_DIR$/.idea/sbh-qtapp.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interface.ui" afterPath="$PROJECT_DIR$/qtapp/gui/interface.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" afterPath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/utils/helper.py" afterPath="$PROJECT_DIR$/qtapp/utils/helper.py" />
     </list>
     <ignored path=".idea/" />
@@ -30,8 +25,8 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="1357" column="44" lean-forward="true" selection-start-line="1357" selection-start-column="44" selection-end-line="1357" selection-end-column="44" />
+            <state relative-caret-position="177">
+              <caret line="1325" column="18" lean-forward="true" selection-start-line="1325" selection-start-column="18" selection-end-line="1325" selection-end-column="18" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -42,8 +37,8 @@
       <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="157" column="66" lean-forward="false" selection-start-line="157" selection-start-column="48" selection-end-line="157" selection-end-column="66" />
+            <state relative-caret-position="-8127">
+              <caret line="149" column="31" lean-forward="false" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
               <folding>
                 <element signature="e#25#56#0" expanded="true" />
               </folding>
@@ -54,8 +49,8 @@
       <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="472" column="29" lean-forward="true" selection-start-line="472" selection-start-column="29" selection-end-line="472" selection-end-column="29" />
+            <state relative-caret-position="2935">
+              <caret line="454" column="41" lean-forward="true" selection-start-line="454" selection-start-column="41" selection-end-line="454" selection-end-column="41" />
               <folding>
                 <element signature="e#24#53#0" expanded="true" />
               </folding>
@@ -84,7 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.data</find>
       <find>label</find>
       <find>counter</find>
       <find>setCure</find>
@@ -111,6 +105,10 @@
       <find>items()</find>
       <find>values*(</find>
       <find>self.learner</find>
+      <find>self.test_data</find>
+      <find>test_input</find>
+      <find>t1_save</find>
+      <find>because</find>
     </findStrings>
     <replaceStrings>
       <replace>learner_type</replace>
@@ -135,8 +133,8 @@
         <option value="$PROJECT_DIR$/qtapp/utils/loadingBar.py" />
         <option value="$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py" />
         <option value="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
-        <option value="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
         <option value="$PROJECT_DIR$/qtapp/utils/helper.py" />
+        <option value="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
       </list>
     </option>
   </component>
@@ -519,7 +517,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13970588" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32454127" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19242902" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19242902" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16284403" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33171913" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -950,8 +948,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="157" column="66" lean-forward="false" selection-start-line="157" selection-start-column="48" selection-end-line="157" selection-end-column="66" />
+        <state relative-caret-position="-8127">
+          <caret line="149" column="31" lean-forward="false" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
           <folding>
             <element signature="e#25#56#0" expanded="true" />
           </folding>
@@ -960,8 +958,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="472" column="29" lean-forward="true" selection-start-line="472" selection-start-column="29" selection-end-line="472" selection-end-column="29" />
+        <state relative-caret-position="2935">
+          <caret line="454" column="41" lean-forward="true" selection-start-line="454" selection-start-column="41" selection-end-line="454" selection-end-column="41" />
           <folding>
             <element signature="e#24#53#0" expanded="true" />
           </folding>
@@ -970,8 +968,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="1357" column="44" lean-forward="true" selection-start-line="1357" selection-start-column="44" selection-end-line="1357" selection-end-column="44" />
+        <state relative-caret-position="177">
+          <caret line="1325" column="18" lean-forward="true" selection-start-line="1325" selection-start-column="18" selection-end-line="1325" selection-end-column="18" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
           </folding>
