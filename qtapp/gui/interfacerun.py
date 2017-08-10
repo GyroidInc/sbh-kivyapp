@@ -1104,6 +1104,9 @@ class Ui(QtWidgets.QMainWindow):
                                 type="error")
             self.statusBar().showMessage("Error: No selected model/file")
 
+        self.T3_Button_BeginTesting.setEnabled(False)
+        self.T3_ProgressBar_Testing.setRange(0, 0)
+
         # Try and load each selected trained model
         models_to_test, models_failed = {}, 0
         for index in range(self.T3_ListWidget_Models.count()):
@@ -1131,6 +1134,8 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: No Models Loaded",
                                 type="error")
             self.statusBar().showMessage("Error: No Models Loaded")
+            self.T3_Button_BeginTesting.setEnabled(True)
+            self.T3_ProgressBar_Testing.setRange(0, 1)
             return
 
         # Try and load each selected test file and check for same frequencies and columns as training data
@@ -1165,6 +1170,8 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: No Files Loaded",
                                 type="error")
             self.statusBar().showMessage("Error: No Files Loaded")
+            self.T3_Button_BeginTesting.setEnabled(True)
+            self.T3_ProgressBar_Testing.setRange(0, 1)
             return
 
         # Check that all test files have the same frequencies and features as training data
@@ -1208,6 +1215,8 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: All Files Dissimilar to Training Data",
                                 type="error")
             self.statusBar().showMessage("Error: All Files Dissimilar to Training Data")
+            self.T3_Button_BeginTesting.setEnabled(True)
+            self.T3_ProgressBar_Testing.setRange(0, 1)
             return
 
         # Create input for machine learning models and test for similar frequencies and columns as training data
@@ -1228,11 +1237,18 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: Creating Testing Dataset",
                                 type="error")
             self.statusBar().showMessage("Error: Creating Testing Dataset")
+            self.T3_Button_BeginTesting.setEnabled(True)
+            self.T3_ProgressBar_Testing.setRange(0, 1)
             return
 
         # Deploy selected trained models on test data set
-        Thread(target=ps.deploy_models, args=(X, y, models_to_test, self.T3_TextBrowser_AnalysisLog,
-                                              self.config)).start()
+        e = ps.deploy_models(X, y, models_to_test, self.T3_TextBrowser_AnalysisLog,
+                                              self.config)
+        self.T3_Button_BeginTesting.setEnabled(True)
+        self.T3_ProgressBar_Testing.setRange(0, 1)
+
+        if e is not None:
+            raise e
 
     def T3_generateReport(self):
         """Generates summary report for analysis on Tab 3"""
@@ -1252,36 +1268,42 @@ class Ui(QtWidgets.QMainWindow):
             return
         self.T3_TextBrowser_AnalysisLog.append("\nGenerating summary report for analysis (%s), please wait...\n" % \
                                                self.config["ExperimentName"])
-        Thread(target=self.generateReport).start()
+        e = self.generateReport()
+        if e is not None:
+            raise e
 
 
+    @nongui
     def generateReport(self):
         """Helper function that generates report in separate thread"""
         # Generate feature importance analysis results
-        importances_generated = False
-        if self.learner_input is not None:
-            self.T3_TextBrowser_AnalysisLog.append("Running feature importance analysis...")
-            try:
-                importances = ps.feature_importance_analysis(X=self.learner_input.iloc[:, :-1],
-                                                             y=self.learner_input.iloc[:, -1],
-                                                             configuration_file=self.config)
-                importances_generated = True
-                self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis finished")
-            except Exception as e:
-                self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis failed because %s\n" % str(e))
+        try:
+            importances_generated = False
+            if self.learner_input is not None:
+                self.T3_TextBrowser_AnalysisLog.append("Running feature importance analysis...")
+                try:
+                    importances = ps.feature_importance_analysis(X=self.learner_input.iloc[:, :-1],
+                                                                 y=self.learner_input.iloc[:, -1],
+                                                                 configuration_file=self.config)
+                    importances_generated = True
+                    self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis finished")
+                except Exception as e:
+                    self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis failed because %s\n" % str(e))
 
-        helper.generate_summary_report(configuration_file=self.config,
-                                       importances=importances)
-        self.T3_TextBrowser_AnalysisLog.append("\nSummary report finished and saved as %s" % \
-                                               os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
-                                               "analysis_summary.txt"))
-        if importances_generated:
-            self.T3_TextBrowser_AnalysisLog.append("\nFeature analysis report saved as %s" % \
+            helper.generate_summary_report(configuration_file=self.config,
+                                           importances=importances)
+            self.T3_TextBrowser_AnalysisLog.append("\nSummary report finished and saved as %s" % \
                                                    os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
-                                                   "feature_importance_analysis.txt"))
+                                                   "analysis_summary.txt"))
+            if importances_generated:
+                self.T3_TextBrowser_AnalysisLog.append("\nFeature analysis report saved as %s" % \
+                                                       os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
+                                                       "feature_importance_analysis.txt"))
 
-        self.T3_TextBrowser_AnalysisLog.append("\n --- Analysis Finished ---\n")
-
+            self.T3_TextBrowser_AnalysisLog.append("\n --- Analysis Finished ---\n")
+        except Exception as e:
+            return e
+        return None
 
     def saveConfigurationFile(self):
         """Saves configuration file at any given moment in app"""

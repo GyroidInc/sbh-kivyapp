@@ -2,7 +2,7 @@ from multiprocessing.pool import ThreadPool
 from PyQt5.QtWidgets import QApplication
 
 
-def nongui(fun):
+def nongui(fun: object) -> object:
     """Decorator running the function in non-gui thread while
     processing the gui events."""
     def wrap(*args, **kwargs):

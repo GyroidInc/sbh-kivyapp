@@ -789,7 +789,7 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
         return e
     return None
 
-
+@nongui
 def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_file=None):
     """Runs trained models on test data set
 
@@ -814,24 +814,27 @@ def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_
     -------
     None
     """
-    for model_name, clf in models_to_test.items():
+    try:
+        for model_name, clf in models_to_test.items():
 
-        widget_analysis_log.append("Deploying model %s on test data..." % model_name)
+                widget_analysis_log.append("Deploying model %s on test data..." % model_name)
 
-        # Get predictions on test set
-        y_hat = models_to_test[model_name].predict(X)
+                # Get predictions on test set
+                y_hat = models_to_test[model_name].predict(X)
 
-        # Grab metrics
-        metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
-        widget_analysis_log.append("\tMetric: %.4f\n" % metric)
+                # Grab metrics
+                metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
+                widget_analysis_log.append("\tMetric: %.4f\n" % metric)
 
-        # Update configuration file
-        configuration_file["Models"][model_name]["test_score"] = metric
+                # Update configuration file
+                configuration_file["Models"][model_name]["test_score"] = metric
 
-        # Automatically try and save configuration file
-        try:
-            json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
-        except:
-            pass
-
-    widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")
+                # Automatically try and save configuration file
+                try:
+                    json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
+                except:
+                    pass
+        widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")
+    except Exception as e:
+        return e
+    return None
