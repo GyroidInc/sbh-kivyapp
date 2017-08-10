@@ -26,11 +26,15 @@
      <widget class="QWidget" name="Widget_Main" native="true">
       <property name="font">
        <font>
+        <family>Verdana</family>
         <pointsize>12</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">font: 12pt &quot;Verdana&quot;;</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -46,18 +50,20 @@
          </property>
          <property name="font">
           <font>
+           <family>Verdana</family>
            <pointsize>12</pointsize>
-           <weight>75</weight>
+           <weight>50</weight>
            <italic>false</italic>
-           <bold>true</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
+           <bold>false</bold>
           </font>
          </property>
          <property name="cursor">
           <cursorShape>ArrowCursor</cursorShape>
          </property>
          <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
           <bool>false</bool>
          </property>
          <property name="styleSheet">
@@ -104,9 +110,11 @@
             <widget class="QPushButton" name="T1_Button_SaveConfigurationFile">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -121,9 +129,11 @@
             <widget class="QGroupBox" name="T1_GroupBox_Files">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -143,7 +153,11 @@
                <widget class="QLineEdit" name="T1_Label_ExperimentName">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -172,9 +186,11 @@
                  <widget class="QPushButton" name="T1_Button_LoadDirectory">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -189,9 +205,11 @@
                  <widget class="QPushButton" name="T1_Button_LoadFiles">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -208,7 +226,11 @@
                <widget class="QTableWidget" name="T1_TableWidget_Files">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -306,7 +328,11 @@
                  <widget class="QRadioButton" name="T1_RadioButton_ContinuousLabels">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -321,7 +347,11 @@
                  <widget class="QRadioButton" name="T1_RadioButton_CategoricalLabels">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -362,7 +392,11 @@
                  <widget class="QLabel" name="T1_Label_LabelFilesBy">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -377,9 +411,11 @@
                  <widget class="QPushButton" name="T1_Button_LoadLabelFiles">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -394,7 +430,11 @@
                  <widget class="QComboBox" name="T1_ComboBox_LabelFilesBy">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -416,9 +456,11 @@
                  <widget class="QPushButton" name="T1_Button_IngestFiles">
                   <property name="font">
                    <font>
+                    <family>Verdana</family>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -435,7 +477,11 @@
                <spacer name="T1_VerticalSpacer">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="orientation">
@@ -456,13 +502,18 @@
                <widget class="QGroupBox" name="T1_GroupBox_FeaturesColumns">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="autoFillBackground">
-                 <bool>true</bool>
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
                 </property>
                 <property name="title">
                  <string>Features/Columns</string>
@@ -475,7 +526,11 @@
                   <widget class="QListWidget" name="T1_ListWidget_Features">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="autoFillBackground">
@@ -490,9 +545,11 @@
                <widget class="QPushButton" name="T1_Button_CreateDataset">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -510,9 +567,11 @@
             <widget class="QGroupBox" name="T1_GroupBox_PlotPreview">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="title">
@@ -532,7 +591,11 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -550,9 +613,11 @@
                <widget class="QGroupBox" name="T1_GroupBox_FrequencySelection">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -580,7 +645,11 @@
                   <widget class="QSlider" name="T1_HorizontalSlider_MinFrequency">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -601,7 +670,11 @@
                   <widget class="QSlider" name="T1_HorizontalSlider_MaxFrequency">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -631,7 +704,11 @@
                   <widget class="QLabel" name="T1_Label_MaxFrequency">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -643,7 +720,11 @@
                   <widget class="QLabel" name="T1_Label_MinFrequency">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -658,9 +739,11 @@
                <widget class="QPushButton" name="T1_Button_RefreshPlot">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="toolTip">
@@ -685,9 +768,11 @@
             <widget class="QLabel" name="T2_Label_ExperimentName">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="text">
@@ -702,7 +787,11 @@
             <widget class="QWidget" name="T2_Widget_MainWindow" native="true">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -710,9 +799,11 @@
                <widget class="QGroupBox" name="T2_GroupBox_AnalysisLog">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -751,7 +842,11 @@
                   <widget class="QTextBrowser" name="T2_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -761,7 +856,7 @@
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Verdana'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:14pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="textInteractionFlags">
@@ -776,9 +871,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T2_Button_ClearLog">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -799,9 +896,11 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -815,8 +914,10 @@ p, li { white-space: pre-wrap; }
                   <widget class="QComboBox" name="T2_ComboBox_StandardizeFeatures">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
                      <weight>50</weight>
+                     <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -845,7 +946,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QLabel" name="T2_Label_AutomaticallyTune">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -860,7 +965,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QLabel" name="T2_Label_StandardizeFeatures">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -875,9 +984,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T2_Button_BeginTraining">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -892,8 +1003,10 @@ p, li { white-space: pre-wrap; }
                   <widget class="QComboBox" name="T2_ComboBox_TrainingMethod">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
                      <weight>50</weight>
+                     <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -919,8 +1032,10 @@ p, li { white-space: pre-wrap; }
                   <widget class="QComboBox" name="T2_ComboBox_FeatureReduction">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
                      <weight>50</weight>
+                     <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -954,7 +1069,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QLabel" name="T2_Labels_FeatureReduction">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -969,7 +1088,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QLabel" name="T2_Label_TrainingMethod">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -984,8 +1107,10 @@ p, li { white-space: pre-wrap; }
                   <widget class="QComboBox" name="T2_ComboBox_AutomaticallyTune">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
                      <weight>50</weight>
+                     <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -1020,9 +1145,11 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -1042,7 +1169,11 @@ p, li { white-space: pre-wrap; }
                    </property>
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1212,9 +1343,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T2_Button_SetParameters">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1235,9 +1368,11 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="T2_Button_SaveConfigurationFile">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -1259,9 +1394,11 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="T3_Button_GenerateReport">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="toolTip">
@@ -1276,7 +1413,11 @@ p, li { white-space: pre-wrap; }
             <widget class="QWidget" name="T3_Widget_MainWindow" native="true">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <layout class="QGridLayout" name="gridLayout_7">
@@ -1284,9 +1425,11 @@ p, li { white-space: pre-wrap; }
                <widget class="QGroupBox" name="T3_GroupBox_TrainedModels">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -1314,9 +1457,11 @@ p, li { white-space: pre-wrap; }
                     <widget class="QPushButton" name="T3_Button_LoadTrainedModels">
                      <property name="font">
                       <font>
+                       <family>Verdana</family>
                        <pointsize>12</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1339,9 +1484,11 @@ p, li { white-space: pre-wrap; }
                <widget class="QGroupBox" name="T3_GroupBox_AnalysisLog">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -1368,7 +1515,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTextBrowser" name="T3_TextBrowser_AnalysisLog">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1378,7 +1529,7 @@ p, li { white-space: pre-wrap; }
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Verdana'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.SF NS Text'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="placeholderText">
@@ -1390,9 +1541,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T3_Button_ClearLog">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1407,9 +1560,11 @@ p, li { white-space: pre-wrap; }
                <widget class="QGroupBox" name="T3_GroupBox_TestFiles">
                 <property name="font">
                  <font>
+                  <family>Verdana</family>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="title">
@@ -1423,7 +1578,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTableWidget" name="T3_TableWidget_TestFiles">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1486,9 +1645,11 @@ p, li { white-space: pre-wrap; }
                   <widget class="QPushButton" name="T3_Button_BeginTesting">
                    <property name="font">
                     <font>
+                     <family>Verdana</family>
                      <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -1517,9 +1678,11 @@ p, li { white-space: pre-wrap; }
                     <widget class="QPushButton" name="T3_Button_LoadFiles">
                      <property name="font">
                       <font>
+                       <family>Verdana</family>
                        <pointsize>12</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1534,9 +1697,11 @@ p, li { white-space: pre-wrap; }
                     <widget class="QPushButton" name="T3_Button_LoadDirectory">
                      <property name="font">
                       <font>
+                       <family>Verdana</family>
                        <pointsize>12</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
                       </font>
                      </property>
                      <property name="toolTip">
@@ -1559,9 +1724,11 @@ p, li { white-space: pre-wrap; }
             <widget class="QLabel" name="T3_Label_ExperimentName">
              <property name="font">
               <font>
+               <family>Verdana</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="text">

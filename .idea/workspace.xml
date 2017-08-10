@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interface.ui" afterPath="$PROJECT_DIR$/qtapp/gui/interface.ui" />
     </list>
     <ignored path=".idea/" />
     <ignored path=".idea/workspace.xml" />
@@ -22,8 +22,8 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="290" column="38" lean-forward="true" selection-start-line="290" selection-start-column="38" selection-end-line="290" selection-end-column="38" />
+            <state relative-caret-position="273">
+              <caret line="465" column="22" lean-forward="true" selection-start-line="465" selection-start-column="22" selection-end-line="465" selection-end-column="22" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -76,7 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Load_Data</find>
       <find>&quot;Load_Data&quot;</find>
       <find>LoadData</find>
       <find>config</find>
@@ -106,6 +105,7 @@
       <find>T1_openLabels</find>
       <find>setLabelsByFile</find>
       <find>error l</find>
+      <find>error loading</find>
     </findStrings>
     <replaceStrings>
       <replace>learner_type</replace>
@@ -965,8 +965,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="290" column="38" lean-forward="true" selection-start-line="290" selection-start-column="38" selection-end-line="290" selection-end-column="38" />
+        <state relative-caret-position="273">
+          <caret line="465" column="22" lean-forward="true" selection-start-line="465" selection-start-column="22" selection-end-line="465" selection-end-column="22" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
           </folding>
