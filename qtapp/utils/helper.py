@@ -465,7 +465,7 @@ def generate_summary_report(configuration_file, importances):
     summary.write("-- TRAINING RESULTS: VALIDATION METRIC = %s --\n" % metric_name.upper())
     counter = 1
     for model_name, model_information in configuration_file["Models"].items():
-        if model_information["selected"]:
+        if model_information["validation_score"]:
             summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["validation_score"]))
             summary.write("\tHyperparameters : %s\n" % (model_information["hyperparameters"], ))
             counter += 1
@@ -480,7 +480,7 @@ def generate_summary_report(configuration_file, importances):
     summary.write("\n-- TESTING RESULTS: TESTING METRIC = %s --\n" % metric_name.upper())
     counter = 1
     for model_name, model_information in configuration_file["Models"].items():
-        if model_information["test_model"]:
+        if model_information["test_score"]:
             summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["test_score"]))
             counter += 1
 

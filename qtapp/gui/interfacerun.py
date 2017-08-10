@@ -41,12 +41,22 @@ except:
 
 
 def excepthook(excType, excValue, tracebackobj):
-    """
-    Global function to catch unhandled exceptions.
+    """Global function to catch unhandled exceptions.
 
-    @param excType exception type
-    @param excValue exception value
-    @param tracebackobj traceback object
+    Parameters
+    ----------
+    excType : str
+        exception type
+
+    excValue : str
+        exception value
+
+    tracebackobj : str
+        traceback object
+
+    Returns
+    -------
+    None
     """
     separator = '-' * 80
     logFile = "_errmsg_" + ".log"
@@ -82,14 +92,7 @@ sys.excepthook = excepthook
 
 
 class Ui(QtWidgets.QMainWindow):
-    """ADD DESCRIPTION
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-    """
+    """Main UI for application"""
     def __init__(self):
         super(Ui, self).__init__()
 
@@ -207,14 +210,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_selectLabelLoadMode(self):
-        """switches between two label calling methodologies
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Switches two labeling methodologies on Tab 1"""
         if self.T1_ComboBox_LabelFilesBy.currentText() == "CSV File":
             self.T1_Button_LoadLabelFiles.setText("Load Labels")
             self.T1_Button_LoadLabelFiles.disconnect()
@@ -226,14 +222,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_Regraph(self):
-        """attempts to regraph the selected range after selection
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Attempts to regraph the selected range after selection on Tab 1"""
         if self.T1_ListWidget_Features.currentItem() != None:
             feat = self.T1_ListWidget_Features.currentItem().text()
             if len(self.freqs) > 1 and len(self.columns) > 0:
@@ -251,14 +240,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_setLabelsByFile(self, filename):
-        """attempts to label each row by a dict constructed from a csv file
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Attempts to label each row by a dict constructed from a csv file on Tab 1"""
         reader = csv.reader(open(filename, 'r'))
         toDict = {}
         for row in reader:
@@ -303,14 +285,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_setLabelsByName(self):
-        """attempts to label each row by a the file name
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Attempts to label each row by the filename on Tab 1"""
         if self.T1_TableWidget_Files.rowCount() == 0:
             helper.messagePopUp(message="No files loaded",
                                 informativeText="Please load files and try again",
@@ -330,10 +305,12 @@ class Ui(QtWidgets.QMainWindow):
 
         Parameters
         ----------
-        Dict{baseName, Label}
+        labelDict: dict
+            Dictionary with key = file basename and value = file label
 
         Returns
         -------
+        None
         """
         for i in range(self.T1_TableWidget_Files.rowCount()):
             # Grab label and basename from table
@@ -342,13 +319,19 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_fileTable_createRow(self, label, file):
-        """Adds new row to the file table
+        """Adds new row to the file table on Tab 1
 
         Parameters
         ----------
+        label : str
+            Label for file
+
+        file : str
+            Basename for file
 
         Returns
         -------
+        None
         """
         cell_widget = QWidget()
         chk_bx = QtWidgets.QCheckBox()
@@ -376,14 +359,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_updateCounter(self):
-        """sets the lcd to the value of the slider freq
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Sets the lcd to the value of the slider freq on Tab 1"""
         if len(self.freqs) > 1:
             toSet = self.T1_LCD_MinFrequency
             toSet.display(self.freqs[self.T1_HorizontalSlider_MinFrequency.value()])
@@ -396,14 +372,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_checkMaxSlider(self):
-        """Checks maximum value of slider
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Checks maximum value of slider"""
         if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
             toSet= self.T1_HorizontalSlider_MaxFrequency.value() - 1
             if toSet < 0:
@@ -414,14 +383,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_checkMinSlider(self):
-        """Checks minimum value of slider
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Checks minimum value of slider on Tab 1"""
         if self.T1_HorizontalSlider_MaxFrequency.value() <= self.T1_HorizontalSlider_MinFrequency.value():
             toSet = self.T1_HorizontalSlider_MinFrequency.value() + 1
 
@@ -433,14 +395,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_openLabels(self):
-        """Clicked action for 'Load LABELS...' button
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Opens .csv file for loading labels by file on Tab 1"""
         if self.T1_TableWidget_Files.rowCount() == 0:
             helper.messagePopUp(message="No files loaded",
                                 informativeText="Please load files and try again",
@@ -467,14 +422,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_openFiles(self):
-        """Clicked action for 'Load Files...' button
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Opens single or multiple files for training on Tab 1"""
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self, "Load : SansEC experiment files", "",
@@ -491,14 +439,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_openDirectory(self):
-        """Clicked action for 'Load Directory...' button
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Opens directory of files for training on Tab 1"""
         options = QFileDialog.Options()
         options |= QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly | QFileDialog.DontUseNativeDialog
         directory = QFileDialog.getExistingDirectory(self,
@@ -519,15 +460,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_LoadingPopupIngest(self):
-
-        """Sets up ingestion with a loading bar
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Sets up ingestion with a loading bar on Tab 1"""
         # Define initial variables
         progress = QtWidgets.QProgressDialog(parent=self)
         progress.setCancelButton(None)
@@ -544,14 +477,7 @@ class Ui(QtWidgets.QMainWindow):
 
     @nongui
     def T1_ingestFiles(self):
-        """Does the major data ingestion based on prestaged setting
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Does the major data ingestion based on prestaged setting on Tab 1"""
         # Define initial variables
         self.n_files_selected, labelsOk, allOk, checkcnt = 0, True, True, 0
 
@@ -678,14 +604,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_createDataset(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Creates training data set on Tab 1"""
         # Make sure at least one file selected
         if self.n_files_selected == 0:
             helper.messagePopUp(message="No files ingested to create data set",
@@ -731,14 +650,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T1_saveConfigurationFile(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Saves configuration file on Tab 1"""
         if len(self.T1_Label_ExperimentName.text()) == 0:
             helper.messagePopUp(message="Experiment name not specified",
                               informativeText="Please enter experiment name",
@@ -806,14 +718,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T2_setParameters(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Sets hyperparameters for model using UI on Tab 2"""
         if not self.T2_ListWidget_Models.currentItem():
             helper.messagePopUp(message="No model selected",
                               informativeText="Select model and try again",
@@ -846,14 +751,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T2_beginTraining(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Trains selected models on Tab 2"""
         if self.learner_input is None:
             helper.messagePopUp(message="Training data not created",
                                 informativeText="Create training dataset and try again",
@@ -995,15 +893,9 @@ class Ui(QtWidgets.QMainWindow):
         if e is not None:
             raise e
 
+
     def T2_saveConfigurationFile(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Saves configuration file on Tab 2"""
         if len(self.config["ExperimentName"]) == 0:
             helper.messagePopUp(message="Experiment name not specified",
                                 informativeText="Please enter experiment name and save configuration file",
@@ -1034,14 +926,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T3_fileTable_createRow(self, label, file):
-        """Adds new row to the file table
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Adds new row to the file table on Tab 3"""
         cell_widget = QWidget()
         chk_bx = QtWidgets.QCheckBox()
         chk_bx.setCheckState(QtCore.Qt.Checked)
@@ -1068,14 +953,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T3_openFiles(self):
-        """Clicked action for 'Load Files...' button
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Opens single or multiple files for testing data on Tab 3"""
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self, "Load : SansEC experiment files", "",
@@ -1094,14 +972,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T3_openDirectory(self):
-        """Clicked action for 'Load Directory...' button
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Opens directory of files for testing data on Tab 3"""
         options = QFileDialog.Options()
         options |= QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly | QFileDialog.DontUseNativeDialog
         directory = QFileDialog.getExistingDirectory(self,
@@ -1126,20 +997,29 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T3_loadTrainedModels(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Loads directory for trained models on Tab 3"""
         if len(self.T3_Label_ExperimentName.text()) == 0:
             helper.messagePopUp(message="Experiment name not specified",
                               informativeText="Please enter experiment name",
                               windowTitle="Error: Missing Information",
                               type="error")
             self.statusBar().showMessage("Error: Missing Information")
+            return
+
+        # Saved models for current configuration file
+        n_models_saved = 0
+        for model_name, model_information in self.config["Models"].items():
+            if model_information['path_trained_learner']:
+                n_models_saved += 1
+            else:
+                continue
+
+        if n_models_saved == 0:
+            helper.messagePopUp(message="No models trained for experiment %s" % self.config["ExperimentName"],
+                                informativeText="Please train at least one model and try again",
+                                windowTitle="Error: No Models Trained",
+                                type="error")
+            self.statusBar().showMessage("Error: No Models Trained")
             return
 
         # Load directory for files
@@ -1173,14 +1053,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def T3_beginTesting(self):
-        """Does the major data ingestion based on prestaged setting
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Does model loading, file ingestion, testing data creation, and model testing on Tab 3"""
         # Check that at least one model loaded
         if self.T3_ListWidget_Models.count() == 0:
             helper.messagePopUp(message="No models loaded",
@@ -1362,14 +1235,7 @@ class Ui(QtWidgets.QMainWindow):
                                               self.config)).start()
 
     def T3_generateReport(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Generates summary report for analysis on Tab 3"""
         # Check if any models have testing metrics
         testing_metric_found = False
         for model_information in self.config['Models'].values():
@@ -1390,14 +1256,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def generateReport(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Helper function that generates report in separate thread"""
         # Generate feature importance analysis results
         importances_generated = False
         if self.learner_input is not None:
@@ -1425,14 +1284,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def saveConfigurationFile(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Saves configuration file at any given moment in app"""
         if len(self.config["ExperimentName"]) == 0:
             helper.messagePopUp(message="Experiment name not specified",
                                 informativeText="Please enter experiment name and save configuration file",
@@ -1462,14 +1314,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def loadConfigurationFile(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Load configuration file at any given moment in app"""
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file = QFileDialog.getOpenFileName(self, "Load : Configuration file", "",
@@ -1499,14 +1344,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def exitApplication(self):
-        """ADD
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
+        """Exits application"""
         answer = helper.messagePopUp(message="Are you sure you want to exit?",
                                      informativeText="Please make sure to save configuration file",
                                      windowTitle="Exit Application",

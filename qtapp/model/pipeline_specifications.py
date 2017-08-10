@@ -36,13 +36,23 @@ __description__ = """Functions to handle pipeline specifications on Tab 2: Train
 
 
 def get_model(learner_type, model_name, hyperparameters):
-    """ADD
+    """Returns instantiated machine learning model based on hyperparameters
 
     Parameters
     ----------
+    learner_type : str
+        Type of learner, either 'Regressor' or 'Classifier'
+
+    model_name : str
+        Name of machine learning model
+
+    hyperparameters : dict
+        Dictionary of key/value pairs for hyperparameters
 
     Returns
     -------
+    model : sklearn object
+        Instantiated sklearn machine learning model
     """
     CLASSIFIERS = {"ExtraTrees": ExtraTreesClassifier,
                    "GaussianProcess": GaussianProcessClassifier,
@@ -72,13 +82,18 @@ def standardize_features(X, scaler=None):
     Parameters
     ----------
     X : 2d array-like
-        ADD
+        Input dataset
 
-    scaler : sklearn preprocessor
-        ADD
+    scaler : sklearn preprocessor object
+        Trained StandardScaler object
 
     Returns
     -------
+    X_transformed : 2d array-like
+        Standardized input
+
+    scaler : sklearn preprocessor object
+        Trained StandardScaler preprocessor
     """
     # Apply scaler transformation
     if scaler:
@@ -91,13 +106,32 @@ def standardize_features(X, scaler=None):
 
 
 def feature_reduction(X, learner_type, method, y=None, transformer=None):
-    """ADD
+    """Subsets features prior to model training using specified method
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    learner_type : str
+        Type of learner, either 'Regressor' or 'Classifier'
+
+    method : str
+        Feature reduction method
+
+    y : 1d array-like
+        Labels for input dataset
+
+    transformer : sklearn transformer object
+        Trained sklearn transformer object
 
     Returns
     --------
+    X_transformed : 2d array-like
+        Transformed input dataset
+
+    transformer : sklearn transformer object
+        Trained sklearn transformer object
     """
     # Apply feature reduction transformer
     if transformer:
@@ -130,13 +164,23 @@ def feature_reduction(X, learner_type, method, y=None, transformer=None):
 
 
 def feature_importance_analysis(X, y, configuration_file):
-    """ADD
+    """Calculates feature importance on training data using Random Forests
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     --------
+    importances : dict
+        Top k importances in dictionary with key = feature name and value = feature importance score
     """
     # Open log file for writing
     summary = open(os.path.join(os.path.join(configuration_file["SaveDirectory"], "Summary"), "feature_importance_analysis.txt"), "w")
@@ -166,13 +210,31 @@ def feature_importance_analysis(X, y, configuration_file):
 @nongui
 def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
        widget_analysis_log=None, configuration_file=None):
-    """ADD
+    """3-fold cross-validation for hyperparameter testing
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    standardize : bool
+        Standardize data or not
+
+    feature_reduction_method : str
+        Method of feature reduction
+
+    widget_analysis_log : QTextBrowser
+        Widget to output messages in analysis log
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    None
     """
     # Loop over models and train
     try:
@@ -286,13 +348,31 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
 @nongui
 def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
             widget_analysis_log=None, configuration_file=None):
-    """ADD
+    """66/33 train/validation holdout split for hyperparameter testing
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    standardize : bool
+        Standardize data or not
+
+    feature_reduction_method : str
+        Method of feature reduction
+
+    widget_analysis_log : QTextBrowser
+        Widget to output messages in analysis log
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    None
     """
     try:
         # Loop over models and train
@@ -391,13 +471,41 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
 
 def autotune_cv(X, y, learner_type, model=None, standardize=True, feature_reduction_method=None,
                 configuration_file=None):
-    """ADD
+    """Automatically tune a pre-defined grid of hyperparameters using 3-fold cross-validation
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    model : object
+        Instantiated sklearn model object
+
+    standardize : bool
+        Standardize data or not
+
+    feature_reduction_method : str
+        Method of feature reduction
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    metric : float
+        Average metric over 3 folds
+
+    model : object
+        Trained machine learning model
+
+    scaler : sklearn preprocessor object
+        Trained preprocessor object
+
+    transformer : sklearn transformer object
+        Trained transformer object
     """
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
@@ -453,13 +561,41 @@ def autotune_cv(X, y, learner_type, model=None, standardize=True, feature_reduct
 
 def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_reduction_method=None,
                      configuration_file=None):
-    """ADD
+    """Automatically tune a pre-defined grid of hyperparameters using 66/33 train/validation split
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    model : object
+        Instantiated sklearn model object
+
+    standardize : bool
+        Standardize data or not
+
+    feature_reduction_method : str
+        Method of feature reduction
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    metric : float
+        Validation metric
+
+    model : object
+        Trained machine learning model
+
+    scaler : sklearn preprocessor object
+        Trained preprocessor object
+
+    transformer : sklearn transformer object
+        Trained transformer object
     """
     # Make sure y is flattened to 1d array-like
     if y.ndim == 2:
@@ -508,13 +644,37 @@ def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_r
 def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_method=None,
                        training_method="holdout", widget_analysis_log=None,
                        configuration_file=None):
-    """ADD
+    """Automatically tune a pre-defined grid of hyperparameters using 3-fold cross-validation
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    learner_type : str
+        Type of learner, either 'Regressor' or 'Classifier'
+
+    standardize : bool
+        Standardize data or not
+
+    feature_reduction_method : str
+        Method of feature reduction
+
+    training_method : str
+        Method to train models
+
+    widget_analysis_log : QTextBrowser
+        Widget to output messages in analysis log
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    None
     """
     try:
         # Loop over models and train
@@ -629,14 +789,30 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
         return e
     return None
 
+
 def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_file=None):
-    """ADD
+    """Runs trained models on test data set
 
     Parameters
     ----------
+    X : 2d array-like
+        Input dataset
+
+    y : 1d array-like
+        Labels for input dataset
+
+    models_to_test : dict
+        Models to test, where key = model name and value = trained model
+
+    widget_analysis_log : QTextBrowser
+        Widget to output messages in analysis log
+
+    configuration_file : dict
+        Configuration file for analysis
 
     Returns
     -------
+    None
     """
     for model_name, clf in models_to_test.items():
 
