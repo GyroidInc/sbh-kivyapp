@@ -227,9 +227,10 @@ def calculate_metric(y_true, y_hat, learner_type):
         return mean_squared_error(y_true=y_true, y_pred=y_hat)
     else:
         # Ensures labels are 0/1 coded for roc_auc_score function
-        y_true = label_binarize(y_true, classes=np.unique(y_true))
-        y_hat = label_binarize(y_hat, classes=np.unique(y_true))
-        return roc_auc_score(y_true=y_true, y_score=y_hat, average="weighted")
+        #y_true = label_binarize(y_true, np.unique(y_true))
+        #y_hat = label_binarize(y_hat, np.unique(y_true))
+        #return roc_auc_score(y_true=y_true, y_score=y_hat, average="weighted")
+        return np.mean(y_true == y_hat)
 
 
 def index_for_freq(freqs, freq_to_find):
@@ -275,7 +276,7 @@ def check_testing_freqs_and_features(testing_freqs, testing_feats, training_freq
     Returns
     -------
     """
-    if set(testing_freqs) == set(training_freqs) and set(testing_feats) == set(training_feats):
+    if set(testing_freqs) >= set(training_freqs) and set(testing_feats) >= set(training_feats):
         return 1
     else:
         return 0
@@ -461,7 +462,7 @@ def generate_summary_report(configuration_file, importances):
     summary.write("\t     Training Method: %s\n" % configuration_file["TrainingMethod"])
     summary.write("\t  Automatically Tune: %s\n\n" % configuration_file["AutomaticallyTune"])
 
-    metric_name = "Mean Squared Error (LOWER IS BETTER)" if configuration_file["LearningTask"] == "Regressor" else "Area Under the Curve (HIGHER IS BETTER)"
+    metric_name = "Mean Squared Error (LOWER IS BETTER)" if configuration_file["LearningTask"] == "Regressor" else "Classifier Accuracy (HIGHER IS BETTER)"
     summary.write("-- TRAINING RESULTS: VALIDATION METRIC = %s --\n" % metric_name.upper())
     counter = 1
     for model_name, model_information in configuration_file["Models"].items():

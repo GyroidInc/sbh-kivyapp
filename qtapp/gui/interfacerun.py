@@ -21,6 +21,9 @@ import time
 import traceback
 
 # Imports from qtapp
+main_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+sys.path.append(main_path)
+import qtapp
 
 try:
     from qtapp.gui.about_ui import AboutUI
@@ -76,7 +79,7 @@ def excepthook(excType, excValue, tracebackobj):
     sections = [separator, timeString, separator, errmsg, separator, tbinfo]
     msg = '\n'.join(sections)
     try:
-        f = open(logFile, "w")
+        f = open(os.path.join(main_path,logFile), "w")
         f.write(msg)
         f.write(versionInfo)
         f.close()
@@ -97,8 +100,8 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
 
         # Dynamically load .ui file
-        uic.loadUi('interface.ui', self)
-        self.setWindowIcon(QtGui.QIcon('gyroid.png'))
+        uic.loadUi(main_path + '\qtapp\gui\interface.ui', self)
+        self.setWindowIcon(QtGui.QIcon(main_path + '\qtapp\gui\gyroid.png'))
 
         # Force tab widget to open on Tab 1
         self.TabWidget.setCurrentIndex(0)
@@ -223,6 +226,14 @@ class Ui(QtWidgets.QMainWindow):
 
     def T1_Regraph(self):
         """Attempts to regraph the selected range after selection on Tab 1"""
+        if not self.dataset_created:
+            helper.messagePopUp(message="Dataset not created",
+                              informativeText="Please create dataset",
+                              windowTitle="Error: Missing Information",
+                              type="error")
+            self.statusBar().showMessage("Error: Missing Information")
+            return
+
         if self.T1_ListWidget_Features.currentItem() != None:
             feat = self.T1_ListWidget_Features.currentItem().text()
             if len(self.freqs) > 1 and len(self.columns) > 0:
@@ -499,9 +510,9 @@ class Ui(QtWidgets.QMainWindow):
         # COMMENT HERE
         if checkcnt < 2:
             allOk = False
-            message="%d file(s) selected" % checkcnt
-            informativeText="select more files. Must be at least 2."
-            windowTitle="Error: Missing Labels"
+            message="Error: %d file(s) selected" % checkcnt
+            informativeText="Please select more files. Must be at least 2."
+            windowTitle="Error: Missing Files"
             type="error"
             return message, informativeText, windowTitle, type
 
@@ -1179,7 +1190,7 @@ class Ui(QtWidgets.QMainWindow):
         for key, value in self.test_data.items():
 
             # Get frequencies and features for current file
-            testing_freqs = value['features']['Freq']
+            testing_freqs = value['features']['Freq'].tolist()
             testing_feats = value['features'].columns.tolist()
 
             # Remove columns that are usually constant
