@@ -62,7 +62,7 @@ def excepthook(excType, excValue, tracebackobj):
     logFile = "_errmsg_" + ".log"
     notice = \
         """An unhandled exception occurred. Please report the problem\n""" \
-        """using the error reporting dialog or via email to <%s>.\n""" \
+        """ via email to <%s>.\n""" \
         """A log has been written to "%s".\n\nError information:\n""" % \
         ("contact@gyriod.io", "_errmsg_.log")
     versionInfo = constants.VERSION
