@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division
+import json
 
 # Models
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, GradientBoostingClassifier, \
@@ -128,7 +129,7 @@ def feature_reduction(X, learner_type, method, y=None, transformer=None):
             return transformer.transform(X), transformer
 
 
-def feature_importance_analysis(X, y, learner_type, save_directory):
+def feature_importance_analysis(X, y, configuration_file):
     """ADD
 
     Parameters
@@ -138,12 +139,12 @@ def feature_importance_analysis(X, y, learner_type, save_directory):
     --------
     """
     # Open log file for writing
-    summary = open(os.path.join(os.path.join(save_directory, "Summary")), "feature_importance_analysis.txt")
+    summary = open(os.path.join(os.path.join(configuration_file["SaveDirectory"], "Summary"), "feature_importance_analysis.txt"), "w")
     summary.write("Feature importance analysis conducted using random forest model\n\n")
 
     # Define random forest for feature importance analysis and train
     params = {'n_estimators': 200}
-    clf = RandomForestClassifier(**params) if learner_type == "Classifier" else RandomForestRegressor(**params)
+    clf = RandomForestClassifier(**params) if configuration_file["LearningTask"] == "Classifier" else RandomForestRegressor(**params)
     clf.fit(X, y)
 
     # Grab importances and sort
@@ -152,14 +153,14 @@ def feature_importance_analysis(X, y, learner_type, save_directory):
     indices = np.argsort(importances)[::-1]
 
     # Write all results
-    summary.write("{:<25}{:<20}".format("Rank. Feature Name", "Importance Score"))
+    summary.write("{:<25}{:<20}\n".format("Rank. Feature Name", "Importance Score"))
     for i in range(X.shape[1]):
-        summary.write("{:<25}{:<20.4f}".format(str(i+1) + '. ' + var_names[indices[i]],
+        summary.write("{:<25}{:<20.4f}\n".format(str(i+1) + '. ' + var_names[indices[i]],
                                                importances[indices[i]]))
     summary.close()
 
     # Return top 15 features to print in analysis log
-    return var_names[indices[:15]], importances[indices[:15]]
+    return {var_names[indices[i]]: importances[indices[i]] for i in range(15)}
 
 
 @nongui
@@ -650,5 +651,11 @@ def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_
 
         # Update configuration file
         configuration_file["Models"][model_name]["test_score"] = metric
+
+        # Automatically try and save configuration file
+        try:
+            json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
+        except:
+            pass
 
     widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")

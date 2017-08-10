@@ -10,6 +10,7 @@ import matplotlib
 matplotlib.use("Qt5Agg")
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
+import pandas as pd
 import os
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
@@ -196,11 +197,14 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the 'Clear Log' button
         self.T3_Button_ClearLog.clicked.connect(self.T3_TextBrowser_AnalysisLog.clear)
 
-        # Connect 'Load Trained Models...' button
+        # Connect the 'Load Trained Models...' button
         self.T3_Button_LoadTrainedModels.clicked.connect(self.T3_loadTrainedModels)
 
-        # Connect 'Begin Testing' button
+        # Connect the 'Begin Testing' button
         self.T3_Button_BeginTesting.clicked.connect(self.T3_beginTesting)
+
+        # Connect the 'Generate Report' button
+        self.T3_Button_GenerateReport.clicked.connect(self.T3_generateReport)
 
 
     def T1_selectLabelLoadMode(self):
@@ -750,6 +754,17 @@ class Ui(QtWidgets.QMainWindow):
         # Save configuration file
         self.saveConfigurationFile()
 
+        # Save learner_input data set
+        try:
+            self.learner_input.to_csv(os.path.join(self.config["SaveDirectory"], "training_data.csv"), index=False)
+        except Exception as e:
+            helper.messagePopUp(message="Warning: Error saving training data set because",
+                              informativeText=str(e) + "\nThis may cause errors when generating summary report",
+                              windowTitle="Warning: Error Saving Training Data",
+                              type="warning")
+            self.statusBar().showMessage("Warning: Error Saving Training Data")
+            pass
+
         # Force tab widget to open on Tab 2
         self.TabWidget.setCurrentIndex(1)
 
@@ -803,8 +818,6 @@ class Ui(QtWidgets.QMainWindow):
         Returns
         -------
         """
-
-
         if self.learner_input is None:
             helper.messagePopUp(message="Training data not created",
                                 informativeText="Create training dataset and try again",
@@ -1297,6 +1310,68 @@ class Ui(QtWidgets.QMainWindow):
         Thread(target=ps.deploy_models, args=(X, y, models_to_test, self.T3_TextBrowser_AnalysisLog,
                                               self.config)).start()
 
+    def T3_generateReport(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        # Check if any models have testing metrics
+        testing_metric_found = False
+        for model_information in self.config['Models'].values():
+            if model_information['test_score']:
+                testing_metric_found = True
+            else:
+                continue
+        if not testing_metric_found:
+            helper.messagePopUp(message="Error: No models tested",
+                                informativeText="Deploy trained models and try again",
+                                windowTitle="Error: No Models Tested",
+                                type="error")
+            self.statusBar().showMessage("Error: No Models Tested")
+            return
+        self.T3_TextBrowser_AnalysisLog.append("\nGenerating summary report for analysis (%s), please wait...\n" % \
+                                               self.config["ExperimentName"])
+        Thread(target=self.generateReport).start()
+
+
+    def generateReport(self):
+        """ADD
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        """
+        # Generate feature importance analysis results
+        importances_generated = False
+        if self.learner_input is not None:
+            self.T3_TextBrowser_AnalysisLog.append("Running feature importance analysis...")
+            try:
+                importances = ps.feature_importance_analysis(X=self.learner_input.iloc[:, :-1],
+                                                             y=self.learner_input.iloc[:, -1],
+                                                             configuration_file=self.config)
+                importances_generated = True
+                self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis finished")
+            except Exception as e:
+                self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis failed because %s\n" % str(e))
+
+        helper.generate_summary_report(configuration_file=self.config,
+                                       importances=importances)
+        self.T3_TextBrowser_AnalysisLog.append("\nSummary report finished and saved as %s" % \
+                                               os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
+                                               "analysis_summary.txt"))
+        if importances_generated:
+            self.T3_TextBrowser_AnalysisLog.append("\nFeature analysis report saved as %s" % \
+                                                   os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
+                                                   "feature_importance_analysis.txt"))
+
+        self.T3_TextBrowser_AnalysisLog.append("\n --- Analysis Finished ---\n")
+
 
     def saveConfigurationFile(self):
         """ADD
@@ -1356,6 +1431,13 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_Label_ExperimentName.setText(self.config["ExperimentName"])
                 self.T2_Label_ExperimentName.setText(self.config['ExperimentName'])
                 self.T3_Label_ExperimentName.setText(self.config['ExperimentName'])
+
+                # Try and load training data set
+                try:
+                    self.learner_input = pd.read_csv(os.path.join(self.config["SaveDirectory"], "training_data.csv"))
+                except:
+                    self.learner_input = None
+
             except Exception as e:
                 helper.messagePopUp(message="Error loading configuration file %s because" % file[0],
                                     informativeText=str(e),
@@ -1363,7 +1445,6 @@ class Ui(QtWidgets.QMainWindow):
                                     type="error")
                 self.statusBar().showMessage("Error: Loading Configuration File")
                 return
-
 
 
     def exitApplication(self):

@@ -9,6 +9,7 @@ from sklearn.externals import joblib
 from sklearn.metrics import roc_auc_score, mean_squared_error
 from sklearn.preprocessing import label_binarize
 from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct, ExpSineSquared, Matern, RationalQuadratic, RBF
+import time
 
 
 def get_base_filename(file):
@@ -429,7 +430,7 @@ def load_trained_model(path_to_model):
         return
 
 
-def generate_summary_report(configuration_file):
+def generate_summary_report(configuration_file, importances):
     """ADD
 
     Parameters
@@ -438,7 +439,50 @@ def generate_summary_report(configuration_file):
     Returns
     -------
     """
-    pass
+    # Open log file for writing
+    summary = open(os.path.join(os.path.join(configuration_file["SaveDirectory"], "Summary"), "analysis_summary.txt"), "w")
+    summary.write("SUMMARY OF ANALYSIS FOR EXPERIMENT %s\n\n" % configuration_file["ExperimentName"])
+
+    summary.write("-- DATA SUMMARY --\n")
+    summary.write("\t     Save Directory: %s\n" % configuration_file["SaveDirectory"])
+    summary.write("\t      Learning Task: %s\n" % configuration_file["LearningTask"])
+    summary.write("\t#  Training Samples: %d\n" % configuration_file["TrainSamples"])
+    summary.write("\t# Training Features: %d\n" % configuration_file["TrainFeatures"])
+    summary.write("\t    Frequency Range: (%.3f, %.3f)\n" % (min(configuration_file["Freqs"]), max(configuration_file["Freqs"])))
+    summary.write("\t   Features/Columns: %s\n\n" % (configuration_file["Columns"],))
+
+    summary.write("-- TRAINING SUMMARY --\n")
+    summary.write("\tStandardize Features: %s\n" % configuration_file["StandardizeFeatures"])
+    summary.write("\t   Feature Reduction: %s\n" % configuration_file["FeatureReduction"])
+    summary.write("\t     Training Method: %s\n" % configuration_file["TrainingMethod"])
+    summary.write("\t  Automatically Tune: %s\n\n" % configuration_file["AutomaticallyTune"])
+
+    metric_name = "Mean Squared Error (LOWER IS BETTER)" if configuration_file["LearningTask"] == "Regressor" else "Area Under the Curve (HIGHER IS BETTER)"
+    summary.write("-- TRAINING RESULTS: VALIDATION METRIC = %s --\n" % metric_name.upper())
+    counter = 1
+    for model_name, model_information in configuration_file["Models"].items():
+        if model_information["selected"]:
+            summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["validation_score"]))
+            summary.write("\tHyperparameters : %s\n" % (model_information["hyperparameters"], ))
+            counter += 1
+
+    summary.write("\n-- FEATURE IMPORTANCE ANALYSIS : TOP %d FEATURES--\n" % len(importances))
+    counter = 1
+    summary.write("{:<25}{:<20}\n".format("Rank. Feature Name", "Importance Score"))
+    for key, value in importances.items():
+        summary.write("{:<3}.{:<25}{:<20.4f}\n".format(counter, key, value))
+        counter += 1
+
+    summary.write("\n-- TESTING RESULTS: TESTING METRIC = %s --\n" % metric_name.upper())
+    counter = 1
+    for model_name, model_information in configuration_file["Models"].items():
+        if model_information["test_model"]:
+            summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["test_score"]))
+            counter += 1
+
+    summary.write("\n\nReport Generated On %s\n" % time.strftime("%Y-%m-%d, %H:%M:%S"))
+    summary.write("-- END OF REPORT --")
+    summary.close()
 
 
 def create_blank_config():
