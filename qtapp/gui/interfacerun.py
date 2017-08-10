@@ -135,7 +135,6 @@ class Ui(QtWidgets.QMainWindow):
         self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
         self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(self.T1_selectLabelLoadMode)
 
-
         # TODO graph doesnt update on slider button press/change
         # connecting graph refresh
         self.T1_Button_RefreshPlot.clicked.connect(self.T1_Regraph)
@@ -263,10 +262,43 @@ class Ui(QtWidgets.QMainWindow):
         reader = csv.reader(open(filename, 'r'))
         toDict = {}
         for row in reader:
+
+            # If first row is headers, then skip
+            if reader.line_num == 1:
+                if set(row) == {'label', 'filename'}:
+                    # Check if filenames are first column
+                    if row[0] == 'filename':
+                        filename_first = True
+                    else:
+                        filename_first = False
+                    continue
+                else:
+                    # Try and figure out which column contains the filename and label
+                    try:
+                        float(row[1]) # Attempts to convert entry in second column to float --> label should convert
+                        filename_first = True
+                        pass
+                    except ValueError:
+                        filename_first = False
+                        pass
+
+            # Grab element in first column and second column
             k, v = row
-            toDict[k] = v
-        for Basename in self.data:
-            self.data[Basename]["Label"] = toDict[Basename]
+
+            # Filename should be the key and label is the value
+            if filename_first:
+                if float(v) == int(v):
+                    toDict[k] = int(v)
+                else:
+                    toDict[k] = float(v)
+            else:
+                if float(k) == int(k):
+                    toDict[v] = int(k)
+                else:
+                    toDict[v] = float(k)
+
+        for basename in self.data:
+            self.data[basename]["Label"] = toDict[basename]
         self.T1_UpdateFileList(toDict)
 
 
@@ -419,12 +451,12 @@ class Ui(QtWidgets.QMainWindow):
 
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file, _ = QFileDialog.getOpenFileNames(self, "Load: SansEC experiment files", "",
+        file, _ = QFileDialog.getOpenFileName(self, "Load: SansEC labels file", "",
                                                 "*.csv files (*.csv)",
                                                 options=options)
         if file:
             try:
-                self.setLabelsByFile(file)
+                self.T1_setLabelsByFile(file)
             except Exception as e:
                 helper.messagePopUp(message="Error loading label file because",
                                   informativeText=str(e),
