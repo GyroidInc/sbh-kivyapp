@@ -204,7 +204,7 @@ def feature_importance_analysis(X, y, configuration_file):
     summary.close()
 
     # Return top 15 features to print in analysis log
-    return {var_names[indices[i]]: importances[indices[i]] for i in range(15)}
+    return var_names[indices[:15]], importances[indices[:15]]
 
 
 @nongui

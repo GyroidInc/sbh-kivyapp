@@ -670,7 +670,8 @@ class Ui(QtWidgets.QMainWindow):
         self.dataset_created = True # Flag that dataset was created
 
         # Update configuration file
-        self.config['TrainSamples'], self.config['TrainFeatures'] = self.learner_input.shape
+        self.config['TrainSamples'] = self.learner_input.shape[0]
+        self.config['TrainFeatures'] = self.learner_input.shape[1] - 1  # Last column is for label
         self.config['Freqs'], self.config['Columns'] = self.freqs[min_idx:max_idx + 1], cols_to_use
         self.config['LearningTask'] = "Regressor" if self.T1_RadioButton_ContinuousLabels.isChecked() else "Classifier"
 
@@ -1329,7 +1330,7 @@ class Ui(QtWidgets.QMainWindow):
         # Check if any models have testing metrics
         testing_metric_found = False
         for model_information in self.config['Models'].values():
-            if model_information['test_score']:
+            if model_information['test_score'] is not None:
                 testing_metric_found = True
             else:
                 continue
@@ -1359,9 +1360,9 @@ class Ui(QtWidgets.QMainWindow):
             if self.learner_input is not None:
                 self.T3_TextBrowser_AnalysisLog.append("Running feature importance analysis...")
                 try:
-                    importances = ps.feature_importance_analysis(X=self.learner_input.iloc[:, :-1],
-                                                                 y=self.learner_input.iloc[:, -1],
-                                                                 configuration_file=self.config)
+                    var_names, importances = ps.feature_importance_analysis(X=self.learner_input.iloc[:, :-1],
+                                                                            y=self.learner_input.iloc[:, -1],
+                                                                            configuration_file=self.config)
                     importances_generated = True
                     self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis finished")
                 except Exception as e:
@@ -1369,6 +1370,7 @@ class Ui(QtWidgets.QMainWindow):
                     pass
 
             helper.generate_summary_report(configuration_file=self.config,
+                                           var_names=var_names,
                                            importances=importances)
             self.T3_TextBrowser_AnalysisLog.append("\nSummary report finished and saved as %s" % \
                                                    os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),

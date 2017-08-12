@@ -432,7 +432,7 @@ def load_trained_model(path_to_model):
         return
 
 
-def generate_summary_report(configuration_file, importances):
+def generate_summary_report(configuration_file, var_names, importances):
     """ADD
 
     Parameters
@@ -475,8 +475,8 @@ def generate_summary_report(configuration_file, importances):
     summary.write("\n-- FEATURE IMPORTANCE ANALYSIS : TOP %d FEATURES--\n" % len(importances))
     counter = 1
     summary.write("{:<25}{:<20}\n".format("Rank. Feature Name", "Importance Score"))
-    for key, value in importances.items():
-        summary.write("{:<3}.{:<25}{:<20.4f}\n".format(counter, key, value))
+    for i in range(len(importances)):
+        summary.write("{:<3}.{:<25}{:<20.4f}\n".format(counter, var_names[i], importances[i]))
         counter += 1
 
     summary.write("\n-- TESTING RESULTS: TESTING METRIC = %s --\n" % metric_name.upper())
@@ -512,8 +512,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -521,8 +521,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -530,8 +530,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -539,8 +539,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -548,8 +548,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -557,8 +557,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -566,8 +566,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     },
@@ -575,8 +575,8 @@ def create_blank_config():
                     {
                         "hyperparameters": '',
                         "selected": False,
-                        "validation_score": '',
-                        "test_score": '',
+                        "validation_score": None,
+                        "test_score": None,
                         "test_model": '',
                         "path_trained_learner": ''
                     }
