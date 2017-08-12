@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 
 class ModelBuilder(object):
@@ -26,7 +28,7 @@ class ModelBuilder(object):
         -------
         """
         if self.trained_scaler:
-            X = self.trained_scaler[-1].transform(X)
+            X = self.trained_scaler.transform(X)
 
         if self.trained_transformer:
             X = self.trained_transformer.transform(X)

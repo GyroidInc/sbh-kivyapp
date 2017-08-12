@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from multiprocessing.pool import ThreadPool
 from PyQt5.QtWidgets import QApplication
 

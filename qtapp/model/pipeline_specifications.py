@@ -305,10 +305,12 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
 
                     # Refit on all data now and return parameters
                     widget_analysis_log.append("\tRetraining model on all data...")
-
-                    if standardize: scaler = standardize_features(X=X)
-                    if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                                 y=y, transformer=None)
+                    if standardize:
+                        X, scaler = standardize_features(X=X)
+                    if feature_reduction_method:
+                        X, transformer = feature_reduction(X=X, learner_type=learner_type,
+                                                           method=feature_reduction_method,
+                                                           y=y, transformer=None)
 
                     model.fit(X, y)
 
@@ -431,10 +433,12 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
 
                     # Refit on all data now and return parameters
                     widget_analysis_log.append("\tRetraining model on all data...")
-
-                    if standardize: scaler = standardize_features(X=X)
-                    if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                                 y=y, transformer=None)
+                    if standardize:
+                        X, scaler = standardize_features(X=X)
+                    if feature_reduction_method:
+                        X, transformer = feature_reduction(X=X, learner_type=learner_type,
+                                                           method=feature_reduction_method,
+                                                           y=y, transformer=None)
                     model.fit(X, y)
 
                     # Package model into an object that holds the trained model, scaler, and transformer
@@ -551,9 +555,11 @@ def autotune_cv(X, y, learner_type, model=None, standardize=True, feature_reduct
         fold += 1
 
     # Refit on all data now and return parameters
-    if standardize: scaler = standardize_features(X=X)
-    if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                 y=y, transformer=None)
+    if standardize:
+        X, scaler = standardize_features(X=X)
+    if feature_reduction_method:
+        X, transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
+                                           y=y, transformer=None)
 
     model.fit(X, y)
     return scores.mean(), model, scaler, transformer
@@ -610,7 +616,6 @@ def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_r
     else:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.33, stratify=y)
 
-
     # Standardize features if specified
     if standardize:
         X_train, scaler = standardize_features(X=X_train)
@@ -634,13 +639,15 @@ def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_r
     metric = helper.calculate_metric(y_true=y_test, y_hat=model.predict(X_test), learner_type=learner_type)
 
     # Refit on all data now and return parameters
-    if standardize: scaler = standardize_features(X=X)
-    if feature_reduction_method: transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
-                                                                 y=y, transformer=None)
+    if standardize:
+        X, scaler = standardize_features(X=X)
+    if feature_reduction_method:
+        X, transformer = feature_reduction(X=X, learner_type=learner_type, method=feature_reduction_method,
+                                           y=y, transformer=None)
     model.fit(X, y)
     return metric, model, scaler, transformer
 
-@ nongui
+@nongui
 def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_method=None,
                        training_method="holdout", widget_analysis_log=None,
                        configuration_file=None):

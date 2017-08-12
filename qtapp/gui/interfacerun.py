@@ -20,11 +20,12 @@ from threading import Thread
 import time
 import traceback
 
-# Imports from qtapp
-main_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-sys.path.append(main_path)
+# Append main module path and then import qtapp module
+MAIN_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+sys.path.append(MAIN_PATH)
 import qtapp
 
+# Imports from qtapp
 try:
     from qtapp.gui.about_ui import AboutUI
     from qtapp.gui.hyperparameters_ui import HyperparametersUI
@@ -35,8 +36,8 @@ try:
     from qtapp.utils.nonguiwrapper import nongui
 except:
     from about_ui import AboutUI
-    from dynamicmplcanvas import DynamicMplCanvas
     from hyperparameters_ui import HyperparametersUI
+    from dynamicmplcanvas import DynamicMplCanvas
     from model import pipeline_specifications as ps
     from utils import constants, helper
     from utils.errorhandling import errorDialogOnException
@@ -79,7 +80,7 @@ def excepthook(excType, excValue, tracebackobj):
     sections = [separator, timeString, separator, errmsg, separator, tbinfo]
     msg = '\n'.join(sections)
     try:
-        f = open(os.path.join(main_path,logFile), "w")
+        f = open(os.path.join(MAIN_PATH, logFile), "w")
         f.write(msg)
         f.write(versionInfo)
         f.close()
@@ -89,9 +90,8 @@ def excepthook(excType, excValue, tracebackobj):
     errorbox.setText(str(notice) + str(msg) + str(versionInfo))
     errorbox.exec_()
 
-
+# Define global except hook
 sys.excepthook = excepthook
-
 
 
 class Ui(QtWidgets.QMainWindow):
@@ -100,17 +100,27 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
 
         # Dynamically load .ui file
-        uic.loadUi(main_path + '\qtapp\gui\interface.ui', self)
-        self.setWindowIcon(QtGui.QIcon(main_path + '\qtapp\gui\gyroid.png'))
+        ui_path = os.path.join(os.path.join(os.path.join(MAIN_PATH, 'qtapp'), 'gui'), 'interface.ui')
+        uic.loadUi(ui_path, self)
+        self.statusBar().showMessage('Load Files or Configuration File to Begin...')
+
+        # Load icon file
+        icon_path = os.path.join(os.path.join(os.path.join(MAIN_PATH, 'qtapp'), 'gui', 'gyroid.png'))
+        self.setWindowIcon(QtGui.QIcon(icon_path))
 
         # Force tab widget to open on Tab 1
         self.TabWidget.setCurrentIndex(0)
 
-        # Create data structure to hold information about files and configuration file
-        self.data, self.test_data = {}, {}
+        # Initial parameters
+        self.data = {}
+        self.test_data = {}
         self.config = helper.create_blank_config()
         self.learner_input = None
-        self.statusBar().showMessage('Load Files or Configuration File to Begin...')
+        self.columns = []
+        self.freqs = []
+        self.min_freq, self.max_freq = 0, 100
+        self.n_files_selected = 0
+        self.dataset_created = False
 
         # Set experiment names on Tab 2 and Tab 3
         self.T2_Label_ExperimentName.setText("No Experiment Name Saved in Configuration File")
@@ -125,32 +135,13 @@ class Ui(QtWidgets.QMainWindow):
         self.vbox.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.T1_Frame_CanvasFrame.setLayout(self.vbox)
 
-        self.columns = []
-        self.freqs = []
-        self.min_freq, self.max_freq = 0, 100
-        self.n_files_selected = 0
-        self.dataset_created = False
-
-        #self.T1_TableWidget_Files.setFocusPolicy(QtCore.Qt.NoFocus)
-
-        # Ensure each item in the ListWidget has an unchecked box next to it
+        # Ensure each item in the ListWidget on Tab 2 has an unchecked box next to it
         for index in range(self.T2_ListWidget_Models.count()):
             self.T2_ListWidget_Models.item(index).setCheckState(QtCore.Qt.Unchecked)
 
-        # Disable 'Load Labels File...' button until user selects Label Files By CSV File
-        self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
-        self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(self.T1_selectLabelLoadMode)
-
-        # TODO graph doesnt update on slider button press/change
-        # connecting graph refresh
-        self.T1_Button_RefreshPlot.clicked.connect(self.T1_Regraph)
-        # Connect frequency sliders
-        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_checkMinSlider)
-        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
-        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_updateCounter)
-        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_updateCounter)
-
+        #######################
         ## MENU ITEM BUTTONS ##
+        #######################
 
         # Connect the menu item 'Save Configuration File'
         self.FileItem_SaveConfigurationFile.triggered.connect(self.saveConfigurationFile)
@@ -164,7 +155,23 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the menu item 'About'
         self.HelpItem_About.triggered.connect(AboutUI)
 
+        ###################
         ## TAB 1 BUTTONS ##
+        ###################
+
+        # Disable 'Load Labels File...' button until user selects Label Files By CSV File
+        self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
+        self.T1_ComboBox_LabelFilesBy.currentIndexChanged.connect(self.T1_selectLabelLoadMode)
+
+        # Connect button 'Refresh Plot'
+        self.T1_Button_RefreshPlot.clicked.connect(self.T1_Regraph)
+
+        # Connect minimum and maximum frequency sliders
+        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_checkMaxSlider)
+        self.T1_HorizontalSlider_MinFrequency.valueChanged.connect(self.T1_updateCounter)
+
+        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_checkMinSlider)
+        self.T1_HorizontalSlider_MaxFrequency.valueChanged.connect(self.T1_updateCounter)
 
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T1_Button_LoadFiles.clicked.connect(self.T1_openFiles)
@@ -179,7 +186,9 @@ class Ui(QtWidgets.QMainWindow):
         # Connect 'Save Configuration File' button
         self.T1_Button_SaveConfigurationFile.clicked.connect(self.T1_saveConfigurationFile)
 
+        ###################
         ## TAB 2 BUTTONS ##
+        ###################
 
         # Connect 'Set Parameters' button
         self.T2_Button_SetParameters.clicked.connect(self.T2_setParameters)
@@ -193,7 +202,9 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the 'Clear Log' button
         self.T2_Button_ClearLog.clicked.connect(self.T2_TextBrowser_AnalysisLog.clear)
 
+        ###################
         ## TAB 3 BUTTONS ##
+        ###################
 
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T3_Button_LoadFiles.clicked.connect(self.T3_openFiles)
@@ -237,7 +248,7 @@ class Ui(QtWidgets.QMainWindow):
         if self.T1_ListWidget_Features.currentItem() != None:
             feat = self.T1_ListWidget_Features.currentItem().text()
             if len(self.freqs) > 1 and len(self.columns) > 0:
-                #begin constructing list of dicts for graphing
+                # Begin constructing list of dicts for graphing
                 graphlist=[]
                 freqlist = sorted(i for i in self.freqs if i >= self.min_freq and i <= self.max_freq)
 
@@ -290,6 +301,7 @@ class Ui(QtWidgets.QMainWindow):
                 else:
                     toDict[v] = float(k)
 
+        # Add labels to dictionary and update file list
         for basename in self.data:
             self.data[basename]["Label"] = toDict[basename]
         self.T1_UpdateFileList(toDict)
@@ -379,7 +391,9 @@ class Ui(QtWidgets.QMainWindow):
             toSet = self.T1_LCD_MaxFrequency
             toSet.display(self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()])
             self.max_freq = self.freqs[self.T1_HorizontalSlider_MaxFrequency.value()]
-            self.statusBar().showMessage("""Click 'Create Dataset' to update frequencies""")
+
+            if self.dataset_created:
+                self.statusBar().showMessage("""Click 'Create Dataset' to update frequencies""")
 
 
     def T1_checkMaxSlider(self):
@@ -505,17 +519,18 @@ class Ui(QtWidgets.QMainWindow):
                     informativeText="Check selected files and try again"
                     windowTitle="Error: Missing Labels"
                     type="error"
+                    self.statusBar().showMessage("Error: Missing Labels")
                     return message, informativeText, windowTitle, type
 
         # COMMENT HERE
         if checkcnt < 2:
             allOk = False
             message="Error: %d file(s) selected" % checkcnt
-            informativeText="Please select more files. Must be at least 2."
+            informativeText="Please select more files. Must be at least 2 files"
             windowTitle="Error: Missing Files"
             type="error"
+            self.statusBar().showMessage("Error: Missing Files")
             return message, informativeText, windowTitle, type
-
 
         # COMMENT HERE
         if allOk:
@@ -560,7 +575,7 @@ class Ui(QtWidgets.QMainWindow):
             self.freqs = helper.find_unique_freqs(self.data)
             self.columns = helper.find_unique_cols(self.data)
 
-            # Check if at least one frequency and column are selected
+            # Check if at lseast one frequency and column are selected
             if len(self.freqs) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
                 message="No common frequencies found across %d selected files" % self.n_files_selected,
@@ -652,7 +667,7 @@ class Ui(QtWidgets.QMainWindow):
                                                                 idx_freq_ranges=(min_idx, max_idx))
         self.statusBar().showMessage("Dataset created with %d samples and %d features" % \
                                      (self.learner_input.shape[0], self.learner_input.shape[1]-1))
-        self.dataset_created = True
+        self.dataset_created = True # Flag that dataset was created
 
         # Update configuration file
         self.config['TrainSamples'], self.config['TrainFeatures'] = self.learner_input.shape
@@ -686,13 +701,14 @@ class Ui(QtWidgets.QMainWindow):
                               informativeText=str(e),
                               windowTitle="Error: Unable to Set Experiment Name",
                               type="error")
+            self.statusBar().showMessage("Error: Unable to Set Experiment Name")
+            return
 
         # Set learning task based on label type (categorical = Classifier, continuous = Regressor)
         self.config['LearningTask'] = "Regressor" if self.T1_RadioButton_ContinuousLabels.isChecked() else "Classifier"
 
-        # 'Safely' go up two directories and save all files related to current experiment run in 'sbh-qtapp' +
-        # experiment name directory
-        self.config['SaveDirectory'] = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+        # Sets save directory to be directory ABOVE where qtapp resides
+        self.config['SaveDirectory'] = os.path.join(os.path.dirname(MAIN_PATH),
                                                     self.config['ExperimentName'])
 
         # Create directory structure for current experiment
@@ -757,7 +773,6 @@ class Ui(QtWidgets.QMainWindow):
                               windowTitle="Error: Setting Hyperparameters for %s" % model,
                               type="error")
             self.statusBar().showMessage("Error: Setting Hyperparameters for %s" % model)
-
             return
 
 
@@ -775,15 +790,15 @@ class Ui(QtWidgets.QMainWindow):
         if self.config["LearningTask"] == "Classifier":
             n_classes_lt3 = helper.check_categorical_labels(labels=self.learner_input.iloc[:, -1])
             if n_classes_lt3:
-                helper.messagePopUp(message="Need at least three samples per class for classifier models",
+                helper.messagePopUp(message="Need at least 3 samples per class for classifier models",
                                     informativeText="%d classes with less than three samples" % n_classes_lt3,
                                     windowTitle="Error: Not Enough Samples Per Class",
                                     type = "error")
                 self.statusBar().showMessage("Error: Not Enough Samples Per Class")
                 return
         else:
-            if self.learner_input.shape[0] < 3:
-                helper.messagePopUp(message="Need at least three samples for regression models",
+            if self.learner_input.shape[0] < 9:
+                helper.messagePopUp(message="Need at least 9 samples for regression models",
                                     informativeText="%d samples found" % self.learner_input.shape[0],
                                     windowTitle="Error: Not Enough Samples",
                                     type = "error")
@@ -953,7 +968,7 @@ class Ui(QtWidgets.QMainWindow):
         file.setFlags(QtCore.Qt.ItemIsEnabled)
         file.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-        label = QtWidgets.QTableWidgetItem(label)
+        label = QtWidgets.QTableWidgetItem(str(label)) # Make sure to convert numeric to str
         label.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
         inx = self.T3_TableWidget_TestFiles.rowCount()
@@ -974,7 +989,7 @@ class Ui(QtWidgets.QMainWindow):
         if files:
             for f in files:
                 basename = helper.get_base_filename(f)
-                label = str(helper.parse_label(basename))
+                label = helper.parse_label(basename)
                 self.test_data[basename] = {'absolute_path': f,
                                             'selected': True,
                                             'features': '',
@@ -999,7 +1014,7 @@ class Ui(QtWidgets.QMainWindow):
             if files:
                 for f in files:
                     basename = helper.get_base_filename(f)
-                    label = str(helper.parse_label(basename))
+                    label = helper.parse_label(basename)
                     self.test_data[basename] = {'absolute_path': f,
                                                 'selected': True,
                                                 'features': '',
@@ -1044,23 +1059,56 @@ class Ui(QtWidgets.QMainWindow):
         # Grab files that end with .pkl
         if files:
             model_directory = os.path.join(self.config["SaveDirectory"], "Models")
-            files = [f.split('.pkl')[0] for f in os.listdir(model_directory) if f.endswith('.pkl')]
+            files = [helper.get_base_filename(f).split('.pkl')[0] for f in files if f.endswith('.pkl')]
 
-        # Remove old column selections from list
-        self.T3_ListWidget_Models.clear()
+            # Remove old column selections from list
+            self.T3_ListWidget_Models.clear()
 
-        # Set list to columns selection
-        self.T3_ListWidget_Models.addItems(files)
+            # Set list to columns selection
+            self.T3_ListWidget_Models.addItems(files)
 
-        # Flag all test_models value in the configuration file to True by default
-        for f in files:
-            self.config["Models"][f]["test_model"] = True
+            # Flag all test_models value in the configuration file to True by default
+            for f in files:
+                self.config["Models"][f]["test_model"] = True
 
-        # Make all elements checkable
-        for i in range(self.T3_ListWidget_Models.count()):
-            item = self.T3_ListWidget_Models.item(i)
-            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
-            self.T3_ListWidget_Models.item(i).setCheckState(QtCore.Qt.Checked)
+            # Make all elements checkable
+            for i in range(self.T3_ListWidget_Models.count()):
+                item = self.T3_ListWidget_Models.item(i)
+                item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+                self.T3_ListWidget_Models.item(i).setCheckState(QtCore.Qt.Checked)
+
+
+    def T3_updateLabels(self):
+        """updates all of the labels by matching them to a dictionary
+
+        Parameters
+        ----------
+        labelDict: dict
+            Dictionary with key = file basename and value = file label
+
+        Returns
+        -------
+        None
+        """
+        for i in range(self.T3_TableWidget_TestFiles.rowCount()):
+            if self.T3_TableWidget_TestFiles.cellWidget(i, 0).findChild(QtWidgets.QCheckBox,
+                                                                        "checkbox").checkState() \
+                    == QtCore.Qt.Checked:
+                basename = self.T3_TableWidget_TestFiles.item(i, 2).text()
+                label = self.T3_TableWidget_TestFiles.item(i, 1).text()
+                try:
+                    if int(label) == float(label):
+                        label = int(label)
+                    else:
+                        label = float(label)
+                    self.test_data[basename]['label'] = label
+                except Exception as e:
+                    helper.messagePopUp(message="Error labeling file(s)",
+                                        informativeText="Please check labels and try again",
+                                        windowTitle="Error: Labeling File(s)",
+                                        type="error")
+                    self.statusBar().showMessage("Error: Labeling File(s)")
+                    return
 
 
     def T3_beginTesting(self):
@@ -1103,6 +1151,8 @@ class Ui(QtWidgets.QMainWindow):
                                 type="error")
             self.statusBar().showMessage("Error: Missing Labels")
             return
+        else:
+            self.T3_updateLabels()
 
         for index in range(self.T3_ListWidget_Models.count()):
             if self.T3_ListWidget_Models.item(index).checkState() == QtCore.Qt.Checked:
@@ -1114,6 +1164,7 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: Missing Labels",
                                 type="error")
             self.statusBar().showMessage("Error: No selected model/file")
+            return
 
         self.T3_Button_BeginTesting.setEnabled(False)
         self.T3_ProgressBar_Testing.setRange(0, 0)
@@ -1238,8 +1289,8 @@ class Ui(QtWidgets.QMainWindow):
             max_idx = helper.index_for_freq(self.config['Freqs'], max_freq)
             test_input = helper.tranpose_and_append_columns(data=valid_test_data,
                                                             freqs=self.config['Freqs'],
-                                                             columns=self.config['Columns'],
-                                                             idx_freq_ranges=(min_idx, max_idx))
+                                                            columns=self.config['Columns'],
+                                                            idx_freq_ranges=(min_idx, max_idx))
             X, y = test_input.iloc[:, :-1], test_input.iloc[:, -1]
 
         except Exception as e:
@@ -1277,9 +1328,12 @@ class Ui(QtWidgets.QMainWindow):
                                 type="error")
             self.statusBar().showMessage("Error: No Models Tested")
             return
+
+        # Generate report
         self.T3_TextBrowser_AnalysisLog.append("\nGenerating summary report for analysis (%s), please wait...\n" % \
                                                self.config["ExperimentName"])
         e = self.generateReport()
+
         if e is not None:
             raise e
 
@@ -1300,6 +1354,7 @@ class Ui(QtWidgets.QMainWindow):
                     self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis finished")
                 except Exception as e:
                     self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis failed because %s\n" % str(e))
+                    pass
 
             helper.generate_summary_report(configuration_file=self.config,
                                            importances=importances)
