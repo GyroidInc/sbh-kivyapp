@@ -18,8 +18,8 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="672" column="65" lean-forward="true" selection-start-line="672" selection-start-column="65" selection-end-line="672" selection-end-column="65" />
+            <state relative-caret-position="32">
+              <caret line="1468" column="0" lean-forward="true" selection-start-line="1468" selection-start-column="0" selection-end-line="1468" selection-end-column="0" />
               <folding>
                 <element signature="e#44#75#0" expanded="true" />
               </folding>
@@ -453,7 +453,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="797" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12638889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -904,8 +904,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="672" column="65" lean-forward="true" selection-start-line="672" selection-start-column="65" selection-end-line="672" selection-end-column="65" />
+        <state relative-caret-position="32">
+          <caret line="1468" column="0" lean-forward="true" selection-start-line="1468" selection-start-column="0" selection-end-line="1468" selection-end-column="0" />
           <folding>
             <element signature="e#44#75#0" expanded="true" />
           </folding>

@@ -10,8 +10,9 @@ import matplotlib
 matplotlib.use("Qt5Agg")
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
-import pandas as pd
 import os
+import pandas as pd
+import platform
 from PyQt5 import QtCore, QtGui,  uic, QtWidgets, Qt
 from PyQt5.QtWidgets import (QApplication, QMenu, QVBoxLayout, QSizePolicy, QMessageBox,
                              QWidget, QTableWidgetItem, QFileDialog)
@@ -154,6 +155,9 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect the menu item 'About'
         self.HelpItem_About.triggered.connect(AboutUI)
+
+        # Connect the menu item 'Documentation'
+        self.HelpItem_Documentation.triggered.connect(self.viewDocumentation)
 
         ###################
         ## TAB 1 BUTTONS ##
@@ -1444,6 +1448,23 @@ class Ui(QtWidgets.QMainWindow):
                                     type="error")
                 self.statusBar().showMessage("Error: Loading Configuration File")
                 return
+
+
+    def viewDocumentation(self):
+        """Loads user's manual documentation for viewing"""
+        operating_system = platform.system()
+        try:
+            if operating_system == "Windows":
+                os.system("""start "" /max "sbh-qtapp\qtapp\docs\MLM_manual.pdf"""")
+            else:
+                os.system("open sbh-qtapp/qtapp/docs/MLM_manual.pdf")
+        except Exception as e:
+            helper.messagePopUp(message="Error loading documentation on detected OS %s because" % operating_system,
+                                informativeText=str(e),
+                                windowTitle="Error: Loading Documentation - Check docs folder for copy of .pdf file",
+                                type="error")
+            self.statusBar().showMessage("Error: Loading Documentation - Check docs folder for copy of .pdf file")
+            return
 
 
     def exitApplication(self):
