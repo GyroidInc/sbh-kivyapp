@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>782</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1468,7 +1468,7 @@ p, li { white-space: pre-wrap; }
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Load trained models directory&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
-                      <string>Load Trained Models...</string>
+                      <string>Load Models Directory...</string>
                      </property>
                     </widget>
                    </item>
@@ -1762,7 +1762,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1440</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="nativeMenuBar">

@@ -841,7 +841,7 @@ def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_
                     json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
                 except:
                     pass
-        widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary")
+        widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary\n")
     except Exception as e:
         return e
     return None

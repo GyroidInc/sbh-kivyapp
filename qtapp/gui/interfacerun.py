@@ -849,7 +849,7 @@ class Ui(QtWidgets.QMainWindow):
             return
 
         self.T2_Button_BeginTraining.setEnabled(False)
-        self.T2_ProgressBar_Training.setRange(0,0)
+        self.T2_ProgressBar_Training.setRange(0, 0)
 
         # Set configuration file to parameters from pipeline specifications
 
@@ -1051,31 +1051,29 @@ class Ui(QtWidgets.QMainWindow):
         # Load directory for files
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self,
-                                                "Load : Trained machine learning models",
-                                                os.path.join(self.config["SaveDirectory"], "Models"),
-                                                "*.pkl files (*.pkl)",
-                                                options=options)
-        # Grab files that end with .pkl
-        if files:
+        directory = QFileDialog.getExistingDirectory(self,
+                                                     "Load : Trained machine learning models directory",
+                                                     os.path.join(self.config["SaveDirectory"], "Models"),
+                                                     options=options)
+        if directory:
+            # Grab files that end with .pkl
             model_directory = os.path.join(self.config["SaveDirectory"], "Models")
-            files = [helper.get_base_filename(f).split('.pkl')[0] for f in files if f.endswith('.pkl')]
+            models = [m.split('.pkl')[0] for m in os.listdir(model_directory) if m.endswith('.pkl')]
 
-            # Remove old column selections from list
-            self.T3_ListWidget_Models.clear()
+            if models:
+                # Remove old column selections from list and update with new models
+                self.T3_ListWidget_Models.clear()
 
-            # Set list to columns selection
-            self.T3_ListWidget_Models.addItems(files)
+                # Make all elements checkable
+                self.T3_ListWidget_Models.addItems(models)
+                for i in range(self.T3_ListWidget_Models.count()):
+                    item = self.T3_ListWidget_Models.item(i)
+                    item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+                    self.T3_ListWidget_Models.item(i).setCheckState(QtCore.Qt.Checked)
 
-            # Flag all test_models value in the configuration file to True by default
-            for f in files:
-                self.config["Models"][f]["test_model"] = True
-
-            # Make all elements checkable
-            for i in range(self.T3_ListWidget_Models.count()):
-                item = self.T3_ListWidget_Models.item(i)
-                item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
-                self.T3_ListWidget_Models.item(i).setCheckState(QtCore.Qt.Checked)
+                # Flag all test_models value in the configuration file to True by default
+                for m in models:
+                    self.config["Models"][m]["test_model"] = True
 
 
     def T3_updateLabels(self):
@@ -1096,23 +1094,18 @@ class Ui(QtWidgets.QMainWindow):
                     == QtCore.Qt.Checked:
                 basename = self.T3_TableWidget_TestFiles.item(i, 2).text()
                 label = self.T3_TableWidget_TestFiles.item(i, 1).text()
-                try:
-                    if int(label) == float(label):
-                        label = int(label)
-                    else:
-                        label = float(label)
-                    self.test_data[basename]['label'] = label
-                except Exception as e:
-                    helper.messagePopUp(message="Error labeling file(s)",
-                                        informativeText="Please check labels and try again",
-                                        windowTitle="Error: Labeling File(s)",
-                                        type="error")
-                    self.statusBar().showMessage("Error: Labeling File(s)")
-                    return
+                if int(label) == float(label):
+                    label = int(label)
+                else:
+                    label = float(label)
+                self.test_data[basename]['label'] = label
 
 
     def T3_beginTesting(self):
         """Does model loading, file ingestion, testing data creation, and model testing on Tab 3"""
+        self.T3_ProgressBar_Testing.setRange(0, 0)
+        self.T3_Button_BeginTesting.setEnabled(False)
+
         # Check that at least one model loaded
         if self.T3_ListWidget_Models.count() == 0:
             helper.messagePopUp(message="No models loaded",
@@ -1120,6 +1113,8 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: No Models Loaded",
                                 type="error")
             self.statusBar().showMessage("Error: No Models Loaded")
+            self.T3_ProgressBar_Testing.setRange(0, 1)
+            self.T3_Button_BeginTesting.setEnabled(True)
             return
 
         # Check that at least one file is loaded
@@ -1129,6 +1124,8 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: No Files Selected",
                                 type="error")
             self.statusBar().showMessage("Error: No Files Selected")
+            self.T3_ProgressBar_Testing.setRange(0, 1)
+            self.T3_Button_BeginTesting.setEnabled(True)
             return
 
         # Check that all files are labeled
@@ -1150,9 +1147,24 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: Missing Labels",
                                 type="error")
             self.statusBar().showMessage("Error: Missing Labels")
+            self.T3_ProgressBar_Testing.setRange(0, 1)
+            self.T3_Button_BeginTesting.setEnabled(True)
+            self.statusBar().showMessage("Error: Missing Labels")
+            self.T3_ProgressBar_Testing.setRange(0, 1)
+            self.T3_Button_BeginTesting.setEnabled(True)
             return
         else:
-            self.T3_updateLabels()
+            try:
+                self.T3_updateLabels()
+            except Exception as e:
+                helper.messagePopUp(message="Error labeling file(s) because",
+                                    informativeText=str(e),
+                                    windowTitle="Error: Labeling File(s)",
+                                    type="error")
+                self.statusBar().showMessage("Error: Labeling File(s)")
+                self.T3_ProgressBar_Testing.setRange(0, 1)
+                self.T3_Button_BeginTesting.setEnabled(True)
+                return
 
         for index in range(self.T3_ListWidget_Models.count()):
             if self.T3_ListWidget_Models.item(index).checkState() == QtCore.Qt.Checked:
@@ -1164,10 +1176,9 @@ class Ui(QtWidgets.QMainWindow):
                                 windowTitle="Error: Missing Labels",
                                 type="error")
             self.statusBar().showMessage("Error: No selected model/file")
+            self.T3_ProgressBar_Testing.setRange(0, 1)
+            self.T3_Button_BeginTesting.setEnabled(True)
             return
-
-        self.T3_Button_BeginTesting.setEnabled(False)
-        self.T3_ProgressBar_Testing.setRange(0, 0)
 
         # Try and load each selected trained model
         models_to_test, models_failed = {}, 0
@@ -1312,6 +1323,7 @@ class Ui(QtWidgets.QMainWindow):
         if e is not None:
             raise e
 
+
     def T3_generateReport(self):
         """Generates summary report for analysis on Tab 3"""
         # Check if any models have testing metrics
@@ -1370,6 +1382,7 @@ class Ui(QtWidgets.QMainWindow):
         except Exception as e:
             return e
         return None
+
 
     def saveConfigurationFile(self):
         """Saves configuration file at any given moment in app"""
