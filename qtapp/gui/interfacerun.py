@@ -1455,9 +1455,18 @@ class Ui(QtWidgets.QMainWindow):
         operating_system = platform.system()
         try:
             if operating_system == "Windows":
-                os.system("""start "" /max "sbh-qtapp\qtapp\docs\MLM_manual.pdf" """)
+                status = os.system("""start "" /max "sbh-qtapp\qtapp\docs\MLM_manual.pdf" """)
             else:
-                os.system("open sbh-qtapp/qtapp/docs/MLM_manual.pdf")
+                status = os.system("open sbh-qtapp/qtapp/docs/MLM_manual.pdf")
+
+            if status != 0:
+                helper.messagePopUp(message="Error loading documentation on detected OS %s" % operating_system,
+                                    informativeText="Please check docs folder for copy of .pdf file",
+                                    windowTitle="Error: Loading Documentation",
+                                    type="error")
+                self.statusBar().showMessage("Error: Loading Documentation")
+                return
+
         except Exception as e:
             helper.messagePopUp(message="Error loading documentation on detected OS %s because" % operating_system,
                                 informativeText=str(e),
