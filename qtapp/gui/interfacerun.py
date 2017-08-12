@@ -1455,7 +1455,7 @@ class Ui(QtWidgets.QMainWindow):
         operating_system = platform.system()
         try:
             if operating_system == "Windows":
-                os.system("""start "" /max "sbh-qtapp\qtapp\docs\MLM_manual.pdf"""")
+                os.system("""start "" /max "sbh-qtapp\qtapp\docs\MLM_manual.pdf" """)
             else:
                 os.system("open sbh-qtapp/qtapp/docs/MLM_manual.pdf")
         except Exception as e:
