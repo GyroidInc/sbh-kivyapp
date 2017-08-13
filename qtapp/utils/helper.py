@@ -296,15 +296,17 @@ def tranpose_and_append_columns(data, freqs, columns, idx_freq_ranges):
 
     # Get labels
     for ds in data.values():
-        labels.append(float(ds['label']))
+        if ds['features'] is not None:
+            labels.append(float(ds['label']))
     labels = np.array(labels).reshape(-1, 1)
 
     # Get features
     for ds in data.values():
-        tmp = []
-        for c in columns:
-            tmp.append(ds['features'][c].values[start:stop+1].reshape(1, -1))
-        learner_input.append(np.hstack(tmp))
+        if ds['features'] is not None:
+            tmp = []
+            for c in columns:
+                tmp.append(ds['features'][c].values[start:stop+1].reshape(1, -1))
+            learner_input.append(np.hstack(tmp))
     learner_input, feature_names = np.vstack(learner_input), generate_feature_names(freqs, columns, idx_freq_ranges)
     return pd.DataFrame(np.hstack((learner_input, labels)), columns=feature_names)
 

@@ -498,7 +498,7 @@ class Ui(QtWidgets.QMainWindow):
         progress.setMinimum(0)
         progress.setMaximum(0)
         progress.forceShow()
-        message, informativeText, windowTitle, type = self.T1_ingestFiles()
+        (message, informativeText, windowTitle, type) = self.T1_ingestFiles()
         if message is not None:
             helper.messagePopUp(message, informativeText, windowTitle, type)
         progress.cancel()
@@ -580,18 +580,18 @@ class Ui(QtWidgets.QMainWindow):
             self.columns = helper.find_unique_cols(self.data)
 
             # Check if at lseast one frequency and column are selected
-            if len(self.freqs) == 0:
+            if len(self.freqs) < 2:
                 self.statusBar().showMessage('Tip: Exclude files with different frequencies and try again')
-                message="No common frequencies found across %d selected files" % self.n_files_selected,
-                informativeText="Check selected files and try again",
-                windowTitle="Error: No Common Frequencies Across Files",
+                message="Less than 2 common frequencies found across {} selected files".format(self.n_files_selected)
+                informativeText="Check selected files and try again"
+                windowTitle="Error: Few Common Frequencies Across Files"
                 type="error"
-                self.statusBar().showMessage("Error: No Common Frequencies Across Files")
+                self.statusBar().showMessage("Error: Less Than 2 Common Frequencies Across Files")
                 return message, informativeText, windowTitle, type
 
             if len(self.columns) == 0:
                 self.statusBar().showMessage('Tip: Exclude files with different features/columns and try again')
-                message="No common features/columns found across %d selected files" % self.n_files_selected
+                message="No common features/columns found across {} selected files".format(self.n_files_selected)
                 informativeText="Check selected files and try again"
                 windowTitle="Error: No Common Features/Columns Across Files"
                 type="error"
