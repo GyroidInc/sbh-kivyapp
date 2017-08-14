@@ -330,7 +330,18 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
                     # Update configuration file
                     configuration_file["Models"][model_name]["path_trained_learner"] = save_path
                     configuration_file["Models"][model_name]["validation_score"] = scores.mean()
-                    configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+                    # Make sure Gaussian process kernel is converted to a string
+                    if model_name == "GaussianProcess":
+                        if model.get_params():
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                model.get_params()['kernel'].__str__()
+                        else:
+                            # If None provided as kernel argument, default is RBF kernel
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                'RBF(length_scale=1.0, length_scale_bounds=(1e-05, 100000.0)'
+                    else:
+                        configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
 
                     # If not verbose, then automatically_tune is calling the method and needs return arguments
                     widget_analysis_log.append("\tConfiguration file updated")
@@ -457,7 +468,18 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
                     # Update configuration file
                     configuration_file["Models"][model_name]["path_trained_learner"] = save_path
                     configuration_file["Models"][model_name]["validation_score"] = metric
-                    configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
+
+                    # Make sure Gaussian process kernel is converted to a string
+                    if model_name == "GaussianProcess":
+                        if model.get_params():
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                model.get_params()['kernel'].__str__()
+                        else:
+                            # If None provided as kernel argument, default is RBF kernel
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                'RBF(length_scale=1.0, length_scale_bounds=(1e-05, 100000.0)'
+                    else:
+                        configuration_file["Models"][model_name]["hyperparameters"] = model.get_params()
 
                     widget_analysis_log.append("\tConfiguration file updated")
                     widget_analysis_log.append("\nModel training complete for %s\n" % model_name)
@@ -472,6 +494,7 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
     except Exception as e:
         return e
     return None
+
 
 def autotune_cv(X, y, learner_type, model=None, standardize=True, feature_reduction_method=None,
                 configuration_file=None):
@@ -759,7 +782,7 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
                         continue
 
                 # If at least one model successfully trained, continue processing
-                if n_models_success != 0:
+                if n_models_success > 0:
                     # Update display
                     widget_analysis_log.append("Best model (%s)" % model_name)
                     widget_analysis_log.append("\tValidation Metric: %.4f" % best_metric)
@@ -781,7 +804,18 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
                     # Update configuration file
                     configuration_file["Models"][model_name]["path_trained_learner"] = save_path
                     configuration_file["Models"][model_name]["validation_score"] = best_metric
-                    configuration_file["Models"][model_name]["hyperparameters"] = best_params
+
+                    # Make sure Gaussian process kernel is converted to a string
+                    if model_name == "GaussianProcess":
+                        if best_model.get_params():
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                best_model.get_params()['kernel'].__str__()
+                        else:
+                            # If None provided as kernel argument, default is RBF kernel
+                            configuration_file["Models"][model_name]["hyperparameters"] = \
+                                'RBF(length_scale=1.0, length_scale_bounds=(1e-05, 100000.0)'
+                    else:
+                        configuration_file["Models"][model_name]["hyperparameters"] = best_params
 
                     widget_analysis_log.append("\tConfiguration file updated\n")
                     widget_analysis_log.append("\nModel training complete for %s\n" % model_name)

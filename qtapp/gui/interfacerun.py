@@ -142,9 +142,9 @@ class Ui(QtWidgets.QMainWindow):
         for index in range(self.T2_ListWidget_Models.count()):
             self.T2_ListWidget_Models.item(index).setCheckState(QtCore.Qt.Unchecked)
 
-        #######################
-        ## MENU ITEM BUTTONS ##
-        #######################
+        ###############################
+        ## CONNECT MENU ITEM BUTTONS ##
+        ###############################
 
         # Connect the menu item 'Save Configuration File'
         self.FileItem_SaveConfigurationFile.triggered.connect(self.saveConfigurationFile)
@@ -161,9 +161,9 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the menu item 'Documentation'
         self.HelpItem_Documentation.triggered.connect(self.viewDocumentation)
 
-        ###################
-        ## TAB 1 BUTTONS ##
-        ###################
+        ###########################
+        ## CONNECT TAB 1 BUTTONS ##
+        ###########################
 
         # Disable 'Load Labels File...' button until user selects Label Files By CSV File
         self.T1_Button_LoadLabelFiles.clicked.connect(self.T1_setLabelsByName)
@@ -192,9 +192,9 @@ class Ui(QtWidgets.QMainWindow):
         # Connect 'Save Configuration File' button
         self.T1_Button_SaveConfigurationFile.clicked.connect(self.T1_saveConfigurationFile)
 
-        ###################
-        ## TAB 2 BUTTONS ##
-        ###################
+        ###########################
+        ## CONNECT TAB 2 BUTTONS ##
+        ###########################
 
         # Connect 'Set Parameters' button
         self.T2_Button_SetParameters.clicked.connect(self.T2_setParameters)
@@ -208,9 +208,9 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the 'Clear Log' button
         self.T2_Button_ClearLog.clicked.connect(self.T2_TextBrowser_AnalysisLog.clear)
 
-        ###################
-        ## TAB 3 BUTTONS ##
-        ###################
+        ###########################
+        ## CONNECT TAB 3 BUTTONS ##
+        ###########################
 
         # Connect 'Load Files...' and 'Load Directory...' buttons
         self.T3_Button_LoadFiles.clicked.connect(self.T3_openFiles)
@@ -228,6 +228,10 @@ class Ui(QtWidgets.QMainWindow):
         # Connect the 'Generate Report' button
         self.T3_Button_GenerateReport.clicked.connect(self.T3_generateReport)
 
+
+    ###########################################
+    ############# TAB 1 FUNCTIONS #############
+    ###########################################
 
     def T1_selectLabelLoadMode(self):
         """Switches two labeling methodologies on Tab 1"""
@@ -765,6 +769,9 @@ class Ui(QtWidgets.QMainWindow):
         # Force tab widget to open on Tab 2
         self.TabWidget.setCurrentIndex(1)
 
+    ###########################################
+    ############# TAB 2 FUNCTIONS #############
+    ###########################################
 
     def T2_setParameters(self):
         """Sets hyperparameters for model using UI on Tab 2"""
@@ -972,6 +979,10 @@ class Ui(QtWidgets.QMainWindow):
             return
         self.TabWidget.setCurrentIndex(2)
 
+
+    ###########################################
+    ############# TAB 3 FUNCTIONS #############
+    ###########################################
 
     def T3_fileTable_createRow(self, label, file):
         """Adds new row to the file table on Tab 3"""
@@ -1406,6 +1417,10 @@ class Ui(QtWidgets.QMainWindow):
             return e
         return None
 
+
+    ###########################################
+    ########### MENU ITEM FUNCTIONS ###########
+    ###########################################
 
     def saveConfigurationFile(self):
         """Saves configuration file at any given moment in app"""
