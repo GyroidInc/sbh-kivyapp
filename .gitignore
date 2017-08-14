@@ -104,3 +104,4 @@ ENV/
 qtapp/.idea/
 qtapp/.idea/workspace.xml
 Test/
+.idea/*
