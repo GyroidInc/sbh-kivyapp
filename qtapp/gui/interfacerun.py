@@ -6,6 +6,7 @@ from __future__ import division
 import csv
 from io import StringIO
 import json
+import copy
 import matplotlib
 matplotlib.use("Qt5Agg")
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -114,6 +115,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Initial parameters
         self.data = {}
+        self.T1_stable = True
         self.test_data = {}
         self.config = helper.create_blank_config()
         self.learner_input = None
@@ -497,17 +499,23 @@ class Ui(QtWidgets.QMainWindow):
         progress.setWindowTitle("Loading")
         progress.setMinimum(0)
         progress.setMaximum(0)
+
+        deepcpy = copy.deepcopy(self.data)
         progress.forceShow()
         (message, informativeText, windowTitle, type) = self.T1_ingestFiles()
         if message is not None:
             helper.messagePopUp(message, informativeText, windowTitle, type)
         progress.cancel()
+        if self.T1_stable is False:
+            self.data = deepcpy
+            self.T1_stable = True
 
 
     @nongui
     def T1_ingestFiles(self):
         """Does the major data ingestion based on prestaged setting on Tab 1"""
         # Define initial variables
+        self.T1_stable = False
         self.n_files_selected, labelsOk, allOk, checkcnt = 0, True, True, 0
 
         # COMMENT HERE
@@ -630,12 +638,21 @@ class Ui(QtWidgets.QMainWindow):
                 self.T1_ListWidget_Features.item(i).setCheckState(QtCore.Qt.Checked)
 
             self.statusBar().showMessage('Successfully ingested %d files' % self.n_files_selected)
+            self.T1_stable = True
             return None, None, None, None
 
 
     def T1_createDataset(self):
         """Creates training data set on Tab 1"""
         # Make sure at least one file selected
+        if self.T1_stable is False:
+            helper.messagePopUp(message="Something happened during ingest.",
+                                informativeText="Ingested files did not stabilize. Rerun Ingest.",
+                                windowTitle="Error: No Files Ingested",
+                                type="error")
+            self.statusBar().showMessage("Error: Rerun \"Ingest files\"")
+            return
+
         if self.n_files_selected == 0:
             helper.messagePopUp(message="No files ingested to create data set",
                               informativeText="Ingest files and try again",
