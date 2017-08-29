@@ -16,9 +16,9 @@ from sklearn.svm import SVC, SVR
 import numpy as np
 import os
 import pandas as pd
-from sklearn.decomposition import FastICA, PCA
+from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectFromModel
-from sklearn.model_selection import KFold, ShuffleSplit, StratifiedKFold, train_test_split
+from sklearn.model_selection import KFold, StratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 
 
@@ -350,9 +350,14 @@ def cv(X, y, learner_type, standardize=True, feature_reduction_method=None,
 
                 except Exception as e:
                     # Model failed for current hyperparameters
-                    widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
-                                               (model_name, model_information["hyperparameters"], str(e)))
-                    widget_analysis_log.append("Tip: Check input data set and try again\n")
+                    if model_name == "GaussianProcess":
+                        widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
+                                                   (model_name, model_information["hyperparameters"], str(e)))
+                        widget_analysis_log.append("\nTip: Click Set Parameters button and select a kernel\n")
+                    else:
+                        widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
+                                                   (model_name, model_information["hyperparameters"], str(e)))
+                        widget_analysis_log.append("\nTip: Check input data set and try again\n")
                     continue
     except Exception as e:
         return e
@@ -487,9 +492,14 @@ def holdout(X, y, learner_type, standardize=True, feature_reduction_method=None,
 
                 except Exception as e:
                     # Model failed for current hyperparameters
-                    widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
-                                               (model_name, model_information["hyperparameters"], str(e)))
-                    widget_analysis_log.append("Tip: Check input data set and try again\n")
+                    if model_name == "GaussianProcess":
+                        widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
+                                                   (model_name, model_information["hyperparameters"], str(e)))
+                        widget_analysis_log.append("\nTip: Click Set Parameters button and select a kernel\n")
+                    else:
+                        widget_analysis_log.append("***ERROR: Training model (%s) with hyperparameters %s because %s" % \
+                                                   (model_name, model_information["hyperparameters"], str(e)))
+                        widget_analysis_log.append("\nTip: Check input data set and try again\n")
                     continue
     except Exception as e:
         return e
@@ -825,7 +835,7 @@ def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_m
                 else:
                     widget_analysis_log.append("***ERROR: 0/%d models successfully trained for %s" % \
                                                (n_combos, model_name))
-                    widget_analysis_log.append("Tip: Check input data set and try again\n")
+                    widget_analysis_log.append("\nTip: Check input data set and try again\n")
     except Exception as e:
         return e
     return None

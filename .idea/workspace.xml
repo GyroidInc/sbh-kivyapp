@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2f38328-f23a-45db-8d15-7aa8092df305" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/docs/MLM_manual.pdf" afterPath="$PROJECT_DIR$/qtapp/docs/MLM_manual.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbh-qtapp.iml" afterPath="$PROJECT_DIR$/.idea/sbh-qtapp.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" afterPath="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" afterPath="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
     </list>
     <ignored path=".idea/" />
@@ -23,141 +20,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="969" column="55" lean-forward="true" selection-start-line="969" selection-start-column="55" selection-end-line="969" selection-end-column="55" />
+            <state relative-caret-position="70">
+              <caret line="845" column="21" lean-forward="true" selection-start-line="845" selection-start-column="21" selection-end-line="845" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hyperparameters_ui.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-              <folding>
-                <marker date="1502743550583" expanded="false" signature="0:339" ph="import ..." />
-                <marker date="1502743550583" expanded="true" signature="374:23350" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="379:449" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-                <marker date="1502743550583" expanded="true" signature="510:19803" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="1735:1895" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="1909:2064" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="2156:5105" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="2169:2208" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="2982:3021" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="3877:3913" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="5148:6475" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="5667:5969" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="6523:10944" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="6536:6575" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="7350:7390" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="8179:8215" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="8952:8988" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="9725:9756" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="10207:10318" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="10250:10316" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="10336:10448" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="10379:10446" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="10989:12699" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="11002:11040" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="11804:11832" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="12740:15799" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="12753:12798" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="13653:13693" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="14243:14378" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="15191:15293" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="15847:19049" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="16366:16443" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="17442:17470" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="18102:18134" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="19088:19669" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="19827:23350" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="19836:19926" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-                <marker date="1502743550583" expanded="true" signature="19997:20764" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="20038:20215" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="20596:20763" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="20816:21431" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="20857:21015" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="21118:21430" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="21483:21784" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="21506:21783" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="21831:22464" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="22513:22663" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="22536:22662" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="22708:23159" ph="..." />
-                <marker date="1502743550583" expanded="true" signature="22950:23158" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nonguiwrapper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-              <folding>
-                <marker date="1502743550609" expanded="true" signature="404:478" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="importDataStruct.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-              <folding>
-                <marker date="1502743550599" expanded="false" signature="0:103" ph="import ..." />
-                <marker date="1502743550599" expanded="true" signature="137:204" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1502743550599" expanded="true" signature="237:539" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="246:341" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-                <marker date="1502743550599" expanded="true" signature="409:539" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="564:810" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="842:1010" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="1043:1218" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="1259:1356" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="1440:1617" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="1658:1877" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="1916:2173" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="2417:2699" ph="..." />
-                <marker date="1502743550599" expanded="true" signature="2448:2699" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-86">
-              <caret line="266" column="41" lean-forward="true" selection-start-line="266" selection-start-column="41" selection-end-line="266" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1175">
-              <caret line="160" column="55" lean-forward="true" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
-              <folding>
-                <element signature="e#25#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qtapp/model/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="128">
+              <caret line="404" column="43" lean-forward="false" selection-start-line="404" selection-start-column="43" selection-end-line="404" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -197,6 +74,10 @@
       <find>mess</find>
       <find>feature</find>
       <find>print</find>
+      <find>'None'</find>
+      <find>GaussianProcess</find>
+      <find>Check</find>
+      <find>pdb</find>
     </findStrings>
     <replaceStrings>
       <replace>learner_type</replace>
@@ -221,8 +102,8 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py" />
         <option value="$PROJECT_DIR$/qtapp/gui/_errmsg_.log" />
-        <option value="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
         <option value="$PROJECT_DIR$/qtapp/utils/helper.py" />
+        <option value="$PROJECT_DIR$/qtapp/gui/interfacerun.py" />
         <option value="$PROJECT_DIR$/qtapp/model/pipeline_specifications.py" />
       </list>
     </option>
@@ -248,13 +129,76 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sbh-qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea/workspace.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/Test/Summary/analysis_summary.txt&#10;C:/Users/Wade/PycharmProjects/sbh-qtapp/qtapp/gui/_errmsg_.log" />
   </component>
@@ -595,11 +539,11 @@
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20514706" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1367647" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4258675" sideWeight="0.18235295" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2791798" sideWeight="0.81764704" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2522936" sideWeight="0.49791667" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4266055" sideWeight="0.18385416" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26340693" sideWeight="0.81614584" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2522936" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33171913" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -607,25 +551,14 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4266055" sideWeight="0.18385416" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2522936" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33171913" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20412844" sideWeight="0.81614584" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13697916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3266385" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -741,7 +674,7 @@
         <state relative-caret-position="935">
           <caret line="55" column="24" lean-forward="true" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
           <folding>
-            <element signature="e#25#54#0" expanded="true" />
+            <element signature="e#25#54#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -957,94 +890,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/utils/nonguiwrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
+        <state relative-caret-position="85">
           <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-          <folding>
-            <marker date="1502743550609" expanded="true" signature="404:478" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <marker date="1502743550583" expanded="false" signature="0:339" ph="import ..." />
-            <marker date="1502743550583" expanded="true" signature="374:23350" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="379:449" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-            <marker date="1502743550583" expanded="true" signature="510:19803" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="1735:1895" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="1909:2064" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="2156:5105" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="2169:2208" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="2982:3021" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="3877:3913" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="5148:6475" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="5667:5969" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="6523:10944" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="6536:6575" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="7350:7390" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="8179:8215" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="8952:8988" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="9725:9756" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="10207:10318" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="10250:10316" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="10336:10448" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="10379:10446" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="10989:12699" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="11002:11040" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="11804:11832" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="12740:15799" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="12753:12798" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="13653:13693" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="14243:14378" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="15191:15293" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="15847:19049" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="16366:16443" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="17442:17470" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="18102:18134" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="19088:19669" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="19827:23350" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="19836:19926" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-            <marker date="1502743550583" expanded="true" signature="19997:20764" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="20038:20215" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="20596:20763" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="20816:21431" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="20857:21015" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="21118:21430" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="21483:21784" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="21506:21783" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="21831:22464" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="22513:22663" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="22536:22662" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="22708:23159" ph="..." />
-            <marker date="1502743550583" expanded="true" signature="22950:23158" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.spec" />
     <entry file="file://$PROJECT_DIR$/qtapp/preprocess/importDataStruct.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="289">
           <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-          <folding>
-            <marker date="1502743550599" expanded="false" signature="0:103" ph="import ..." />
-            <marker date="1502743550599" expanded="true" signature="137:204" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1502743550599" expanded="true" signature="237:539" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="246:341" ph="&quot;&quot;&quot;ADD...&quot;&quot;&quot;" />
-            <marker date="1502743550599" expanded="true" signature="409:539" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="564:810" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="842:1010" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="1043:1218" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="1259:1356" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="1440:1617" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="1658:1877" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="1916:2173" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="2417:2699" ph="..." />
-            <marker date="1502743550599" expanded="true" signature="2448:2699" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1053,26 +910,34 @@
     <entry file="file://$PROJECT_DIR$/qtapp/gui/_errmsg_.log" />
     <entry file="file://$PROJECT_DIR$/qtapp/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1175">
-          <caret line="160" column="55" lean-forward="true" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
+        <state relative-caret-position="2550">
+          <caret line="160" column="55" lean-forward="false" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
           <folding>
-            <element signature="e#25#54#0" expanded="true" />
+            <element signature="e#25#54#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
+    <entry file="file://$PROJECT_DIR$/qtapp/gui/hyperparameters_ui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="969" column="55" lean-forward="true" selection-start-line="969" selection-start-column="55" selection-end-line="969" selection-end-column="55" />
+        <state relative-caret-position="284">
+          <caret line="551" column="26" lean-forward="true" selection-start-line="551" selection-start-column="26" selection-end-line="551" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/qtapp/model/pipeline_specifications.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-86">
-          <caret line="266" column="41" lean-forward="true" selection-start-line="266" selection-start-column="41" selection-end-line="266" selection-end-column="41" />
+        <state relative-caret-position="128">
+          <caret line="404" column="43" lean-forward="false" selection-start-line="404" selection-start-column="43" selection-end-line="404" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtapp/gui/interfacerun.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="845" column="21" lean-forward="true" selection-start-line="845" selection-start-column="21" selection-end-line="845" selection-end-column="21" />
           <folding />
         </state>
       </provider>
