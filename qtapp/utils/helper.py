@@ -41,9 +41,10 @@ def parse_label(file):
     try:
         name, ext = os.path.splitext(file)
         label = name.split('_')[-1]
-        if int(label) == float(label):
-            return int(label)
-        else:
+        try:
+            if int(label) == float(label): # This statement will create an error if label is a float
+                return int(label)
+        except:
             return float(label)
     except:
         return ''
