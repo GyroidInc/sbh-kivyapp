@@ -301,14 +301,20 @@ class Ui(QtWidgets.QMainWindow):
 
             # Filename should be the key and label is the value
             if filename_first:
-                if float(v) == int(v):
-                    toDict[k] = int(v)
-                else:
+                try:
+                    if float(v) == int(v):
+                        toDict[k] = int(v)
+                    else:
+                        toDict[k] = float(v)
+                except:
                     toDict[k] = float(v)
             else:
-                if float(k) == int(k):
-                    toDict[v] = int(k)
-                else:
+                try:
+                    if float(k) == int(k):
+                        toDict[v] = int(k)
+                    else:
+                        toDict[v] = float(k)
+                except:
                     toDict[v] = float(k)
 
         # Add labels to dictionary and update file list
@@ -1127,10 +1133,14 @@ class Ui(QtWidgets.QMainWindow):
                     == QtCore.Qt.Checked:
                 basename = self.T3_TableWidget_TestFiles.item(i, 2).text()
                 label = self.T3_TableWidget_TestFiles.item(i, 1).text()
-                if int(label) == float(label):
-                    label = int(label)
-                else:
+                try:
+                    if int(label) == float(label):
+                        label = int(label)
+                    else:
+                        label = float(label)
+                except:
                     label = float(label)
+
                 self.test_data[basename]['label'] = label
 
 
