@@ -1789,6 +1789,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="HelpItem_About"/>
     <addaction name="HelpItem_Documentation"/>
+    <addaction name="HelpItem_fileChecker"/>
    </widget>
    <addaction name="MenuFile"/>
    <addaction name="MenuHelp"/>
@@ -1864,6 +1865,16 @@ p, li { white-space: pre-wrap; }
   <action name="HelpItem_About">
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="HelpItem_fileChecker">
+   <property name="text">
+    <string>File Checker</string>
    </property>
    <property name="font">
     <font>

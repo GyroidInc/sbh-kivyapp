@@ -18,11 +18,9 @@
       <file leaf-file-name="interfacerun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="1467" column="14" lean-forward="false" selection-start-line="1467" selection-start-column="14" selection-end-line="1467" selection-end-column="14" />
-              <folding>
-                <element signature="e#44#75#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="152">
+              <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -30,33 +28,33 @@
       <file leaf-file-name="pipeline_specifications.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-13744">
-              <caret line="206" column="11" lean-forward="false" selection-start-line="206" selection-start-column="11" selection-end-line="206" selection-end-column="61" />
-              <folding>
-                <element signature="e#25#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/helper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="456" column="80" lean-forward="false" selection-start-line="456" selection-start-column="67" selection-end-line="456" selection-end-column="80" />
-              <folding>
-                <element signature="e#25#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="builder.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/builder.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="33" column="50" lean-forward="false" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
+            <state relative-caret-position="1064">
+              <caret line="75" column="20" lean-forward="true" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="20" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hyperparameters_ui.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="38" column="18" lean-forward="false" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+              <folding>
+                <element signature="e#25#67#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filechecker.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/filechecker.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -72,20 +70,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.test_inp</find>
-      <find>idx_freq_ranges</find>
-      <find>self.columns</find>
-      <find>Freq</find>
-      <find>Exception</find>
-      <find>ListWidget</find>
       <find>test_input</find>
       <find>saveCon</find>
       <find>str</find>
-      <find>T3_fileTable_createRow</find>
       <find>helper.parse_label</find>
       <find>helper.parse</find>
       <find>T1_UpdateFileList</find>
-      <find>message</find>
       <find>Error:</find>
       <find>go up</find>
       <find>pdb</find>
@@ -102,6 +92,14 @@
       <find>ProgressBar</find>
       <find>no models test</find>
       <find>Columns</find>
+      <find>int(</find>
+      <find>parse_label</find>
+      <find>==</find>
+      <find>T3_fileTable_createRow</find>
+      <find>Experiment Name</find>
+      <find>directory</find>
+      <find>open</find>
+      <find>message</find>
     </findStrings>
     <replaceStrings>
       <replace>helper.messagePopUp</replace>
@@ -114,7 +112,6 @@
         <option value="$PROJECT_DIR$/gui/dynamicmplcanvas.py" />
         <option value="$PROJECT_DIR$/utils/constants.py" />
         <option value="$PROJECT_DIR$/gui/about_ui.py" />
-        <option value="$PROJECT_DIR$/gui/hyperparameters_ui.py" />
         <option value="$PROJECT_DIR$/utils/errorhandling.py" />
         <option value="$PROJECT_DIR$/utils/nonguiwrapper.py" />
         <option value="$PROJECT_DIR$/preprocess/ingest.py" />
@@ -122,7 +119,12 @@
         <option value="$PROJECT_DIR$/model/builder.py" />
         <option value="$PROJECT_DIR$/model/pipeline_specifications.py" />
         <option value="$PROJECT_DIR$/utils/helper.py" />
+        <option value="$PROJECT_DIR$/gui/filechecker.py" />
+        <option value="$PROJECT_DIR$/utils/SansecFileGrouping.py" />
+        <option value="$PROJECT_DIR$/gui/filechecker_ui.py" />
         <option value="$PROJECT_DIR$/gui/interfacerun.py" />
+        <option value="$PROJECT_DIR$/gui/hyperparameters_ui.py" />
+        <option value="$PROJECT_DIR$/utils/filechecker.py" />
       </list>
     </option>
   </component>
@@ -235,13 +237,18 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/anaconda2/envs/py35/bin/python" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -269,24 +276,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="qtapp" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/interfacerun.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="pipeline_specifications" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="qtapp" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model/pipeline_specifications.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -328,7 +317,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="about_ui" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="filechecker" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -340,7 +329,25 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="qtapp" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/about_ui.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/filechecker_ui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="filechecker (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtapp" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/filechecker.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -412,18 +419,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.interfacerun" />
-      <item index="1" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
-      <item index="2" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
-      <item index="3" class="java.lang.String" itemvalue="Python.helper" />
-      <item index="4" class="java.lang.String" itemvalue="Python.about_ui" />
+      <item index="1" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
+      <item index="2" class="java.lang.String" itemvalue="Python.helper" />
+      <item index="3" class="java.lang.String" itemvalue="Python.filechecker" />
+      <item index="4" class="java.lang.String" itemvalue="Python.filechecker (1)" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.interfacerun" />
-        <item index="1" class="java.lang.String" itemvalue="Python.about_ui" />
-        <item index="2" class="java.lang.String" itemvalue="Python.pipeline_specifications" />
-        <item index="3" class="java.lang.String" itemvalue="Python.helper" />
-        <item index="4" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
+        <item index="1" class="java.lang.String" itemvalue="Python.filechecker" />
+        <item index="2" class="java.lang.String" itemvalue="Python.filechecker (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.hyperparameters_ui" />
+        <item index="4" class="java.lang.String" itemvalue="Python.helper" />
       </list>
     </recent_temporary>
   </component>
@@ -453,14 +460,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="797" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12638889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2802198" sideWeight="0.5083333" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2802198" sideWeight="0.49166667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2802198" sideWeight="0.49166667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -473,6 +479,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -509,20 +516,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/anaconda2/envs/py35/lib/python3.5/site-packages/sklearn/model_selection/_split.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="1677" column="46" lean-forward="true" selection-start-line="1677" selection-start-column="46" selection-end-line="1677" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda2/envs/py35/lib/python3.5/site-packages/sklearn/utils/multiclass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3000">
@@ -537,9 +530,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6975">
           <caret line="467" column="30" lean-forward="false" selection-start-line="467" selection-start-column="30" selection-end-line="467" selection-end-column="30" />
-          <folding>
-            <element signature="e#25#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -547,9 +537,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
           <caret line="274" column="20" lean-forward="false" selection-start-line="274" selection-start-column="20" selection-end-line="274" selection-end-column="20" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -557,9 +545,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-7128">
           <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -567,9 +553,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -608,9 +592,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -618,9 +600,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -628,9 +608,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6405">
           <caret line="429" column="53" lean-forward="false" selection-start-line="429" selection-start-column="53" selection-end-line="429" selection-end-column="53" />
-          <folding>
-            <element signature="e#25#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -662,9 +639,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -729,9 +704,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -772,18 +745,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/_errmsg_.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/_errmsg_.log" />
     <entry file="file://$PROJECT_DIR$/utils/errorhandling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -791,7 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -799,9 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="e#25#72#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -809,7 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -817,7 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -825,17 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -848,9 +797,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#42#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -858,9 +804,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="e#25#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -868,47 +811,70 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="26" lean-forward="false" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-          <folding>
-            <element signature="e#24#67#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/builder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="33" column="50" lean-forward="false" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13744">
-          <caret line="206" column="11" lean-forward="false" selection-start-line="206" selection-start-column="11" selection-end-line="206" selection-end-column="61" />
-          <folding>
-            <element signature="e#25#56#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="456" column="80" lean-forward="false" selection-start-line="456" selection-start-column="67" selection-end-line="456" selection-end-column="80" />
+        <state relative-caret-position="-8">
+          <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
           <folding>
             <element signature="e#25#54#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="33" column="50" lean-forward="false" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/filechecker_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="87" column="17" lean-forward="true" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
+          <folding>
+            <element signature="e#25#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/filechecker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/hyperparameters_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="38" column="18" lean-forward="false" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+          <folding>
+            <element signature="e#25#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/pipeline_specifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1064">
+          <caret line="75" column="20" lean-forward="true" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gui/interfacerun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="1467" column="14" lean-forward="false" selection-start-line="1467" selection-start-column="14" selection-end-line="1467" selection-end-column="14" />
-          <folding>
-            <element signature="e#44#75#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="152">
+          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

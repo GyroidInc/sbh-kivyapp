@@ -36,14 +36,17 @@ try:
     from qtapp.utils import constants, helper
     from qtapp.utils.errorhandling import errorDialogOnException
     from qtapp.utils.nonguiwrapper import nongui
+    from qtapp.utils.filechecker import split_files
 except:
     from about_ui import AboutUI
     from hyperparameters_ui import HyperparametersUI
+    from filechecker_ui import FileCheckerUI
     from dynamicmplcanvas import DynamicMplCanvas
     from model import pipeline_specifications as ps
     from utils import constants, helper
     from utils.errorhandling import errorDialogOnException
     from utils.nonguiwrapper import nongui
+    from utils.filechecker import split_files
 
 
 def excepthook(excType, excValue, tracebackobj):
@@ -160,6 +163,9 @@ class Ui(QtWidgets.QMainWindow):
 
         # Connect the menu item 'Documentation'
         self.HelpItem_Documentation.triggered.connect(self.viewDocumentation)
+
+        # Connect the menu item 'File Checker'
+        self.HelpItem_fileChecker.triggered.connect(self.checkFiles)
 
         ###########################
         ## CONNECT TAB 1 BUTTONS ##
@@ -1516,6 +1522,27 @@ class Ui(QtWidgets.QMainWindow):
                                 type="error")
             self.statusBar().showMessage("Error: Loading Documentation - Check docs folder for copy of .pdf file")
             return
+
+
+    def checkFiles(self):
+        """Runs the file checker script on user selected directory"""
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly | QFileDialog.DontUseNativeDialog
+        directory = QFileDialog.getExistingDirectory(self,
+                    "Select : SansEC directory with experiment files", os.path.expanduser("~"), options=options)
+
+        if directory:
+            self.statusBar().showMessage("Checking files in directory %s, please wait..." % directory)
+            status = split_files(directory)
+            if not status[0]:
+                helper.messagePopUp(message="Error Checking Files",
+                                    informativeText="Unable to check files in %s because %s" % (directory, status[1]),
+                                    windowTitle="Error: Checking Files",
+                                    type="error")
+                self.statusBar().showMessage("Error checking files in %s" % directory)
+                return
+            else:
+                self.statusBar().showMessage("Successfully split %d files into %d unique groupings" % (status[-1], status[-2]))
 
 
     def exitApplication(self):

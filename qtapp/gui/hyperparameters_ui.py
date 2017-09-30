@@ -36,7 +36,7 @@ class HyperparametersUI(object):
         self.sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.sizePolicy.setHorizontalStretch(1)
 
-        # Set font (ADD THIS TO EACH WIDGET?)
+        # Set font
         font = QtGui.QFont().setPointSize(12)
 
         # Validators
@@ -551,5 +551,5 @@ class HyperparametersUI(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = HyperparametersUI(model="LinearModel", type="Regressor")
+    window = HyperparametersUI(model="RandomForest", configuration_file={'LearningTask': 'Regressor'})
     sys.exit(app.exec_())
