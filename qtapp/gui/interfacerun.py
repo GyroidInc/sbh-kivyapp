@@ -1347,11 +1347,11 @@ class Ui(QtWidgets.QMainWindow):
             min_freq, max_freq = min(self.config['Freqs']), max(self.config['Freqs'])
             min_idx = helper.index_for_freq(self.config['Freqs'], min_freq)
             max_idx = helper.index_for_freq(self.config['Freqs'], max_freq)
-            test_input = helper.tranpose_and_append_columns(data=valid_test_data,
+            self.test_input = helper.tranpose_and_append_columns(data=valid_test_data,
                                                             freqs=self.config['Freqs'],
                                                             columns=self.config['Columns'],
                                                             idx_freq_ranges=(min_idx, max_idx))
-            X, y = test_input.iloc[:, :-1], test_input.iloc[:, -1]
+            X, y = self.test_input.iloc[:, :-1], self.test_input.iloc[:, -1]
 
         except Exception as e:
             helper.messagePopUp(message="Error: Creating testing dataset because",
@@ -1404,7 +1404,7 @@ class Ui(QtWidgets.QMainWindow):
         """Helper function that generates report in separate thread"""
         # Generate feature importance analysis results
         try:
-            importances_generated = False
+            importances_generated, predictions_generated = False, False
             if self.learner_input is not None:
                 self.T3_TextBrowser_AnalysisLog.append("Running feature importance analysis...")
                 try:
@@ -1417,9 +1417,15 @@ class Ui(QtWidgets.QMainWindow):
                     self.T3_TextBrowser_AnalysisLog.append("\tFeature analysis failed because %s\n" % str(e))
                     pass
 
-            helper.generate_summary_report(configuration_file=self.config,
-                                           var_names=var_names,
-                                           importances=importances)
+            try:
+                self.T3_TextBrowser_AnalysisLog.append("\nGenerating predictions file...")
+                ps.summary_model_predictions(y_test=self.test_input.iloc[:, -1], configuration_file=self.config)
+                predictions_generated = True
+                self.T3_TextBrowser_AnalysisLog.append("\tPredictions file finished")
+            except Exception as e:
+                return e
+
+            helper.generate_summary_report(configuration_file=self.config, var_names=var_names, importances=importances)
             self.T3_TextBrowser_AnalysisLog.append("\nSummary report finished and saved as %s" % \
                                                    os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
                                                    "analysis_summary.txt"))
@@ -1427,6 +1433,11 @@ class Ui(QtWidgets.QMainWindow):
                 self.T3_TextBrowser_AnalysisLog.append("\nFeature analysis report saved as %s" % \
                                                        os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
                                                        "feature_importance_analysis.txt"))
+
+            if predictions_generated:
+                self.T3_TextBrowser_AnalysisLog.append("\nModel predictions report saved as %s" % \
+                                                       os.path.join(os.path.join(self.config["SaveDirectory"], "Summary"),
+                                                                    "summary_model_predictions.txt"))
 
             self.T3_TextBrowser_AnalysisLog.append("\n --- Analysis Finished ---\n")
         except Exception as e:

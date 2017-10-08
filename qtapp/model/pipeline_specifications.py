@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division
-import json
 
 # Models
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, GradientBoostingClassifier, \
@@ -13,11 +12,14 @@ from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVC, SVR
 
 # Other imports
+import json
 import numpy as np
 import os
 import pandas as pd
+from prettytable import PrettyTable
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectFromModel
+from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import KFold, StratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -205,6 +207,88 @@ def feature_importance_analysis(X, y, configuration_file):
 
     # Return top 15 features to print in analysis log
     return var_names[indices[:15]], importances[indices[:15]]
+
+
+def create_predictions_table(y_test, y_hat, learning_task, files):
+    """ADD
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
+    table = PrettyTable()
+    if learning_task == "Classifier":
+        # Calculate errors
+        errors, y_test, y_hat = [], np.array(y_test).astype('int'), np.array(y_hat).astype('int')
+        for i in range(y_test.shape[0]):
+            if y_test[i] != y_hat[i]:
+                errors.append("X")
+            else:
+                errors.append("-")
+
+    else:
+        # Calculate errors
+        errors, y_test, y_hat = np.zeros(y_test.shape[0]), np.array(y_test).astype('float'), np.array(y_hat).astype('float')
+        for i in range(y_test.shape[0]):
+            errors[i] = y_test[i] - y_hat[i]
+
+    # Create table
+    table.add_column("Test File", files)
+    table.add_column("Observed Label", y_test)
+    table.add_column("Predicted Label", y_hat)
+    table.add_column("Error", errors)
+
+    return table.get_string()
+
+
+def summary_model_predictions(y_test, configuration_file):
+    """ADD
+
+    Parameters
+    ----------
+    y : 1d array-like
+        Labels for input dataset
+
+    configuration_file : dict
+        Configuration file for analysis
+
+    Returns
+    --------
+    ADD
+    """
+    # Open log file for writing
+    summary = open(os.path.join(os.path.join(configuration_file["SaveDirectory"], "Summary"), "summary_model_predictions.txt"), "w")
+    summary.write("Summary of %s model predictions for %d testing samples\n\n" % \
+                  (configuration_file["LearningTask"].lower(), len(configuration_file["TestFiles"])))
+
+    # Loop over models and print predictions
+    counter, n = 1, y_test.shape[0]
+    for model, model_info in configuration_file["Models"].items():
+        if model_info["test_score"] is not None:
+
+            # Make PrettyTable
+            summary.write("%d. Model Predictions for %s:\n" % (counter, model))
+            table = create_predictions_table(y_test=y_test,
+                                             y_hat=model_info["y_hat"],
+                                             learning_task=configuration_file["LearningTask"],
+                                             files=configuration_file["TestFiles"])
+
+            counter += 1
+            summary.write(table)
+
+            # Add confusion matrix for classifier
+            if configuration_file["LearningTask"] == "Classifier":
+                summary.write("\nConfusion Matrix (Rows = True, Columns = Predicted)\n")
+                summary.write(np.array_str(confusion_matrix(y_true=y_test, y_pred=model_info["y_hat"])))
+                summary.write("\n\nAccuracy: %.4f\n\n" % model_info["test_score"])
+            else:
+                summary.write("\nMean Squared Error: %.4f\n\n" % model_info["test_score"])
+        else:
+            continue
+
+    summary.close()
 
 
 @nongui
@@ -680,6 +764,7 @@ def autotune_holdout(X, y, learner_type, model=None, standardize=True, feature_r
     model.fit(X, y)
     return metric, model, scaler, transformer
 
+
 @nongui
 def automatically_tune(X, y, learner_type, standardize=True, feature_reduction_method=None,
                        training_method="holdout", widget_analysis_log=None,
@@ -868,23 +953,24 @@ def deploy_models(X, y, models_to_test, widget_analysis_log=None, configuration_
     try:
         for model_name, clf in models_to_test.items():
 
-                widget_analysis_log.append("Deploying model %s on test data..." % model_name)
+            widget_analysis_log.append("Deploying model %s on test data..." % model_name)
 
-                # Get predictions on test set
-                y_hat = models_to_test[model_name].predict(X)
+            # Get predictions on test set
+            y_hat = models_to_test[model_name].predict(X)
 
-                # Grab metrics
-                metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
-                widget_analysis_log.append("\tMetric: %.4f\n" % metric)
+            # Grab metrics
+            metric = helper.calculate_metric(y, y_hat, learner_type=configuration_file["LearningTask"])
+            widget_analysis_log.append("\tMetric: %.4f\n" % metric)
 
-                # Update configuration file
-                configuration_file["Models"][model_name]["test_score"] = metric
+            # Update configuration file
+            configuration_file["Models"][model_name]["test_score"] = metric
+            configuration_file["Models"][model_name]["y_hat"] = y_hat.tolist() # To list for serializing .json file
 
-                # Automatically try and save configuration file
-                try:
-                    json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
-                except:
-                    pass
+        # Automatically try and save configuration file
+        try:
+            json.dump(configuration_file, open(os.path.join(configuration_file['SaveDirectory'], 'configuration.json'), 'w'))
+        except:
+            pass
         widget_analysis_log.append("Testing finished. Click Generate Report to obtain analysis summary\n")
     except Exception as e:
         return e

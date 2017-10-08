@@ -87,6 +87,7 @@ def find_unique_cols(data_dict):
             data_columns.append(set(data["features"].columns))
     return list(set.intersection(*data_columns))
 
+
 def find_unique_freqs(data_dict):
     """Find intersection of frequencies names across all data files
 
@@ -470,7 +471,7 @@ def generate_summary_report(configuration_file, var_names, importances):
     summary.write("-- TRAINING RESULTS: VALIDATION METRIC = %s --\n" % metric_name.upper())
     counter = 1
     for model_name, model_information in configuration_file["Models"].items():
-        if model_information["validation_score"]:
+        if model_information["validation_score"] is not None:
             summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["validation_score"]))
             summary.write("\tHyperparameters : %s\n" % (model_information["hyperparameters"], ))
             counter += 1
@@ -485,7 +486,7 @@ def generate_summary_report(configuration_file, var_names, importances):
     summary.write("\n-- TESTING RESULTS: TESTING METRIC = %s --\n" % metric_name.upper())
     counter = 1
     for model_name, model_information in configuration_file["Models"].items():
-        if model_information["test_score"]:
+        if model_information["test_score"] is not None:
             summary.write("%d. %s : %.4f\n" % (counter, model_name, model_information["test_score"]))
             counter += 1
 
@@ -518,7 +519,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'GaussianProcess':
                     {
@@ -527,7 +529,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'GradientBoostedTrees':
                     {
@@ -536,7 +539,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'KNearestNeighbors':
                     {
@@ -545,7 +549,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'LinearModel':
                     {
@@ -554,7 +559,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'NeuralNetwork':
                     {
@@ -563,7 +569,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'RandomForest':
                     {
@@ -572,7 +579,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     },
                 'SupportVectorMachine':
                     {
@@ -581,7 +589,8 @@ def create_blank_config():
                         "validation_score": None,
                         "test_score": None,
                         "test_model": '',
-                        "path_trained_learner": ''
+                        "path_trained_learner": '',
+                        "y_hat": None
                     }
             }
 
