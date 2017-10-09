@@ -1261,6 +1261,12 @@ class Ui(QtWidgets.QMainWindow):
             return
 
         # Try and load each selected test file and check for same frequencies and columns as training data
+        #first, reset data dictionary:
+        for basename in self.test_data:
+            self.test_data[basename]['features'] = ''
+
+        self.config["TestFiles"] = []
+
         files_failed = 0
         for i in range(self.T3_TableWidget_TestFiles.rowCount()):
             if self.T3_TableWidget_TestFiles.cellWidget(i, 0).findChild(QtWidgets.QCheckBox,
@@ -1299,26 +1305,27 @@ class Ui(QtWidgets.QMainWindow):
         # Check that all test files have the same frequencies and features as training data
         valid_test_data, invalid_files = {}, []
         for key, value in self.test_data.items():
+            if value['features'] is not '':
 
-            # Get frequencies and features for current file
-            testing_freqs = value['features']['Freq'].tolist()
-            testing_feats = value['features'].columns.tolist()
+                # Get frequencies and features for current file
+                testing_freqs = value['features']['Freq'].tolist()
+                testing_feats = value['features'].columns.tolist()
 
-            # Remove columns that are usually constant
-            for c in constants.COLUMNS_TO_DROP:
-                testing_feats.pop(testing_feats.index(c))
+                # Remove columns that are usually constant
+                for c in constants.COLUMNS_TO_DROP:
+                    testing_feats.pop(testing_feats.index(c))
 
-            try:
-                if helper.check_testing_freqs_and_features(testing_freqs=testing_freqs,
-                                                           testing_feats=testing_feats,
-                                                           training_freqs=self.config['Freqs'],
-                                                           training_feats=self.config['Columns']):
-                    valid_test_data[key] = value
-                else:
+                try:
+                    if helper.check_testing_freqs_and_features(testing_freqs=testing_freqs,
+                                                               testing_feats=testing_feats,
+                                                               training_freqs=self.config['Freqs'],
+                                                               training_feats=self.config['Columns']):
+                        valid_test_data[key] = value
+                    else:
+                        invalid_files.append(key)
+                except:
                     invalid_files.append(key)
-            except:
-                invalid_files.append(key)
-                continue
+                    continue
 
         # Create warning and error messages if some files failed comparison to training data
         files_failed = len(invalid_files)

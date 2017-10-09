@@ -1,5 +1,7 @@
+from __future__ import print_function
 from itertools import chain, combinations
 from functools import reduce
+
 import os
 import pandas as pd
 import shutil
@@ -59,8 +61,27 @@ def complete_intersection(lvl1):
 
     return subsets
 
+def report_print(groupings):
+    KEY = 0; FILES = 1; FREQS = 2; FEATS = 3
+    report = []
+    report.append("INTERSECTION REPORT:\n")
+    report.append("note: intersections between groups are represented with a pipe (i.e, A|B)")
+    report.append("______________________")
+    for group in groupings:
+        report.append("group " + group[KEY])
+        report.append("# of files: " + str(len(group[FILES])))
+        report.append("Total # of shared elements: " + str(len(group[FREQS]) * len(group[FEATS])))
+        report.append("# of shared frequencies: " + str(len(group[FREQS])))
+        report.append('...frequency range: ' + str(min(group[FREQS])) + '-' + str(max(group[FREQS])))
+        report.append("# of shared features: " + str(len(group[FEATS])))
+        report.append("______________________")
+    return "\n".join(report)
+
+
 @nongui
 def split_files(dirpath):
+    n_folders = 0
+    n_files = 0
     try:
         # Grab directory list and create groupings
         dirlist = makeDirectoryList(dirpath)
@@ -72,7 +93,7 @@ def split_files(dirpath):
 
         # Iterate over file groupings
         KEY = 0; FILES = 1; FREQS = 2; FEATS = 3;
-        n_folders = 0; n_files = 0
+
         for group in groupings:
 
             # Only aggregate files unconditional on other groupings (e.g., 'A' as opposed to 'A|B')
@@ -82,7 +103,7 @@ def split_files(dirpath):
                 n_folders += 1; n_files += len(group[FILES])
                 freqs_str = 'fRange_' + str(min(group[FREQS])) + '-' + str(max(group[FREQS]))
                 cols_str = 'nFeats' + str(len(group[FEATS]) - 1) # Subtract 1 for remove frequency column
-                subdir = os.path.join(dirpath, freqs_str + '_' + cols_str)
+                subdir = os.path.join(dirpath, group[KEY] + '_' +freqs_str + '_' + cols_str)
                 if not os.path.isdir(subdir): os.mkdir(subdir)
 
                 # Move all files in current grouping into subdirectory
@@ -91,6 +112,11 @@ def split_files(dirpath):
 
             else:
                 continue
+
+            #print out intersection report
+            file_name = os.path.join(dirpath, "intersection_report.txt")
+            with open(file_name, 'w') as x_file:
+                x_file.write(report_print(groupings))
 
         return 1, 'Success', n_folders, n_files
     except Exception as e:
